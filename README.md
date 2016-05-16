@@ -12,3 +12,7 @@ Code to generate problems for learning objectives:
   * 13.1.3a	Evaluate an expression with factorials
   
   This could also be used to generate problems for permutations
+
+* Rearrangements.py
+  *  13.5.6	Find the number of permutations of n non-distinct objects
+
