@@ -4,6 +4,7 @@ import tools
 import sympy as sym
 import random
 from sympy.functions.combinatorial.numbers import nC, nP
+import datetime
 
 
 class FindTermInBinomial():
@@ -11,11 +12,11 @@ class FindTermInBinomial():
     This class has a single static method stem() that generates the problems.
     """
 
-    def __init__(self):
+    def __init__(self, seed = datetime.datetime.now().microsecond):
         # Cache for problems already created
         self.done = []
         self.count = 0
-        print self.count
+        random.seed(seed) # Set  once per instance
 
     def stem(self, a_type = None, max_size = 10000, choose_style = None):
         """
@@ -31,10 +32,11 @@ class FindTermInBinomial():
         
         #Make a copy of current args for later use.
         
-        kwargs = {'a_type': a_type,
-                  'max_size': max_size,
-                  'choose_style': choose_style}
-      
+        kwargs = {
+                    'a_type': a_type,
+                    'max_size': max_size,
+                    'choose_style': choose_style
+                 }
         
         # If an answer is biger than this generate a new problem
         THREASH = 85000 
@@ -119,8 +121,12 @@ class FindTermInBinomial():
         
 if __name__ == "__main__":
     
-    prob = FindTermInBinomial()
-   
+    # Unset seed to get different results on each run
+    #prob = FindTermInBinomial()   
+    
+    # Seed is set for reproducibility
+    prob = FindTermInBinomial(seed = 31415)
+    
     for i in range(5):
         print prob.stem(a_type = 'MC')
         

@@ -5,19 +5,24 @@ import random
 import itertools as iter 
 from functools import reduce
 from sympy.functions.combinatorial.numbers import nC, nP, nT
+import datetime
 
 
 class Rearrangements():
     """
     Evalauate rearrangements. 
+    
+    Named Parameters:
+        seed -- Set random seed for reproducbility.
     """
     
-    def __init__(self):
+    def __init__(self, seed = datetime.datetime.now().microsecond):
     
         # A list to keep track of what has been done.
         self.done = []
+        random.seed(seed) # Set once per instance
     
-    def stem(self, objects = None, a_type = None):
+    def stem(self, objects = None, a_type = None ):
         """
         Here we will rearrange objects which are not all distinct.
         
@@ -32,6 +37,7 @@ class Rearrangements():
             'objects': objects,
             'a_type': a_type
         }
+        
         
         # Throw away problems whos answers are bigger than THREASH, but keep them in the done list
         INF = float('inf') # For now just take anything
@@ -279,7 +285,7 @@ class Rearrangements():
         
 if __name__ == "__main__":
     
-    prob = Rearrangements()
+    prob = Rearrangements(seed = 31415) # Seed is set so same result will occur each time this is run
     
     print '<h1> Testing objects = \'words\', a_type = \'MC\'</h1><br>'
     

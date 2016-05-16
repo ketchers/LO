@@ -5,6 +5,7 @@ import random
 import itertools as iter
 import distutils
 from sympy.functions.combinatorial.numbers import nC, nP
+import datetime
 
 #13.1.3a Evaluate an expression with factorials
 #13.6.1 Find Binomial Coefficient use stem(q_type = "C", include_PC = True)
@@ -12,10 +13,15 @@ from sympy.functions.combinatorial.numbers import nC, nP
 class FactCombPerm():
     """
     Evaluate some simple expressions involving factorials.
+    
+    Named Parameters: 
+    
+        seed -- set ranom seed to seed fr reproducible results
     """
-    def __init__(self):
+    def __init__(self, seed = datetime.datetime.now().microsecond):
         
         self.done = []
+        random.seed(seed) # This is set per instance
         
     @staticmethod
     def format_fact(n, m = 1):
@@ -41,7 +47,8 @@ class FactCombPerm():
     
         return strg # FactCombPerm.format_fact
     
-    def stem(self, q_type = None, a_type = None, include_PC = False, perm_style = None, choose_style = None):
+    def stem(self, q_type = None, a_type = None, include_PC = False, 
+             seed = datetime.datetime.now().microsecond, perm_style = None, choose_style = None):
         """
         There are three possible types of problems: F = factorials, e.g. 5!, P = 
         permutations, e.g. 5!/3! = (5 - 2)!, and C = combinations, e.g. 5!/(3!2!).
@@ -58,7 +65,8 @@ class FactCombPerm():
                           
             choose_style -- choose_styles = ['{%s \\choose %s}', 'C(%s,%s)', '{}_%s C_%s'], if choose_style
                             is < len(choose_styles), then it chooses the associated style, else it 
-                            chooses randomly             
+                            chooses randomly   
+            seed         -- A seed for the random ops, to make reproducible output
         """
         
         # Assume if the user sets the perm_style or choose_style, assume include_PC should be True
@@ -70,8 +78,9 @@ class FactCombPerm():
                     'a_type': a_type,
                     'include_PC': include_PC,
                     'perm_style': perm_style,
-                    'choose_style': choose_style
+                    'choose_style': choose_style,
                  }
+        
         
         # These numbers can get big lets set a threashold
         THREASH = 300000
@@ -257,6 +266,8 @@ class FactCombPerm():
     
 
 if __name__ == "__main__":
+    
+    # prob = FactCombPerm(seed = <favorite seed>) for reproducibility
     
     prob = FactCombPerm()
     
