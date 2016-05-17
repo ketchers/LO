@@ -18,9 +18,13 @@ class FactCombPerm():
     
         seed -- set ranom seed to seed fr reproducible results
     """
-    def __init__(self, seed = datetime.datetime.now().microsecond):
+    def __init__(self, seed = None):
         
         self.done = []
+        if seed is None:
+            self.seed = datetime.datetime.now().microsecond
+        else:
+            self.seed = seed
         random.seed(seed) # This is set per instance
         
     @staticmethod

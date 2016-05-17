@@ -16,10 +16,14 @@ class Rearrangements():
         seed -- Set random seed for reproducbility.
     """
     
-    def __init__(self, seed = datetime.datetime.now().microsecond):
+    def __init__(self, seed = None):
     
         # A list to keep track of what has been done.
         self.done = []
+        if seed is None:
+            self.seed = datetime.datetime.now().microsecond
+        else:
+            self.seed = seed
         random.seed(seed) # Set once per instance
     
     def stem(self, objects = None, a_type = None ):

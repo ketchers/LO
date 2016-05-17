@@ -12,10 +12,14 @@ class FindTermInBinomial():
     This class has a single static method stem() that generates the problems.
     """
 
-    def __init__(self, seed = datetime.datetime.now().microsecond):
+    def __init__(self, seed = None):
         # Cache for problems already created
         self.done = []
         self.count = 0
+        if seed is None:
+            self.seed = datetime.datetime.now().microsecond
+        else:
+            self.seed = seed
         random.seed(seed) # Set  once per instance
 
     def stem(self, a_type = None, max_size = 10000, choose_style = None):
