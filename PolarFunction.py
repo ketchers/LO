@@ -2,6 +2,7 @@ from __future__ import division
 from __future__ import print_function
 import sys
 import os
+import random 
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -30,7 +31,7 @@ Named Parameters:
     a      -- These should all be obvious
     b      --
     n      --
-    f      -- 'sin', 'cos', 'sec', 'csc', or 1 (for now). If f = 0, then 
+    f      -- 'sin', 'cos', 'sec', 'csc', 0 or 1 (for now). If f = 0, then 
               we interpret this as 'theta = a' (this is a silly, but I'm not sure 
               what a better fix is.) If f = 1, then this is a + b*theta (a spiral)
               
@@ -85,15 +86,18 @@ class PolarFunction():
                                               % (ident(a), ident(b), f, ident(n))))
         else:
             self.f_name = str(sym.sympify(f_name))
+         
+         
+        
             
         if self.f_type.find('lima') != -1:
-            self.url = quote_plus('limacon' + self.f_name).replace('%2', '%252')
+            self.url = quote_plus('limacon' + self.f_name)
         elif self.f_type.find('line') != -1:
-            self.url = quote_plus('line' + self.f_name).replace('%2', '%252')
+            self.url = quote_plus('line' +  self.f_name)
         elif self.f_type.find('line') != -1:
-            self.url = quote_plus('circle' + self.f_name).replace('%2', '%252')
+            self.url = quote_plus('circle' +  self.f_name)
         else:
-            self.url = quote_plus(self.f_type + self.f_name).replace('%2', '%252')
+            self.url = quote_plus(self.f_type +  self.f_name)
         
         self.hash_ = 17
         PolarFunction.cache.add(self)
@@ -247,7 +251,7 @@ class PolarFunction():
         else:
             return sym.latex(sym.sympify(t))
         
-    def mod2pi(self, x, num_pi = 2):
+    def mod2pi(self, x, num_pi = 2, upper = False):
         """
         This returns the modulus of a radian angle by 2*pi (actually num_pi*pi)
 
@@ -259,22 +263,27 @@ class PolarFunction():
         
         This works for negative angles as well.
         
-        We also need a mod1pi function which I will incorporate throught the variable
-        num_pi.
+        We also need a mod1pi function which I will incorporate through the variable
+        
+        Named Parameters:
+            num_pi  -- Take modulo by other multiples of pi
+            upper   -- Take the upper end of the interval (e.g., 2*pi instead of 0) 
+        
+        
         """
         
         if type(x) == str:
-            return str(self.mod2pi(sym.sympify(x), num_pi = num_pi))
+            return str(self.mod2pi(sym.sympify(x), num_pi = num_pi, upper = upper))
         elif str(type(x)).find('sym') != -1:
-            #if x == num_pi * sym.pi:
-            #    return x
+            if x == num_pi * sym.pi and upper:
+                return x
             if x < 0:
                 ret = num_pi * sym.pi - (sym.Abs(x) - int(sym.Abs(x) / (num_pi * sym.pi)) * num_pi * sym.pi)
             else:
                 ret = x - int(x / (num_pi * sym.pi)) * num_pi * sym.pi
         else: # type(x) is float:
-            #if x == num_pi * np.pi:
-            #    return x
+            if x == num_pi * np.pi and upper:
+                return x
             if x < 0:
                 ret = num_pi * np.pi - (np.abs(x) - int(np.abs(x) / (num_pi * np.pi)) * num_pi * np.pi)
             else:
@@ -288,7 +297,7 @@ class PolarFunction():
              r_ticks = None, r_ticks_angle = 'pi / 4',
              points = [], point_labels = [], extra_points = [],
              img_type = 'png', file_name = None, path = ".", label = False, draw_rect = False, 
-             xkcd = True, coloring = False):
+             xkcd = True, coloring = False, force = False):
         """
         This will draw a polar plot of the function given by r_str, e.g. r_str = '2*cos(theta)'.
 
@@ -315,6 +324,7 @@ class PolarFunction():
             draw_rect     -- Draw r = f(theta) in rectangular (theta, r) plane
             xkcd          -- (True/False) Interesting rendering
             coloring      -- Boolean. If True color the graph by radius (for explanations)
+            force         -- (Boolean) Force rbuild of images if they exist.
 
         * = manditory
         """
@@ -325,7 +335,7 @@ class PolarFunction():
         
         
         fname = path + "/" + file_name + "." + img_type
-        if file_name is not None:
+        if file_name is not None and not force:
             if os.path.isfile(fname):
                 print("The file \'" + fname + "\' exists, \
                 not regenerating. Delete file to force regeneration.", file=sys.stderr)
@@ -683,7 +693,7 @@ class PolarFunction():
             plt.close()
           
         
-    def explain(self, rad = False, path = "explanations", include_image = False):
+    def explain(self, rad = False, path = "explanations", include_image = False, force = False):
         """
         For this to work well, the parameters a,b,n,f _probably need to be used for now.
         
@@ -693,19 +703,20 @@ class PolarFunction():
             rad            -- (Boolean) Use radians (True) / degrees (False)
             include_images -- (Boolean) For testing, include <img href = "..."> in output. If False output
                               ${path/f.url.png}$
-            
-        
+            force          -- force rebuilding of existing images
         """
         
         a_ = float(self.a)
         b_ = float(self.b)
         n_ = float(self.n)
         
-        if self.b > 0 and self.f in ['cos','sec'] :
+        case = '0'
+        
+        if self.b >= 0 and self.f in ['cos','sec'] :
             case = '0'
             even_odd = 'odd'
             vert_horiz = 'vertical'
-        elif self.b > 0 and self.f in ['sin','csc']:
+        elif self.b >= 0 and self.f in ['sin','csc']:
             case = 'pi/2'
             even_odd = 'even'
             vert_horiz = 'horizontal'
@@ -732,6 +743,7 @@ class PolarFunction():
         
         
         
+        
         x_vals_ = make_func('r * cos(theta)', func_params = ('r', 'theta'), func_type = 'sympy')
         y_vals_ = make_func('r * sin(theta)', func_params = ('r', 'theta'), func_type = 'sympy')
         
@@ -739,13 +751,20 @@ class PolarFunction():
                 with the value of $_\\theta$_ which gives rise to that point, in the case that \
                 $_r(\\theta)<0$_, this might appear strange at first."
         
-        if include_image:
-            image_name =  "<img width=900 height=450 src=\'%s/%s.png\'>" % (path, self.url)
+        
+        if rad:
+            rad_ = 'rad_'
         else:
-            image_name = "${path/%s.png}$" % (path,self.url)
+            rad_ = ""  
+        
+        if include_image:
+            image_name =  "<img width=900 height=450 src=\'%s/%s%s.png\'>" \
+                    % (path, rad_, self.url.replace('%2', '%252'))
+        else:
+            image_name = "${%s/%s%s.png}$" % (path,rad_,self.url.replace('%2', '%252'))
 
         # The theta at which a limacon is maximal distance from the pole:
-        lim_max = self.mod2pi(sym.pi * sym.sign(self.a) + sym.sympify(case))
+        lim_max = self.mod2pi(sym.pi * sym.sign(self.a) + sym.sympify(case), upper = True)
         lim_min = str(self.mod2pi(lim_max + sym.pi))
         lim_max = str(lim_max)
         
@@ -765,7 +784,7 @@ class PolarFunction():
             %s
             <br>
             %s
-            """ %(self.latex(), self.r2d(sym.pi/2, radians = rad), self.a, note, image_name)
+            """ %(self.latex(), self.r2d('pi/2', rad), self.a, note, image_name)
             
             default_points = [sym.pi/3 * i for i in range(6)]
             
@@ -980,7 +999,7 @@ class PolarFunction():
                     graph is defined is $_[%s, %s]$_. The graph is furthest away from the pole when 
                     $_%s \\cdot \\theta$_ is an integer multiple of $_%s$_ at which the distance 
                     from the pole is $_r=%s$_. The graph is at the pole when $_%s \\cdot 
-                    \\theta$_ is an odd integer multiple of $_%s$_. 
+                    \\theta$_ is an integer multiple of $_%s$_. 
                     <br>
                     %s
                     <br>
@@ -989,16 +1008,21 @@ class PolarFunction():
         
             explanation = exp_string % (self.latex(), self.n * (1 + (self.n + 1) % 2), 
                   self.r2d('0 + %s' % case, rad), self.r2d(theta_min, rad), self.r2d(theta_max, rad),  
-                  self.n, self.r2d('pi + %s' % case, rad), sym.Abs(self.b),
-                  self.n, self.r2d('pi/2 + %s' % case, rad),                      
+                  self.n, self.r2d(self.mod2pi('pi + %s' % case, num_pi = 1), rad), sym.Abs(self.b),
+                  self.n, self.r2d(self.mod2pi('pi/2 + %s' % case, num_pi = 1, upper = True), rad),                      
                   note, image_name)
             
-            default_point_labels = map(lambda x: self.mod2pi(x, num_pi = 2 -  self.n % 2), 
-                                       ['%s  * pi / %s + %s' % (k, self.n, case) 
-                                                    for k in range(((1 + self.n) % 2 + 1) * self.n)])
+            default_point_labels = map(lambda x: self.mod2pi(x, num_pi = 2 -  self.n % 2, upper = True), 
+                                       ['%s  * pi / (2 * %s) + %s' % (k, self.n, case) 
+                                                    for k in range(((1 + self.n) % 2 + 1) * 2* self.n)])
+            print(default_point_labels, map(sym.sympify,
+                    ['%s  * pi / (2 * %s) + %s' % (k, self.n, case) 
+                                for k in range(((1 + self.n) % 2 + 1) * 2* self.n)]))
             
-            default_points = map(lambda x: self.mod2pi(x, num_pi = 2 - self.n % 2), 
-                                 ['pi/ (2 * %s) + %s' % (self.n, case)])
+            default_points = []
+            
+            #map(lambda x: self.mod2pi(x, num_pi = 2 - self.n % 2, upper = True), 
+            #                     ['pi/ (2 * %s) + %s' % (self.n, case)])
             
            
         elif self.f_type == 'spiral':
@@ -1091,13 +1115,14 @@ class PolarFunction():
             explanation = exp_string % (self.latex(), self.a, sym.latex(sym.sympify('tan(%s)' % self.a)), 
                                         image_name)
                                         
-            
+        
+         
             
         self.show(points = default_points, extra_points = extra_points, 
                   point_labels = default_point_labels, label = True, 
-                  path = path, file_name = self.url, rad = rad, 
+                  path = path, file_name = rad_ + self.url, rad = rad, 
                   theta_max = theta_max, theta_min = theta_min, draw_rect = True,
-                  coloring = True)
+                  coloring = True, force = force)
         
         return explanation
         
@@ -1110,9 +1135,13 @@ if __name__ == "__main__":
     PolarFunction(a = 3, b = -4, n = 1, f = 'cos')
     PolarFunction(a = 6, b = 2, n = 1, f = 'sin')
     PolarFunction(a = 0, b = -3, n = 1, f = 'csc')
+    PolarFunction(a = 'pi/4', f = 0)
+    PolarFunction(a = 0, b = 2, f = 1)
     print([(f.f_name, f.f_type) for f in PolarFunction.cache])
-    [f.show(rad = True, path = 'test', file_name = f.url) for f in PolarFunction.cache]
-    explanations = [f.explain(path = 'test/explanations', include_image = True) for f in PolarFunction.cache]
+    #[f.show(rad = True, path = 'test', file_name = f.url) for f in PolarFunction.cache]
+    explanations = [f.explain(path = 'test/explanations', include_image = True, 
+                              rad = random.choice([True, False])) 
+                    for f in PolarFunction.cache]
     for ex in explanations:
         print(ex)
         print("\n\n\n<br>")
