@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+        <meta charset="UTF-8">
+        <title>Home</title>
+
+<script src = "js/main.js" defer></script>
+<script src = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML"></script>        
+</head>
+<body>
+<h1>Post some  math here.</h1>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$_','$_'], ['\\(','\\)']]}});
+</script>
+<textarea id = "entry" wrap = 'hard' rows="8" cols="80" 
+  placeholder = "Enter your question / comment here."></textarea>
+<br>
+<button id = "btn" type = "button">Submit</button>
+
+<div id = "posts"></div>
+
+</body>
+</html>
