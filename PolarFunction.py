@@ -54,16 +54,28 @@ Usage:
     
 """
 
-#r, theta = sym.symbols('r, theta')
+# r, theta = sym.symbols('r, theta')
 
 class PolarFunction():
     
     cache = set()
     
-    def __init__(self, a = '0', b = '0', n = '1', f = 0, 
-                 f_type = None, f_name = None):
+    TYPES = ['circle',
+        'cardioid',
+        '(inner loop) limacon',
+        '(convex one-loop) limacon',
+        '(dimpled one-loop) limacon',
+        'lemniscate',
+        'rose',
+        'line',
+        'line through the origin',
+        'circle at origin',
+        'other']
+    
+    def __init__(self, a='0', b='0', n='1', f=0,
+                 f_type=None, f_name=None):
         
-        ident = make_func('x', func_params = ('x'), func_type = 'sympy')
+        ident = make_func('x', func_params=('x'), func_type='sympy')
         
         self.a = ident(a)
         self.b = ident(b)
@@ -93,43 +105,43 @@ class PolarFunction():
         if self.f_type.find('lima') != -1:
             self.url = quote_plus('limacon' + self.f_name)
         elif self.f_type.find('line') != -1:
-            self.url = quote_plus('line' +  self.f_name)
+            self.url = quote_plus('line' + self.f_name)
         elif self.f_type.find('line') != -1:
-            self.url = quote_plus('circle' +  self.f_name)
+            self.url = quote_plus('circle' + self.f_name)
         else:
-            self.url = quote_plus(self.f_type +  self.f_name)
+            self.url = quote_plus(self.f_type + self.f_name)
         
         self.hash_ = 17
         PolarFunction.cache.add(self)
         
     
         
-    def get_f_type(self, f_type = None):
+    def get_f_type(self, f_type=None):
         """
         Try to guess what common polar curve this is. This is not perfect! 
         It is best to prescribe the f_type.
         """
-        if f_type != None: # Assume user knows what they are doing
+        if f_type != None:  # Assume user knows what they are doing
             return f_type
         elif self.b == 0: 
             return 'circle at origin'
-        elif self.f == 0: # Ths is a hack
-            return 'line through the origin' # This will be theta = a
-        elif self.f == 1: # This is a hack
-            return 'spiral' # This will be a + b * theta
+        elif self.f == 0:  # Ths is a hack
+            return 'line through the origin'  # This will be theta = a
+        elif self.f == 1:  # This is a hack
+            return 'spiral'  # This will be a + b * theta
         elif self.f in ['sin', 'cos'] and self.n == 1:   
             if self.a == 0:
                 return 'circle'
             elif self.a / np.abs(self.b) == 1:
                 return 'cardioid'
             elif np.abs(self.a) / np.abs(self.b) < 1:
-                return '(inner loop) lima&ccedil;on'
-            elif np.abs(self.a) / np.abs(self.b) >=  2:
-                return '(convex one-loop) lima&ccedil;on'
+                return '(inner loop) limacon'
+            elif np.abs(self.a) / np.abs(self.b) >= 2:
+                return '(convex one-loop) limacon'
             else:
-                return '(dimpled one-loop) lima&ccedil;on'
+                return '(dimpled one-loop) limacon'
         elif self.a == 0 and self.f in ['sin', 'cos'] and self.n > 1:
-                return 'rose' # Assume rose for b*sin(2*theta) unless told otherwise
+                return 'rose'  # Assume rose for b*sin(2*theta) unless told otherwise
         elif self.f in ['sec', 'csc'] and self.a == 0:
             return 'line'
         else:
@@ -205,7 +217,7 @@ class PolarFunction():
         
         
         if f_name_ != 'r':
-            f = make_func(f_name_, func_params = ('theta',), func_type = func_type)
+            f = make_func(f_name_, func_params=('theta',), func_type=func_type)
             return f(*input_)
         else:
             return input_
@@ -236,22 +248,22 @@ class PolarFunction():
         return "%s = %s" % (sym.latex(sym.sympify(str1)), sym.latex(sym.sympify(str2)))
         
     def same_graph (self, other):
-        thetas = np.arange(0, 2 * np.pi, np.pi/12)
+        thetas = np.arange(0, 2 * np.pi, np.pi / 12)
         return np.all(np.sort(self.__call__(thetas)) - \
                       np.sort(other.__call__(thetas)) < 0.001 * np.ones(thetas.size))
     
     
-    def r2d(self, t, radians = False):
+    def r2d(self, t, radians=False):
         """
         Converts radians to degrees nicely for use in plots, explanatons, etc.
         Default is to convert.
         """
         if not radians:
-            return sym.latex(sym.sympify('180/pi * (' +  t + ')')) + "^\circ"
+            return sym.latex(sym.sympify('180/pi * (' + t + ')')) + "^\circ"
         else:
             return sym.latex(sym.sympify(t))
         
-    def mod2pi(self, x, num_pi = 2, upper = False):
+    def mod2pi(self, x, num_pi=2, upper=False):
         """
         This returns the modulus of a radian angle by 2*pi (actually num_pi*pi)
 
@@ -273,7 +285,7 @@ class PolarFunction():
         """
         
         if type(x) == str:
-            return str(self.mod2pi(sym.sympify(x), num_pi = num_pi, upper = upper))
+            return str(self.mod2pi(sym.sympify(x), num_pi=num_pi, upper=upper))
         elif str(type(x)).find('sym') != -1:
             if x == num_pi * sym.pi and upper:
                 return x
@@ -281,7 +293,7 @@ class PolarFunction():
                 ret = num_pi * sym.pi - (sym.Abs(x) - int(sym.Abs(x) / (num_pi * sym.pi)) * num_pi * sym.pi)
             else:
                 ret = x - int(x / (num_pi * sym.pi)) * num_pi * sym.pi
-        else: # type(x) is float:
+        else:  # type(x) is float:
             if x == num_pi * np.pi and upper:
                 return x
             if x < 0:
@@ -290,14 +302,14 @@ class PolarFunction():
                 ret = x - int(x / (num_pi * np.pi)) * num_pi * np.pi
         return ret
     
-    def show(self, theta_min = 0, theta_max = 2 * np.pi, 
-             d_theta = '2 * pi/1000', rad = False, 
-             r_min = 0, r_max = None,  
-             theta_ticks = ['pi/6 * %s' %(i)  for i in range(12)] + ['0', 'pi', 'pi/2', '3*pi/2'], 
-             r_ticks = None, r_ticks_angle = 'pi / 4',
-             points = [], point_labels = [], extra_points = [],
-             img_type = 'png', file_name = None, path = ".", label = False, draw_rect = False, 
-             xkcd = True, coloring = False, force = False):
+    def show(self, theta_min=0, theta_max=2 * np.pi,
+             d_theta='2 * pi/1000', rad=False,
+             r_min=0, r_max=None,
+             theta_ticks=None,
+             r_ticks=None, r_ticks_angle='pi / 4',
+             points=[], point_labels=[], extra_points=[],
+             img_type='png', file_name=None, path=".", label=False, draw_rect=False,
+             xkcd=True, coloring=False, force=False):
         """
         This will draw a polar plot of the function given by r_str, e.g. r_str = '2*cos(theta)'.
 
@@ -335,22 +347,22 @@ class PolarFunction():
         
         
         fname = path + "/" + file_name + "." + img_type
-        if file_name is not None and not force:
-            if os.path.isfile(fname):
+        if file_name is not None:
+            if os.path.isfile(fname) and not force:
                 print("The file \'" + fname + "\' exists, \
                 not regenerating. Delete file to force regeneration.", file=sys.stderr)
                 return
         
-        #r, theta = sym.symbols('r, theta')
-        Thetas = np.arange(float(sym.sympify(theta_min)), float(sym.sympify(theta_max)), 
+        # r, theta = sym.symbols('r, theta')
+        Thetas = np.arange(float(sym.sympify(theta_min)), float(sym.sympify(theta_max)),
                            float(sym.sympify(d_theta)))
         thetas_ = np.arange(0, 2 * np.pi, 2 * np.pi / 200)
         
         # These are use to convert (r, theta) -> (x, y)
-        x_vals = make_func('r * cos(theta)', func_params = ('r', 'theta'))
-        y_vals = make_func('r * sin(theta)', func_params = ('r', 'theta'))
-        x_vals_ = make_func('r * cos(theta)', func_params = ('r', 'theta'), func_type = 'sympy')
-        y_vals_ = make_func('r * sin(theta)', func_params = ('r', 'theta'), func_type = 'sympy')
+        x_vals = make_func('r * cos(theta)', func_params=('r', 'theta'))
+        y_vals = make_func('r * sin(theta)', func_params=('r', 'theta'))
+        x_vals_ = make_func('r * cos(theta)', func_params=('r', 'theta'), func_type='sympy')
+        y_vals_ = make_func('r * sin(theta)', func_params=('r', 'theta'), func_type='sympy')
         
         if self.f_type == 'line through the origin':
             thetas = np.array([float(self.a), float(self.a)])
@@ -364,11 +376,11 @@ class PolarFunction():
         
         elif self.f_type == 'line': 
             
-            r_max = 4 * int(np.abs(float(self.b))) # For this we don't need plots with r > 16
+            r_max = 4 * int(np.abs(float(self.b)))  # For this we don't need plots with r > 16
             
         elif self.f_type == 'line through the origin':
             
-            r_max = 10 # Needs to match up with circle case above
+            r_max = 10  # Needs to match up with circle case above
             
         else:
         
@@ -406,13 +418,13 @@ class PolarFunction():
         
         if draw_rect:
             
-            fig = plt.figure(figsize=(10,5))
-            #fig.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
+            fig = plt.figure(figsize=(10, 5))
+            # fig.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
          
-            ax = fig.add_subplot(122, axisbg = 'grey')
+            ax = fig.add_subplot(122, axisbg='grey')
             ax.set_axis_off()
-            #plt.xlim([0,2*np.pi])
-            ax1 = fig.add_subplot(121, sharey = ax)
+            # plt.xlim([0,2*np.pi])
+            ax1 = fig.add_subplot(121, sharey=ax)
             ax1.set_axis_on()
             ax.set_aspect('equal')
             ax.set_title('Polar Plot')
@@ -421,23 +433,23 @@ class PolarFunction():
             ax1.yaxis.set_ticks_position('none') 
         else:
             
-            fig = plt.figure(figsize=(5,5))
-            #fig.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1
-            ax = fig.add_subplot(111, axisbg = 'grey')
+            fig = plt.figure(figsize=(5, 5))
+            # fig.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1
+            ax = fig.add_subplot(111, axisbg='grey')
             plt.axis('off')
             ax.set_aspect('equal')
 
         # Make plot sufficiently large
         bdry = [-1.3 * r_max, 1.3 * r_max]
-        ax.plot(bdry, bdry, alpha = 0.0)
+        ax.plot(bdry, bdry, alpha=0.0)
 
         ax.set_xticks([])
         ax.set_yticks([])
        
 
         # Set up a white circular plotting area
-        ax.fill_between(x_vals(1.1 * int(r_max), thetas_), y_vals(1.1 * int(r_max), thetas_), 
-                        -y_vals(1.1 * int(r_max), thetas_), color = 'white')
+        ax.fill_between(x_vals(1.1 * int(r_max), thetas_), y_vals(1.1 * int(r_max), thetas_),
+                        - y_vals(1.1 * int(r_max), thetas_), color='white')
         
          # Set some default positioning of the r_ticks
         if self.b > 0 and self.f in ['cos', 'sec']:
@@ -490,33 +502,45 @@ class PolarFunction():
 
         # Set up grid 
         # First the circles
-        [ax.plot(x_vals_(a[0], thetas_), y_vals_(a[0], thetas_), color = 'grey', 
-                     linestyle = '-', alpha = 0.1) for a in r_ticks]
+        [ax.plot(x_vals_(a[0], thetas_), y_vals_(a[0], thetas_), color='grey',
+                     linestyle='-', alpha=0.1) for a in r_ticks]
         
 
         # Put Labels on ticks
         [ax.text(tick[0], tick[1], tick[2],
-                 ha = 'center', va = 'center', size = 10) for tick in r_ticks_[1:]]
+                 ha='center', va='center', size=10) for tick in r_ticks_[1:]]
 
         
         
         # Next the radiating lines
-        [ax.plot([1.05 * x_vals_(int(r_max), theta), -1.05 * x_vals_(int(r_max) , theta)], 
-                 [1.05 * y_vals_(int(r_max), theta), -1.05 * y_vals_(int(r_max), theta)], 
-                 color = 'grey', linestyle = '-', alpha = 0.1) for theta in theta_ticks]
+        if theta_ticks == None:
+            theta_ticks = ['%s*pi/6' % i for i in range(12)]
+           
+        
+        
+        [ax.plot([1.05 * x_vals_(int(r_max), theta), -1.05 * x_vals_(int(r_max) , theta)],
+                 [1.05 * y_vals_(int(r_max), theta), -1.05 * y_vals_(int(r_max), theta)],
+                 color='grey', linestyle='-', alpha=0.1) for theta in theta_ticks]
 
         # Add text to theta_ticks
-      
+
         
-        [ax.text(1.15 * x_vals_(r_max, s), 1.2 * y_vals_(r_max, s), 
-                '$%s$' % (self.r2d(s, radians = rad)), ha = 'center', va = 'center', alpha = 0.6, weight='bold',
-                rotation = int(sym.sympify(s + "* 180/pi").evalf()) - 90, size = 12) 
-                    for s in theta_ticks]
+        [ax.text(1.15 * x_vals_(r_max, s), 1.2 * y_vals_(r_max, s),
+                '$%s$' % (self.r2d(s, radians=rad)), ha='center', va='center', alpha=0.6, weight='bold',
+                rotation=int(sym.sympify(s + "* 180/pi").evalf()) - 90, size=12) 
+                    for s in theta_ticks] 
         
         # If including rectangular plot, set that up.
         
         if draw_rect:
-            theta_ticks_ = [ sym.sympify(u) + sym.sympify(theta_min) for u in theta_ticks]
+            
+            # Annoying case!    
+            theta_ticks_ = theta_ticks
+            
+            if self.f_type == 'spiral':
+                theta_ticks_ = ['%s*pi/3' % i for i in range(12)]
+            
+            theta_ticks_ = [ sym.sympify(u) + sym.sympify(theta_min) for u in theta_ticks_]
             theta_ticks_ = [str(u) for u in theta_ticks_ 
                                 if u <= sym.sympify(theta_max) and u >= sym.sympify(theta_min)]
             
@@ -530,12 +554,12 @@ class PolarFunction():
                 rotation = 0
             else:
                 rotation = -45
-            ax1.set_xticklabels(map(lambda x: '$%s$' % self.r2d(x, radians = rad), theta_ticks_ ), rotation = rotation)
-            [ax1.plot([t, t], [-1.2 * r_max,  1.2 * r_max], color = 'grey', alpha = 0.1) 
+            ax1.set_xticklabels(map(lambda x: '$%s$' % self.r2d(x, radians=rad), theta_ticks_), rotation=rotation)
+            [ax1.plot([t, t], [-1.2 * r_max, 1.2 * r_max], color='grey', alpha=0.1) 
                      for t in map(lambda x: float(sym.sympify(x)), theta_ticks_)]
                                   
-            [ax1.plot([float(sym.sympify(theta_min)) - .1, float(sym.sympify(theta_max)) + .1], 
-                             [y,  y], color = 'grey', alpha = 0.1) for y in r_ticks_y]
+            [ax1.plot([float(sym.sympify(theta_min)) - .1, float(sym.sympify(theta_max)) + .1],
+                             [y, y], color='grey', alpha=0.1) for y in r_ticks_y]
             
             ax1.spines['top'].set_visible(False)
             ax1.spines['right'].set_visible(False)
@@ -598,91 +622,91 @@ class PolarFunction():
             return d
         
         if len(point_labels) > 0:
-            [ax.text( coord[0] * (1 + .05 * r_max / lh(coord)), coord[1] * ( 1 + 0.05 * r_max / lh(coord)),
+            [ax.text(coord[0] * (1 + .05 * r_max / lh(coord)), coord[1] * (1 + 0.05 * r_max / lh(coord)),
                      "%s" % (','.join(labels[coord])),
-                     ha = pos(coord)['ha'], va = pos(coord)['va'], size  = 12, weight = 'bold', zorder = 10) 
+                     ha=pos(coord)['ha'], va=pos(coord)['va'], size=12, weight='bold', zorder=10) 
                  for coord in labels if np.abs(coord[0]) + np.abs(coord[1]) > 1.0e-6]
             
             [ax.text(0.05 * r_max, -0.05 * r_max, "%s" % (','.join(labels[coord])),
-                 ha = 'left', va = 'top', size  = 12, weight = 'bold', zorder = 10) for 
+                 ha='left', va='top', size=12, weight='bold', zorder=10) for 
              coord in labels if np.abs(coord[0]) + np.abs(coord[1]) <= 1.0e-6]
             
             if draw_rect:
-                [ax1.text( coord_rect[0] , coord_rect[1],
+                [ax1.text(coord_rect[0] , coord_rect[1],
                      "%s" % (','.join(labels_rect[coord_rect])),
-                     ha = 'center', va = pos_rect(coord_rect)['va'], size  = 12, 
-                          weight = 'bold', zorder = 10) for coord_rect in labels_rect]
+                     ha='center', va=pos_rect(coord_rect)['va'], size=12,
+                          weight='bold', zorder=10) for coord_rect in labels_rect]
             
            
         # add points to labels
-        [ax.plot(x_vals_(self(pt), pt), y_vals_(self(pt), pt), "ro", zorder = 10, markersize = 3) 
+        [ax.plot(x_vals_(self(pt), pt), y_vals_(self(pt), pt), "ro", zorder=10, markersize=3) 
              for pt in point_labels if self(pt) is not None 
                  and sym.sympify(pt) >= sym.sympify(theta_min) 
                  and sym.sympify(pt) <= sym.sympify(theta_max)] 
         
         if draw_rect:
-            [ax1.plot(float(sym.sympify(pt)), self(pt), "ro", zorder = 10, markersize = 3) 
+            [ax1.plot(float(sym.sympify(pt)), self(pt), "ro", zorder=10, markersize=3) 
              for pt in point_labels if self(pt) is not None 
                  and sym.sympify(pt) >= sym.sympify(theta_min) 
                  and sym.sympify(pt) <= sym.sympify(theta_max)] 
             
 
         if self.f_type == 'lemniscate':
-            [ax.plot(x_vals_(-self(pt), pt), y_vals_(-self(pt), pt), "ro", zorder = 10, markersize = 3) 
+            [ax.plot(x_vals_(-self(pt), pt), y_vals_(-self(pt), pt), "ro", zorder=10, markersize=3) 
                  for pt in point_labels if self(pt) is not None 
                      and sym.sympify(pt) >= sym.sympify(theta_min) 
                      and sym.sympify(pt) <= sym.sympify(theta_max)]  
             
             if draw_rect:
-                [ax1.plot(float(sym.sympify(pt)), -self(pt), "ro", zorder = 10, markersize = 3) 
+                [ax1.plot(float(sym.sympify(pt)), -self(pt), "ro", zorder=10, markersize=3) 
                  for pt in point_labels if self(pt) is not None 
                      and sym.sympify(pt) >= sym.sympify(theta_min) 
                      and sym.sympify(pt) <= sym.sympify(theta_max)] 
         
         # Add extra points without labels
         
-        [ax.plot(x_vals_(self(pt), pt), y_vals_(self(pt), pt), "bo", zorder = 10, markersize = 3) 
+        [ax.plot(x_vals_(self(pt), pt), y_vals_(self(pt), pt), "bo", zorder=10, markersize=3) 
              for pt in points if self(pt) is not None 
                  and sym.sympify(pt) >= sym.sympify(theta_min) 
                  and sym.sympify(pt) <= sym.sympify(theta_max)]  
 
         if self.f_type == 'lemniscate':
-            [ax.plot(x_vals_(-self(pt), pt), y_vals_(-self(pt), pt), "ro", zorder = 10, markersize = 3) 
+            [ax.plot(x_vals_(-self(pt), pt), y_vals_(-self(pt), pt), "ro", zorder=10, markersize=3) 
                  for pt in points if self(pt) is not None 
                      and sym.sympify(pt) >= sym.sympify(theta_min) 
                      and sym.sympify(pt) <= sym.sympify(theta_max)]  
             
         # Need to occasionally add some extra points that are not on the graph
-        [ax.plot(pt[0], pt[1], "bo", zorder = 10, markersize = 3) 
+        [ax.plot(pt[0], pt[1], "bo", zorder=10, markersize=3) 
              for pt in extra_points]
         
         # Plot the actual graph
         if coloring:
-            colors = [[((150 + 1.0*z / r_max * 100)/255.0, .2 * (150 + 1.0*z / r_max * 100)/255.0, 
-                        (150 - 1.0*z / r_max * 100)/255.0) for z in R_[i]] for i in range(2)]
+            colors = [[((150 + 1.0 * z / r_max * 100) / 255.0, .2 * (150 + 1.0 * z / r_max * 100) / 255.0,
+                        (150 - 1.0 * z / r_max * 100) / 255.0) for z in R_[i]] for i in range(2)]
         else:
             colors = [[(.3, .6, .3, .5)], [(.3, .6, .3, .5)]]
        
         for i in range(2):
                 
-            ax.scatter(X_[i], Y_[i], c = colors[i], 
-                       alpha = 0.5, zorder = 7, marker = 'o', edgecolors = 'face', s = 2)
+            ax.scatter(X_[i], Y_[i], c=colors[i],
+                       alpha=0.5, zorder=7, marker='o', edgecolors='face', s=2)
             if self.f_type == 'lemniscate':
-                ax.scatter(-X_[1 - i], -Y_[1 - i], c = colors[1-i], 
-                           alpha = 0.5, zorder = 7, edgecolors = 'face', s = 2)
+                ax.scatter(-X_[1 - i], -Y_[1 - i], c=colors[1 - i],
+                           alpha=0.5, zorder=7, edgecolors='face', s=2)
             
 
             if label:
-                ax.legend([r"$%s$" % (self.latex())], loc='lower center', bbox_to_anchor=(0.0, -0.15), 
-                          frameon = False, framealpha = 0.0)
+                ax.legend([r"$%s$" % (self.latex())], loc='lower center', bbox_to_anchor=(0.0, -0.15),
+                          frameon=False, framealpha=0.0)
             if draw_rect:
-                ax1.scatter(Thetas_[i], R_[i], c = colors[i], marker = 'o',
-                            alpha = 0.5, edgecolors = 'face', s = 2)
+                ax1.scatter(Thetas_[i], R_[i], c=colors[i], marker='o',
+                            alpha=0.5, edgecolors='face', s=2)
                 if self.f_type == 'lemniscate':
-                    ax1.scatter(Thetas_[1 - i], -R_[1 - i], c = colors[1-i], 
-                                marker = 'o', alpha = 0.5, edgecolors = 'face', s = 2)
+                    ax1.scatter(Thetas_[1 - i], -R_[1 - i], c=colors[1 - i],
+                                marker='o', alpha=0.5, edgecolors='face', s=2)
         
-        #plt.axis('off')
+        # plt.axis('off')
 
         if file_name is None:
             plt.show()
@@ -693,7 +717,7 @@ class PolarFunction():
             plt.close()
           
         
-    def explain(self, rad = False, path = "explanations", include_image = False, force = False):
+    def explain(self, rad=False, path="explanations", include_image=False, force=False):
         """
         For this to work well, the parameters a,b,n,f _probably need to be used for now.
         
@@ -712,15 +736,15 @@ class PolarFunction():
         
         case = '0'
         
-        if self.b >= 0 and self.f in ['cos','sec'] :
+        if self.b >= 0 and self.f in ['cos', 'sec'] :
             case = '0'
             even_odd = 'odd'
             vert_horiz = 'vertical'
-        elif self.b >= 0 and self.f in ['sin','csc']:
+        elif self.b >= 0 and self.f in ['sin', 'csc']:
             case = 'pi/2'
             even_odd = 'even'
             vert_horiz = 'horizontal'
-        elif self.b < 0 and self.f in ['cos','sec']:
+        elif self.b < 0 and self.f in ['cos', 'sec']:
             if self.f == 'cos':
                 case = 'pi'
             else:
@@ -744,10 +768,10 @@ class PolarFunction():
         
         
         
-        x_vals_ = make_func('r * cos(theta)', func_params = ('r', 'theta'), func_type = 'sympy')
-        y_vals_ = make_func('r * sin(theta)', func_params = ('r', 'theta'), func_type = 'sympy')
+        x_vals_ = make_func('r * cos(theta)', func_params=('r', 'theta'), func_type='sympy')
+        y_vals_ = make_func('r * sin(theta)', func_params=('r', 'theta'), func_type='sympy')
         
-        note =  "Note: The points on the graph are labeled \
+        note = "Note: The points on the graph are labeled \
                 with the value of $_\\theta$_ which gives rise to that point, in the case that \
                 $_r(\\theta)<0$_, this might appear strange at first."
         
@@ -758,20 +782,20 @@ class PolarFunction():
             rad_ = ""  
         
         if include_image:
-            image_name =  "<img width=900 height=450 src=\'%s/%s%s.png\'>" \
+            image_name = "<img width=900 height=450 src=\'%s/%s%s.png\'>" \
                     % (path, rad_, self.url.replace('%2', '%252'))
         else:
-            image_name = "${%s/%s%s.png}$" % (path,rad_,self.url.replace('%2', '%252'))
+            image_name = "${%s/%s%s.png}$" % (path, rad_, self.url.replace('%2', '%252'))
 
         # The theta at which a limacon is maximal distance from the pole:
-        lim_max = self.mod2pi(sym.pi * sym.sign(self.a) + sym.sympify(case), upper = True)
+        lim_max = self.mod2pi(sym.pi * sym.sign(self.a) + sym.sympify(case), upper=True)
         lim_min = str(self.mod2pi(lim_max + sym.pi))
         lim_max = str(lim_max)
         
         # On graphs of type 'other' just draw some test points and labe the graph. For specific 
         # named graphs we can do better.
         if self.f_type == 'other':
-            default_points = [sym.pi/3 * i for i in range(6)] 
+            default_points = [sym.pi / 3 * i for i in range(6)] 
             
         
         elif self.f_type == 'circle at origin':
@@ -784,9 +808,9 @@ class PolarFunction():
             %s
             <br>
             %s
-            """ %(self.latex(), self.r2d('pi/2', rad), self.a, note, image_name)
+            """ % (self.latex(), self.r2d('pi/2', rad), self.a, note, image_name)
             
-            default_points = [sym.pi/3 * i for i in range(6)]
+            default_points = [sym.pi / 3 * i for i in range(6)]
             
             
         elif self.f_type == 'lemniscate':
@@ -802,7 +826,7 @@ class PolarFunction():
                 
             # The domain
                 
-            theta_min, theta_max = map(lambda x : "%s - pi/4" % self.mod2pi(x, num_pi = 1), 
+            theta_min, theta_max = map(lambda x : "%s - pi/4" % self.mod2pi(x, num_pi=1),
                                        ['0 + %s' % case, 'pi/2 + %s' % case])
             
             exp_string = """
@@ -818,12 +842,12 @@ class PolarFunction():
                     """
                   
                 
-            explanation = exp_string % (self.latex(), 
-                        self.r2d('0 + %s' % case, rad), 
-                        self.r2d(theta_min, rad), self.r2d(theta_max, rad), self.r2d('0 + %s' % case, rad),                  
-                        sym.latex(sym.sympify(sym.sqrt(sym.Abs(self.b)))), 
+            explanation = exp_string % (self.latex(),
+                        self.r2d('0 + %s' % case, rad),
+                        self.r2d(theta_min, rad), self.r2d(theta_max, rad), self.r2d('0 + %s' % case, rad),
+                        sym.latex(sym.sympify(sym.sqrt(sym.Abs(self.b)))),
                         sym.latex(sym.sympify(-sym.Abs(sym.sqrt(self.b)))),
-                        self.r2d('-pi/4 + %s' % case,rad),self.r2d('pi/4 + %s' % case,rad),note, image_name)
+                        self.r2d('-pi/4 + %s' % case, rad), self.r2d('pi/4 + %s' % case, rad), note, image_name)
 
             default_point_labels = ['0 + %s' % (case), 'pi/4 + %s' % (case), '-pi/4 + %s' % (case)]
             
@@ -848,21 +872,21 @@ class PolarFunction():
                     """
             
             explanation = exp_string % (self.latex(), self.r2d('0 + %s' % case, rad),
-                  self.r2d(theta_min, rad), self.r2d(theta_max, rad), self.r2d(lim_max, rad), 
+                  self.r2d(theta_min, rad), self.r2d(theta_max, rad), self.r2d(lim_max, rad),
                   sym.latex(self(lim_max)), self.r2d(lim_min, rad),
                   self.r2d('pi/2 + %s' % case),
                   self.r2d(self.mod2pi('0 + %s' % case), rad), self.r2d(self.mod2pi('pi/3 + %s' % case), rad),
                   self.r2d(self.mod2pi('2*pi/3 + %s' % case), rad), self.r2d(self.mod2pi('5*pi/3 + %s' % case), rad),
                   self.r2d(self.mod2pi('4*pi/3 + %s' % case), rad), note, image_name)
             
-            default_point_labels = map(self.mod2pi,['0 + %s' % (case), 'pi/3 + %s' % (case), \
+            default_point_labels = map(self.mod2pi, ['0 + %s' % (case), 'pi/3 + %s' % (case), \
                             'pi/2 + %s' % case, '2*pi/3 + %s' % (case), 'pi + %s' % case, \
                             '-pi/3 + %s' % (case), '-pi/2 + %s' % case, '-2*pi/3 + %s' % (case)])
             
         
         
         
-        elif self.f_type == '(inner loop) lima&ccedil;on':
+        elif self.f_type == '(inner loop) limacon':
             
 
             exp_string = """
@@ -881,18 +905,18 @@ class PolarFunction():
                     """
 
             explanation = exp_string % (self.latex(), self.r2d('0 + %s' % case, rad),
-                  self.r2d(theta_min, rad), self.r2d(theta_max, rad), self.r2d(lim_max, rad), 
-                  sym.latex(self(lim_max)), self.r2d(lim_min, rad), 
-                  sym.latex(self(lim_min)), 
-                  sym.latex(sym.sympify('cos(theta - %s)' % case)), sym.latex(sym.sympify("-(%s)/(%s)" % (self.a,self.b))),
-                  self.r2d(self.mod2pi('pi / 2 - %s' % case, num_pi = 1), rad),note, image_name)
+                  self.r2d(theta_min, rad), self.r2d(theta_max, rad), self.r2d(lim_max, rad),
+                  sym.latex(self(lim_max)), self.r2d(lim_min, rad),
+                  sym.latex(self(lim_min)),
+                  sym.latex(sym.sympify('cos(theta - %s)' % case)), sym.latex(sym.sympify("-(%s)/(%s)" % (self.a, self.b))),
+                  self.r2d(self.mod2pi('pi / 2 - %s' % case, num_pi=1), rad), note, image_name)
 
-            default_point_labels = map(self.mod2pi,['0 + %s' % (case), 'pi/2 + %s' % (case), \
+            default_point_labels = map(self.mod2pi, ['0 + %s' % (case), 'pi/2 + %s' % (case), \
                                'pi + %s' % (case), '3*pi/2 + %s' % (case)])
             
-            default_points = [(-a_ + np.sqrt((a_)**2 + 8 * (b_)**2))/(4.0 * b_),
-                              (-a_ - np.sqrt((a_)**2 + 8 * (b_)**2))/(4.0 * b_),
-                              -1.0 * a_/(2 * b_), -1.0 * a_ / b_]
+            default_points = [(-a_ + np.sqrt((a_) ** 2 + 8 * (b_) ** 2)) / (4.0 * b_),
+                              (-a_ - np.sqrt((a_) ** 2 + 8 * (b_) ** 2)) / (4.0 * b_),
+                              - 1.0 * a_ / (2 * b_), -1.0 * a_ / b_]
             
             default_points = np.array([d for d in default_points if np.abs(d) <= 1])
             
@@ -903,7 +927,7 @@ class PolarFunction():
             
             default_points = map(self.mod2pi, default_points)
             
-        elif self.f_type == '(convex one-loop) lima&ccedil;on':
+        elif self.f_type == '(convex one-loop) limacon':
 
             exp_string = """
                     The graph of $_%s$_ is a convex one-loop lima&ccedil;on 
@@ -920,18 +944,18 @@ class PolarFunction():
                     """
 
             explanation = exp_string % (self.latex(), self.r2d('0 + %s' % case, rad),
-                  self.r2d(theta_min, rad), self.r2d(theta_max, rad), 
-                  self.r2d(lim_max, rad), sym.latex(self(lim_max)), 
-                  self.r2d(lim_min, rad), sym.latex(self(lim_min)),                      
-                  self.r2d(self.mod2pi('pi/2 + %s' % case, num_pi = 1), rad), 
+                  self.r2d(theta_min, rad), self.r2d(theta_max, rad),
+                  self.r2d(lim_max, rad), sym.latex(self(lim_max)),
+                  self.r2d(lim_min, rad), sym.latex(self(lim_min)),
+                  self.r2d(self.mod2pi('pi/2 + %s' % case, num_pi=1), rad),
                   note, image_name)
 
-            default_point_labels = map(self.mod2pi,['0 + %s' % (case), 'pi/2 + %s' % (case), \
+            default_point_labels = map(self.mod2pi, ['0 + %s' % (case), 'pi/2 + %s' % (case), \
                                'pi + %s' % (case), '3*pi/2 + %s' % (case)])
             
-            default_points = [(-a_ + np.sqrt((a_)**2 + 8 * (b_)**2))/(4.0 * b_),
-                              (-a_ - np.sqrt((a_)**2 + 8 * (b_)**2))/(4.0 * b_),
-                              -1.0 * a_/(2 * b_), -1.0 * a_ / b_]
+            default_points = [(-a_ + np.sqrt((a_) ** 2 + 8 * (b_) ** 2)) / (4.0 * b_),
+                              (-a_ - np.sqrt((a_) ** 2 + 8 * (b_) ** 2)) / (4.0 * b_),
+                              - 1.0 * a_ / (2 * b_), -1.0 * a_ / b_]
             
             
             default_points = np.array([d for d in default_points if np.abs(d) <= 1])
@@ -945,7 +969,7 @@ class PolarFunction():
             
             
             
-        elif self.f_type == '(dimpled one-loop) lima&ccedil;on':
+        elif self.f_type == '(dimpled one-loop) limacon':
 
             exp_string = """
                     The graph of $_%s$_ is a convex one-loop lima&ccedil;on 
@@ -962,19 +986,19 @@ class PolarFunction():
                     """
 
             explanation = exp_string % (self.latex(), self.r2d('0 + %s' % case, rad),
-                  self.r2d(theta_min, rad), self.r2d(theta_max, rad), 
-                  self.r2d(lim_max, rad), sym.latex(self(lim_max)), 
-                  self.r2d(lim_min, rad), sym.latex(self(lim_min)),                      
-                  self.r2d(self.mod2pi('pi/2 + %s' % case, num_pi = 1), rad), 
+                  self.r2d(theta_min, rad), self.r2d(theta_max, rad),
+                  self.r2d(lim_max, rad), sym.latex(self(lim_max)),
+                  self.r2d(lim_min, rad), sym.latex(self(lim_min)),
+                  self.r2d(self.mod2pi('pi/2 + %s' % case, num_pi=1), rad),
                   note, image_name)
 
 
-            default_point_labels = map(self.mod2pi,['0 + %s' % (case), 'pi/2 + %s' % (case), \
+            default_point_labels = map(self.mod2pi, ['0 + %s' % (case), 'pi/2 + %s' % (case), \
                                'pi + %s' % (case), '3*pi/2 + %s' % (case)])
             
-            default_points = [(-a_ + np.sqrt((a_)**2 + 8 * (b_)**2))/(4.0 * b_),
-                              (-a_ - np.sqrt((a_)**2 + 8 * (b_)**2))/(4.0 * b_),
-                              -1.0 * a_/(2 * b_), -1.0 * a_ / b_]
+            default_points = [(-a_ + np.sqrt((a_) ** 2 + 8 * (b_) ** 2)) / (4.0 * b_),
+                              (-a_ - np.sqrt((a_) ** 2 + 8 * (b_) ** 2)) / (4.0 * b_),
+                              - 1.0 * a_ / (2 * b_), -1.0 * a_ / b_]
             
             
             default_points = np.array([d for d in default_points if np.abs(d) <= 1])
@@ -1006,26 +1030,28 @@ class PolarFunction():
                     %s
                     """
         
-            explanation = exp_string % (self.latex(), self.n * (1 + (self.n + 1) % 2), 
-                  self.r2d('0 + %s' % case, rad), self.r2d(theta_min, rad), self.r2d(theta_max, rad),  
-                  self.n, self.r2d(self.mod2pi('pi + %s' % case, num_pi = 1), rad), sym.Abs(self.b),
-                  self.n, self.r2d(self.mod2pi('pi/2 + %s' % case, num_pi = 1, upper = True), rad),                      
+            explanation = exp_string % (self.latex(), self.n * (1 + (self.n + 1) % 2),
+                  self.r2d('0 + %s' % case, rad), self.r2d(theta_min, rad), self.r2d(theta_max, rad),
+                  self.n, self.r2d(self.mod2pi('pi + %s' % case, num_pi=1), rad), sym.Abs(self.b),
+                  self.n, self.r2d(self.mod2pi('pi/2 + %s' % case, num_pi=1, upper=True), rad),
                   note, image_name)
             
-            default_point_labels = map(lambda x: self.mod2pi(x, num_pi = 2 -  self.n % 2, upper = True), 
+            default_point_labels = map(lambda x: self.mod2pi(x, num_pi=2 - self.n % 2, upper=True),
                                        ['%s  * pi / (2 * %s) + %s' % (k, self.n, case) 
-                                                    for k in range(((1 + self.n) % 2 + 1) * 2* self.n)])
+                                                    for k in range(((1 + self.n) % 2 + 1) * 2 * self.n)])
             print(default_point_labels, map(sym.sympify,
                     ['%s  * pi / (2 * %s) + %s' % (k, self.n, case) 
-                                for k in range(((1 + self.n) % 2 + 1) * 2* self.n)]))
+                                for k in range(((1 + self.n) % 2 + 1) * 2 * self.n)]))
             
             default_points = []
             
-            #map(lambda x: self.mod2pi(x, num_pi = 2 - self.n % 2, upper = True), 
+            # map(lambda x: self.mod2pi(x, num_pi = 2 - self.n % 2, upper = True), 
             #                     ['pi/ (2 * %s) + %s' % (self.n, case)])
             
            
         elif self.f_type == 'spiral':
+            
+            theta_min , theta_max = ['0', 4 * sym.pi]
             
             exp_string = """
                     The graph of $_%s$_ is a spiral The natural domain on which this 
@@ -1037,16 +1063,15 @@ class PolarFunction():
                     %s
                     """
             
-            explanation = exp_string % (self.latex(), self.r2d('0', rad), sym.latex(sym.sympify(self('2*pi'))),                    
+            explanation = exp_string % (self.latex(), self.r2d('0', rad), sym.latex(sym.sympify(self('2*pi'))),
                   note, image_name)
             
             default_point_labels = ['2 * pi * %s' % i for i in range(int(4 / self.b))] 
             
-            theta_max = '4*pi'
             
         elif self.f_type == 'circle':
             
-            theta_min, theta_max = map(lambda x : "%s - pi/2" % self.mod2pi(x, num_pi = 1), 
+            theta_min, theta_max = map(lambda x : "%s - pi/2" % self.mod2pi(x, num_pi=1),
                                        ['0 + %s' % case, 'pi + %s' % case])
             
             exp_string = """
@@ -1062,16 +1087,16 @@ class PolarFunction():
                     %s
                     """
         
-            explanation = exp_string % (self.latex(),  
-                  self.r2d(self.mod2pi('0 + %s' % case, num_pi = 1), rad), 
-                  self.r2d(theta_min, rad), self.r2d(theta_max, rad), 
-                  self.r2d(self.mod2pi('0 + %s' % case, num_pi = 1), rad), sym.Abs(self.b), even_odd,
-                  self.r2d('pi - %s' % self.mod2pi('pi/2 + %s' % case, num_pi = 1), rad), 
+            explanation = exp_string % (self.latex(),
+                  self.r2d(self.mod2pi('0 + %s' % case, num_pi=1), rad),
+                  self.r2d(theta_min, rad), self.r2d(theta_max, rad),
+                  self.r2d(self.mod2pi('0 + %s' % case, num_pi=1), rad), sym.Abs(self.b), even_odd,
+                  self.r2d('pi - %s' % self.mod2pi('pi/2 + %s' % case, num_pi=1), rad),
                   sym.latex(x_vals_(self.b / 2, '0 + %s' % case)),
-                  sym.latex(y_vals_(self.b / 2, '0 + %s' % case)),                     
+                  sym.latex(y_vals_(self.b / 2, '0 + %s' % case)),
                   note, image_name)
             
-            default_point_labels = map(lambda x: self.mod2pi(x, num_pi = 1), 
+            default_point_labels = map(lambda x: self.mod2pi(x, num_pi=1),
                                        ['%s  * pi / 4 + %s' % (k, case)  for k in range(4)])
             
             default_points = []
@@ -1098,10 +1123,10 @@ class PolarFunction():
             explanation = exp_string % (self.latex(), vert_horiz,
                   sym.latex(x_vals_(self.b, '0 + %s' % case)),
                   sym.latex(y_vals_(self.b, '0 + %s' % case)),
-                  self.r2d(theta_min, rad), self.r2d(theta_max, rad),                                     
+                  self.r2d(theta_min, rad), self.r2d(theta_max, rad),
                   note, image_name)
             
-            default_point_labels =  ["%s - pi/3" % self.mod2pi('%s  * pi / 6 + %s' % (k, case))
+            default_point_labels = ["%s - pi/3" % self.mod2pi('%s  * pi / 6 + %s' % (k, case))
                                      for k in range(5)]
             
         elif self.f_type == 'line through the origin':
@@ -1112,35 +1137,35 @@ class PolarFunction():
                     %s
                     """
         
-            explanation = exp_string % (self.latex(), self.a, sym.latex(sym.sympify('tan(%s)' % self.a)), 
+            explanation = exp_string % (self.latex(), self.a, sym.latex(sym.sympify('tan(%s)' % self.a)),
                                         image_name)
                                         
         
          
             
-        self.show(points = default_points, extra_points = extra_points, 
-                  point_labels = default_point_labels, label = True, 
-                  path = path, file_name = rad_ + self.url, rad = rad, 
-                  theta_max = theta_max, theta_min = theta_min, draw_rect = True,
-                  coloring = True, force = force)
+        self.show(points=default_points, extra_points=extra_points,
+                  point_labels=default_point_labels, label=True,
+                  path=path, file_name=rad_ + self.url, rad=rad,
+                  theta_max=theta_max, theta_min=theta_min, draw_rect=True,
+                  coloring=True, force=force)
         
         return explanation
         
             
         
 if __name__ == "__main__":
-    PolarFunction(a = 0, b = 2, n = 2, f = 'sin')
-    PolarFunction(a = 0, b = 2, n = 2, f = 'sin', f_type = 'lemniscate')
-    PolarFunction(a = 1, b = 2, n = 1, f = 'cos')
-    PolarFunction(a = 3, b = -4, n = 1, f = 'cos')
-    PolarFunction(a = 6, b = 2, n = 1, f = 'sin')
-    PolarFunction(a = 0, b = -3, n = 1, f = 'csc')
-    PolarFunction(a = 'pi/4', f = 0)
-    PolarFunction(a = 0, b = 2, f = 1)
+    PolarFunction(a=0, b=2, n=2, f='sin')
+    PolarFunction(a=0, b=2, n=2, f='sin', f_type='lemniscate')
+    PolarFunction(a=1, b=2, n=1, f='cos')
+    PolarFunction(a=3, b=-4, n=1, f='cos')
+    PolarFunction(a=6, b=2, n=1, f='sin')
+    PolarFunction(a=0, b=-3, n=1, f='csc')
+    PolarFunction(a='pi/4', f=0)
+    PolarFunction(a=0, b=2, f=1)
     print([(f.f_name, f.f_type) for f in PolarFunction.cache])
-    #[f.show(rad = True, path = 'test', file_name = f.url) for f in PolarFunction.cache]
-    explanations = [f.explain(path = 'test/explanations', include_image = True, 
-                              rad = random.choice([True, False])) 
+    [f.show(rad=True, path='test', file_name=f.url) for f in PolarFunction.cache]
+    explanations = [f.explain(path='test/explanations', include_image=True,
+                              rad=random.choice([True, False])) 
                     for f in PolarFunction.cache]
     for ex in explanations:
         print(ex)
