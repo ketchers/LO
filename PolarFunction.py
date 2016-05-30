@@ -78,7 +78,7 @@ class PolarFunction():
         if {a,b,n,f} == {0}:
             
             if f_type is None:
-                f_type = random.choice(TYPES)
+                f_type = random.choice(PolarFunction.TYPES)
                 
             pm = random.choice([-1,1])
             pm1 = random.choice([-1,1])
