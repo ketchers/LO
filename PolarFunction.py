@@ -60,6 +60,7 @@ class PolarFunction():
     
     cache = set()
     
+    # The known types 'other' is omitted here.  
     TYPES = ['circle',
         'cardioid',
         '(inner loop) limacon',
@@ -69,23 +70,95 @@ class PolarFunction():
         'rose',
         'line',
         'line through the origin',
-        'circle at origin',
-        'other']
+        'circle at origin']
     
-    def __init__(self, a='0', b='0', n='1', f=0,
+    def __init__(self, a=0, b=0, n=0, f=0,
                  f_type=None, f_name=None):
         
+        if {a,b,n,f} == {0}:
+            
+            if f_type is None:
+                f_type = random.choice(TYPES)
+                
+            pm = random.choice([-1,1])
+            pm1 = random.choice([-1,1])
+            
+            if f_type == 'circle': 
+                n = 1
+                a = 0
+                b = pm * random.randint(1, 7)
+                f = random.choice(['sin', 'cos'])
+            elif f_type == 'cardioid':
+                n = 1
+                a = pm1 * random.randint(1, 7)
+                b = pm * a
+                f = random.choice(['sin', 'cos'])
+            elif f_type == '(convex one-loop) limacon':
+                n = 1
+                a = 0
+                b = random.randint(1, 4)
+                a = pm * random.randint(2 * b, 3 * b)
+                b = pm1 * b
+                f= random.choice(['sin', 'cos'])
+            elif f_type == '(dimpled one-loop) limacon':
+                n = 1
+                b = random.randint(2, 5)
+                a = pm * random.randint(b + 1, 2 * b - 1)
+                b = pm * b
+                f = random.choice(['sin', 'cos'])
+            elif f_type == '(inner loop) limacon':
+                n = 1
+                a = random.randint(1, 5)
+                b = pm * random.randint(a + 1, a +5)
+                a = pm * a
+                f = random.choice(['sin', 'cos'])
+            elif f_type == 'rose':
+                a = 0
+                b = pm * random.randint(1, 7)
+                n = random.randint(2, 5)
+                f = random.choice(['sin', 'cos'])
+            elif f_type == 'lemniscate':
+                n = 2
+                a = 0
+                b = pm * random.choice([a ** 2 for a in range(2, 7)])
+                f = random.choice(['sin', 'cos'])
+            elif f_type == 'line':
+                n = 0
+                a = 0
+                b = pm * random.randint(1,6)
+                f = random.choice(['sec', 'cos'])
+            elif f_type == 'line through the origin':
+                n = 0
+                f = 0
+                b = 0
+                a = random.choice(['pi / 12 * %s' % i for i in range(24)])
+            elif f_type == 'circle at origin':
+                n = 0
+                f = 0
+                b = 0
+                a = pm * random.randint(1,7)
+            elif f_type == 'spiral':
+                n = 0
+                f = 1
+                b = pm * random.randint(1, 4)
+                a = 0
+            else:
+                #add more
+                pass
+            
         ident = make_func('x', func_params=('x'), func_type='sympy')
         
+        
+            
         self.a = ident(a)
         self.b = ident(b)
         self.n = ident(n)
         self.f = f
-        
+
         self.call_type = 'unknown'
-        
+
         self.f_type = self.get_f_type(f_type)
-        
+
         if f_name is None:
             if self.f_type == 'line through the origin':
                 self.f_name = str(ident(a))
@@ -98,7 +171,7 @@ class PolarFunction():
                                               % (ident(a), ident(b), f, ident(n))))
         else:
             self.f_name = str(sym.sympify(f_name))
-         
+
          
         
             
@@ -167,7 +240,7 @@ class PolarFunction():
             f1('pi/3') = 9/2 (this is a sympy expr)
             f1(sym.pi/3) = 9/2 (this is a sympy expr)
         """
-        
+           
         if 'func_type' not in kwargs:
             func_type = None
         else:
@@ -1162,6 +1235,9 @@ if __name__ == "__main__":
     PolarFunction(a=0, b=-3, n=1, f='csc')
     PolarFunction(a='pi/4', f=0)
     PolarFunction(a=0, b=2, f=1)
+    for i in range(6):
+        f = PolarFunction(f_type = 'rose')
+        print(f.f_name)
     print([(f.f_name, f.f_type) for f in PolarFunction.cache])
     [f.show(rad=True, path='test', file_name=f.url) for f in PolarFunction.cache]
     explanations = [f.explain(path='test/explanations', include_image=True,
