@@ -4,7 +4,6 @@ import sys
 import os
 import random 
 import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 import sympy as sym
 import tools
