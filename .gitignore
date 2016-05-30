@@ -2,3 +2,6 @@ tools.py
 *.pyc
 test/
 test/*
+preview/test/
+.project
+.pydevproject
