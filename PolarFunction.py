@@ -72,10 +72,10 @@ class PolarFunction():
         'line through the origin',
         'circle at origin']
     
-    def __init__(self, a=0, b=0, n=0, f=0,
+    def __init__(self, a=None, b=None, n=None, f=None,
                  f_type=None, f_name=None):
         
-        if {a,b,n,f} == {0}:
+        if {a,b,n,f} == {None}:
             
             if f_type is None:
                 f_type = random.choice(PolarFunction.TYPES)
@@ -123,17 +123,17 @@ class PolarFunction():
                 b = pm * random.choice([a ** 2 for a in range(2, 7)])
                 f = random.choice(['sin', 'cos'])
             elif f_type == 'line':
-                n = 0
+                n = 1
                 a = 0
                 b = pm * random.randint(1,6)
-                f = random.choice(['sec', 'cos'])
+                f = random.choice(['sec', 'csc'])
             elif f_type == 'line through the origin':
-                n = 0
+                n = 1
                 f = 0
                 b = 0
-                a = random.choice(['pi / 12 * %s' % i for i in range(24)])
+                a = random.choice(['pi / 12 * %s' % i for i in range(22)])
             elif f_type == 'circle at origin':
-                n = 0
+                n = 1
                 f = 0
                 b = 0
                 a = pm * random.randint(1,7)
@@ -148,6 +148,14 @@ class PolarFunction():
             
         ident = make_func('x', func_params=('x'), func_type='sympy')
         
+        if a is None:
+            a = 0
+        if b is None: 
+            b = 0
+        if n is None:
+            n = 1
+        if f is None:
+            f = 0
         
             
         self.a = ident(a)
@@ -172,8 +180,6 @@ class PolarFunction():
         else:
             self.f_name = str(sym.sympify(f_name))
 
-         
-        
             
         if self.f_type.find('lima') != -1:
             self.url = quote_plus('limacon' + self.f_name)
@@ -403,7 +409,7 @@ class PolarFunction():
             point_labels  -- Add points with labels to the graph. 
 
             img_type      --
-            file_name     -- Name  of image. If None, then just display.
+            file_name     -- Name  of image. If 'show', then just display.
             path          -- Path to store image. The folder is created if does not exist
             label         -- Controls whether or not to add label
             draw_rect     -- Draw r = f(theta) in rectangular (theta, r) plane
@@ -418,13 +424,22 @@ class PolarFunction():
         
         r_str = self.f_name
         
+        if rad:
+            rad_ = 'rad_'
+        else:
+            rad_ = ""  
         
-        fname = path + "/" + file_name + "." + img_type
-        if file_name is not None:
-            if os.path.isfile(fname) and not force:
-                print("The file \'" + fname + "\' exists, \
-                not regenerating. Delete file to force regeneration.", file=sys.stderr)
-                return
+        if file_name is None:
+            file_name_ = rad_ + self.url
+        else:
+            file_name_ = file_name
+        
+    
+        fname = path + "/" + file_name_ + "." + img_type
+        if os.path.isfile(fname) and not force and file_name != 'show':
+            print("The file \'" + fname + "\' exists, \
+            not regenerating. Delete file to force regeneration.", file=sys.stderr)
+            return
         
         # r, theta = sym.symbols('r, theta')
         Thetas = np.arange(float(sym.sympify(theta_min)), float(sym.sympify(theta_max)),
@@ -438,8 +453,8 @@ class PolarFunction():
         y_vals_ = make_func('r * sin(theta)', func_params=('r', 'theta'), func_type='sympy')
         
         if self.f_type == 'line through the origin':
-            thetas = np.array([float(self.a), float(self.a)])
-            R = np.array([-10, 10])
+            Thetas = np.ones(1000) * float(self.a)
+            R = np.linspace(-10, 10, 1000)
         else:
             R = self(Thetas)
        
@@ -781,7 +796,7 @@ class PolarFunction():
         
         # plt.axis('off')
 
-        if file_name is None:
+        if file_name == 'show':
             plt.show()
             plt.close()
         else:
@@ -854,6 +869,8 @@ class PolarFunction():
         else:
             rad_ = ""  
         
+        default_file_name = rad_ + self.url
+        
         if include_image:
             image_name = "<img width=900 height=450 src=\'%s/%s%s.png\'>" \
                     % (path, rad_, self.url.replace('%2', '%252'))
@@ -899,13 +916,14 @@ class PolarFunction():
                 
             # The domain
                 
-            theta_min, theta_max = map(lambda x : "%s - pi/4" % self.mod2pi(x, num_pi=1),
+            theta_min, theta_max = map(lambda x : "%s - pi/4" % self.mod2pi(x, num_pi=2, upper = True),
                                        ['0 + %s' % case, 'pi/2 + %s' % case])
+                                       
             
             exp_string = """
                     The graph of $_%s$_ is a lemniscate symetric about the line $_\\theta =
                     %s$_. The natural domain on which this graph is defined is 
-                    $_[%s, %s]$_.The graph is furthest away from the pole at $\\theta = %s$_ with $_r=%s$_ 
+                    $_[%s, %s]$_.The graph is furthest away from the pole at $_\\theta = %s$_ with $_r=%s$_ 
                     and $_r=-%s$_. The graph is at the pole 
                     at $_\\theta = %s$_ and $_\\theta = %s$_. 
                     <br>
@@ -933,7 +951,7 @@ class PolarFunction():
             exp_string = """
                     The graph of $_%s$_ is a cardioid symetric about the line $_\\theta =
                     %s$_. The natural domain on which this graph is defined is 
-                    $_[%s, %s]$_.The graph is furthest away from the pole at $\\theta = %s$_ 
+                    $_[%s, %s]$_.The graph is furthest away from the pole at $_\\theta = %s$_ 
                     with $_r=%s$_. The graph is at the pole 
                     at $_\\theta = %s$_ and intersects the line $_\\theta = %s$_ at two places
                     The graph has horizontal / vertical tangents at
@@ -1112,9 +1130,10 @@ class PolarFunction():
             default_point_labels = map(lambda x: self.mod2pi(x, num_pi=2 - self.n % 2, upper=True),
                                        ['%s  * pi / (2 * %s) + %s' % (k, self.n, case) 
                                                     for k in range(((1 + self.n) % 2 + 1) * 2 * self.n)])
-            print(default_point_labels, map(sym.sympify,
-                    ['%s  * pi / (2 * %s) + %s' % (k, self.n, case) 
-                                for k in range(((1 + self.n) % 2 + 1) * 2 * self.n)]))
+            
+            #print(default_point_labels, map(sym.sympify,
+            #        ['%s  * pi / (2 * %s) + %s' % (k, self.n, case) 
+            #                    for k in range(((1 + self.n) % 2 + 1) * 2 * self.n)]))
             
             default_points = []
             
@@ -1144,9 +1163,11 @@ class PolarFunction():
             
         elif self.f_type == 'circle':
             
-            theta_min, theta_max = map(lambda x : "%s - pi/2" % self.mod2pi(x, num_pi=1),
-                                       ['0 + %s' % case, 'pi + %s' % case])
-            
+            if even_odd == 'odd':
+                theta_min, theta_max = ['-pi/2', 'pi/2'] 
+            else:
+                theta_min, theta_max = ['0', 'pi'] 
+                
             exp_string = """
                     The graph of $_%s$_ is a circle symetric about the line $_\\theta =
                     %s$_. The natural domain on which this 
@@ -1205,12 +1226,12 @@ class PolarFunction():
         elif self.f_type == 'line through the origin':
             
             exp_string = """
-                    The graph of $_%s$_ is a line through the origin. The slope is $_\\tan(%s) = %s$_.
+                    The graph of $_%s$_ is a line through the origin. The slope is $_\\tan\\left(%s\\right) = %s$_.
                     <br>
                     %s
                     """
         
-            explanation = exp_string % (self.latex(), self.a, sym.latex(sym.sympify('tan(%s)' % self.a)),
+            explanation = exp_string % (self.latex(), sym.latex(self.a), sym.latex(sym.sympify('tan(%s)' % self.a)),
                                         image_name)
                                         
         
@@ -1218,7 +1239,7 @@ class PolarFunction():
             
         self.show(points=default_points, extra_points=extra_points,
                   point_labels=default_point_labels, label=True,
-                  path=path, file_name=rad_ + self.url, rad=rad,
+                  path=path, file_name=default_file_name, rad=rad,
                   theta_max=theta_max, theta_min=theta_min, draw_rect=True,
                   coloring=True, force=force)
         
@@ -1235,14 +1256,29 @@ if __name__ == "__main__":
     PolarFunction(a=0, b=-3, n=1, f='csc')
     PolarFunction(a='pi/4', f=0)
     PolarFunction(a=0, b=2, f=1)
-    for i in range(6):
-        f = PolarFunction(f_type = 'rose')
-        print(f.f_name)
-    print([(f.f_name, f.f_type) for f in PolarFunction.cache])
-    [f.show(rad=True, path='test', file_name=f.url) for f in PolarFunction.cache]
-    explanations = [f.explain(path='test/explanations', include_image=True,
-                              rad=random.choice([True, False])) 
-                    for f in PolarFunction.cache]
-    for ex in explanations:
-        print(ex)
+    PolarFunction(a = 6, b = -36, n = 2, f = 'sin', f_type = 'lemniscate')
+    PolarFunction(f_type = 'line through the origin')
+    
+    
+    # Generate a bunc of random graphs of specific types
+    for ftype in PolarFunction.TYPES:
+        for i in range(6):
+            f = PolarFunction(f_type = ftype)
+            
+    # Now generate a bunch of random graphs (non-specific type)
+    for i in range(10):
+        PolarFunction()
+    
+    # Generate plots/ explanations
+    explanations = []
+    for f in PolarFunction.cache:
+        print(f.f_name, f.f_type)
+        rad_ = random.choice([True,False])
+        f.show(path='test', rad = rad_)
+        explanations.append(f.explain(path='test/explanations', include_image=True,
+                              rad=rad_))
+                    
+                    
+    for explanation in explanations:
+        print(explanation)
         print("\n\n\n<br>")
