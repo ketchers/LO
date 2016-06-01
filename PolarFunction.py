@@ -14,49 +14,51 @@ from urllib import quote_plus
 
 
 
-"""
-The purpose of this class is to make dealing with polar functions easy.
-These function have the  form: 
-     
-     r = f(theta)
-     
-     or
-     
-     r^2 = f(theta)
 
-Precondition: Either f_name or _all_ of a,b,n,f should be given even if some are 0.
 
-Named Parameters:
-    a      -- These should all be obvious
-    b      --
-    n      --
-    f      -- 'sin', 'cos', 'sec', 'csc', 0 or 1 (for now). If f = 0, then 
-              we interpret this as 'theta = a' (this is a silly, but I'm not sure 
-              what a better fix is.) If f = 1, then this is a + b*theta (a spiral)
-              
-    f_name -- This should be a + b * f(n * theta) if a,b,n,f are given. This 
-              is here to allow the user to define more general polar functions.
-    f_type -- 'circle', 'lemniscate', ... This _should_ be included,
-              but if it is not we wll try to guess.
-    
-Usage: 
-
-    r = PolarFunction(a = 0, b = 3, n = 2, f = 'cos', 'lemniscate')
-    
-    This will produce an object corresponding to r^2 = 3 * cos(2 * theta)
-
-    Can be shortened to: 
-       r = PolarFunction(0, 3, 2, 'cos', 'lemniscate')
-
-    f_name can be used as:
-       r = PolarFunction(f_name = '3*sin(3 + 2*theta) + 4*cos(theta)*sin(theta)')
-    
-"""
-
-# r, theta = sym.symbols('r, theta')
 
 class PolarFunction():
     
+    """
+    The purpose of this class is to make dealing with polar functions easy.
+    These function have the  form: 
+         
+         r = f(theta)
+         
+         or
+         
+         r^2 = f(theta)
+    
+    Precondition: Either f_name or _all_ of a,b,n,f should be given even if some are 0.
+    
+    Named Parameters:
+    ----------------
+        a      -- These should all be obvious
+        b      --
+        n      --
+        f      -- 'sin', 'cos', 'sec', 'csc', 0 or 1 (for now). If f = 0, then 
+                  we interpret this as 'theta = a' (this is a silly, but I'm not sure 
+                  what a better fix is.) If f = 1, then this is a + b*theta (a spiral)
+                  
+        f_name -- This should be a + b * f(n * theta) if a,b,n,f are given. This 
+                  is here to allow the user to define more general polar functions.
+        f_type -- 'circle', 'lemniscate', ... This _should_ be included,
+                  but if it is not we wll try to guess.
+        
+    Usage: 
+    
+        r = PolarFunction(a = 0, b = 3, n = 2, f = 'cos', 'lemniscate')
+        
+        This will produce an object corresponding to r^2 = 3 * cos(2 * theta)
+    
+        Can be shortened to: 
+           r = PolarFunction(0, 3, 2, 'cos', 'lemniscate')
+    
+        f_name can be used as:
+           r = PolarFunction(f_name = '3*sin(3 + 2*theta) + 4*cos(theta)*sin(theta)')
+        
+    """
+        
     cache = set()
     
     # The known types 'other' is omitted here.  
@@ -74,78 +76,9 @@ class PolarFunction():
     def __init__(self, a=None, b=None, n=None, f=None,
                  f_type=None, f_name=None):
         
-        if {a,b,n,f} == {None}:
+        if {a, b, n, f, f_name} == {None}:
+            a, b, n, f, f_type = self.gen_random(f_type = f_type)  
             
-            if f_type is None:
-                f_type = random.choice(PolarFunction.TYPES)
-                
-            pm = random.choice([-1,1])
-            pm1 = random.choice([-1,1])
-            
-            if f_type == 'circle': 
-                n = 1
-                a = 0
-                b = pm * random.randint(1, 7)
-                f = random.choice(['sin', 'cos'])
-            elif f_type == 'cardioid':
-                n = 1
-                a = pm1 * random.randint(1, 7)
-                b = pm * a
-                f = random.choice(['sin', 'cos'])
-            elif f_type == '(convex one-loop) limacon':
-                n = 1
-                a = 0
-                b = random.randint(1, 4)
-                a = pm * random.randint(2 * b, 3 * b)
-                b = pm1 * b
-                f= random.choice(['sin', 'cos'])
-            elif f_type == '(dimpled one-loop) limacon':
-                n = 1
-                b = random.randint(2, 5)
-                a = pm * random.randint(b + 1, 2 * b - 1)
-                b = pm * b
-                f = random.choice(['sin', 'cos'])
-            elif f_type == '(inner loop) limacon':
-                n = 1
-                a = random.randint(1, 5)
-                b = pm * random.randint(a + 1, a +5)
-                a = pm * a
-                f = random.choice(['sin', 'cos'])
-            elif f_type == 'rose':
-                a = 0
-                b = pm * random.randint(1, 7)
-                n = random.randint(2, 5)
-                f = random.choice(['sin', 'cos'])
-            elif f_type == 'lemniscate':
-                n = 2
-                a = 0
-                b = pm * random.choice([a ** 2 for a in range(2, 7)])
-                f = random.choice(['sin', 'cos'])
-            elif f_type == 'line':
-                n = 1
-                a = 0
-                b = pm * random.randint(1,6)
-                f = random.choice(['sec', 'csc'])
-            elif f_type == 'line through the origin':
-                n = 1
-                f = 0
-                b = 0
-                a = random.choice(['pi / 12 * %s' % i for i in range(22)])
-            elif f_type == 'circle at origin':
-                n = 1
-                f = 0
-                b = 0
-                a = pm * random.randint(1,7)
-            elif f_type == 'spiral':
-                n = 0
-                f = 1
-                b = pm * random.randint(1, 4)
-                a = 0
-            else:
-                #add more
-                pass
-            
-        ident = make_func('x', func_params=('x'), func_type='sympy')
         
         if a is None:
             a = 0
@@ -156,7 +89,8 @@ class PolarFunction():
         if f is None:
             f = 0
         
-            
+        ident = make_func('x', func_params=('x'), func_type='sympy')
+        
         self.a = ident(a)
         self.b = ident(b)
         self.n = ident(n)
@@ -193,6 +127,91 @@ class PolarFunction():
         PolarFunction.cache.add(self)
         
     
+       
+    def gen_random(self, f_type = None):
+        """
+        Generate a random f_type of polar function
+        
+        Parameters:
+        ----------
+        
+        f_type: If None, first generate a random f_type.
+        """
+        
+        if f_type is None:
+            f_type = random.choice(PolarFunction.TYPES)
+    
+        print("f_type is " + f_type)
+        
+        pm = random.choice([-1,1])
+        pm1 = random.choice([-1,1])        
+        
+        if f_type == 'circle': 
+            n = 1
+            a = 0
+            b = pm * random.randint(1, 7)
+            f = random.choice(['sin', 'cos'])
+        elif f_type == 'cardioid':
+            n = 1
+            a = pm1 * random.randint(1, 7)
+            b = pm * a
+            f = random.choice(['sin', 'cos'])
+        elif f_type == '(convex one-loop) limacon':
+            n = 1
+            a = 0
+            b = random.randint(1, 4)
+            a = pm * random.randint(2 * b, 3 * b)
+            b = pm1 * b
+            f = random.choice(['sin', 'cos'])
+        elif f_type == '(dimpled one-loop) limacon':
+            n = 1
+            b = random.randint(2, 5)
+            a = pm * random.randint(b + 1, 2 * b - 1)
+            b = pm * b
+            f = random.choice(['sin', 'cos'])
+        elif f_type == '(inner loop) limacon':
+            n = 1
+            a = random.randint(1, 5)
+            b = pm * random.randint(a + 1, a +5)
+            a = pm * a
+            f = random.choice(['sin', 'cos'])
+        elif f_type == 'rose':
+            a = 0
+            b = pm * random.randint(1, 7)
+            n = random.randint(2, 5)
+            f = random.choice(['sin', 'cos'])
+        elif f_type == 'lemniscate':
+            n = 2
+            a = 0
+            b = pm * random.choice([a ** 2 for a in range(2, 7)])
+            f = random.choice(['sin', 'cos'])
+        elif f_type == 'line':
+            n = 1
+            a = 0
+            b = pm * random.randint(1,6)
+            f = random.choice(['sec', 'csc'])
+        elif f_type == 'line through the origin':
+            n = 1
+            f = 0
+            b = 0
+            a = random.choice(['pi / 12 * %s' % i for i in range(22)])
+        elif f_type == 'circle at origin':
+            n = 1
+            f = 0
+            b = 0
+            a = pm * random.randint(1,7)
+        elif f_type == 'spiral':
+            n = 0
+            f = 1
+            b = pm * random.randint(1, 4)
+            a = 0
+        else:
+            #add more
+            pass   
+        
+        print((a,b,n,f,f_type))        
+        
+        return (a, b, n, f, f_type)
         
     def get_f_type(self, f_type=None):
         """
@@ -309,11 +328,56 @@ class PolarFunction():
             return "r = " + str(sym.sympify(self.f_name))
         
     def __eq__(self, other):
+        """
+        f == g is true if they have the same graphs
+        """
         if self.__class__ != other.__class__:
             return False
-        if (self.f_name != other.f_name):
-            return False
-        return True
+            
+        if self.f_type == other.f_type \
+            and 'other' not in [self.f_type, other.f_type]:
+            # For simple cases do something simple
+            if self.f_type == 'lemniscate':
+                return self.f == other.f and self.b == other.b \
+                    and (self.a == other.a or self.a == -other.a)
+            elif self.f_type == 'circle':
+                return self.f == other.f and self.b == other.b
+            elif self.f_type == 'line through the origin':
+                return self.a == other.a or self.a == -other.a
+            elif self.f_type == 'line':
+                return self.f == other.f and self.b == other.b
+            elif self.f_type == 'circle at origin':
+                return self.a == other.a or self.a == - other.a
+            elif self.f_type in ['cardioid', '(inner loop) limacon',\
+            '(convex one-loop) limacon', '(dimpled one-loop) limacon']:
+                return self.f == other.f and self.b == other.b
+            elif self.f_type == 'rose':
+                if self.n % 2 == 0 and other.n % 2 == 0:
+                    return self.f == other.f and self.n == other.n
+                elif self.n % 2 == 1 and other.n % 2 == 1:
+                    return self.f == other.f and self.n == other.n \
+                            and self.b == other.b
+                else:
+                    return False
+            else:
+                pass
+            
+        # Id we are some other thing try to figure out if the
+        # graphs are the same.
+        thetas = np.append(np.arange(0,2*np.pi, .005), 
+                           np.arange(0, 2*np.pi, .005) + np.pi/2)
+        X_self, Y_self = self.to_rect(thetas)
+        X_other, Y_other = other.to_rect(thetas)
+       
+            
+        D = np.array([np.min((X_other - X_self[i])**2 + 
+            (Y_other - Y_self[i])**2) for i in range(X_self.size)])
+            
+        I = D < .01
+        print(np.max(D))
+        return np.all(I)
+
+
     
     # A cached hash
     def __hash__(self):
@@ -325,11 +389,22 @@ class PolarFunction():
         str1, str2 = str(self).split('=')
         return "%s = %s" % (sym.latex(sym.sympify(str1)), sym.latex(sym.sympify(str2)))
         
-    def same_graph (self, other):
-        thetas = np.arange(0, 2 * np.pi, np.pi / 12)
-        return np.all(np.sort(self.__call__(thetas)) - \
-                      np.sort(other.__call__(thetas)) < 0.001 * np.ones(thetas.size))
-    
+   
+    def to_rect(self, thetas):
+        # These are use to convert (r, theta) -> (x, y)
+        x_vals = make_func('r * cos(theta)', func_params=('r', 'theta'))
+        y_vals = make_func('r * sin(theta)', func_params=('r', 'theta'))
+        x_vals_ = make_func('r * cos(theta)', func_params=('r', 'theta'), func_type='sympy')
+        y_vals_ = make_func('r * sin(theta)', func_params=('r', 'theta'), func_type='sympy')
+        
+        R_ = self(thetas)
+        if self.call_type == 'numpy':
+            X = x_vals(R_, thetas)
+            Y = y_vals(R_,thetas)
+        else:
+            X = x_vals_(R_, thetas)
+            Y = y_vals_(R_,thetas)
+        return (X, Y) 
     
     def r2d(self, t, radians=False):
         """
@@ -391,30 +466,31 @@ class PolarFunction():
         """
         This will draw a polar plot of the function given by r_str, e.g. r_str = '2*cos(theta)'.
 
-        Named Parameters:
-            theta_min,    -- The range of theta for wwhich the plot is made
+        Parameters:
+        ----------
+            theta_min,    : The range of theta for wwhich the plot is made
             theta_max
-            r_min,        -- The range of radius
+            r_min,        : The range of radius
             r_max
 
-            theta_ticks   -- This determines the radial lines as well as labels to add. These should 
+            theta_ticks   : This determines the radial lines as well as labels to add. These should 
                              be strings in radians, conversion to degree will happen if rad = False
-            r_ticks       -- list of pairs (r,s) where r is the location ans s is the value 
-            r_ticks_angle -- The angle to put the r_ticks on.
-            rad           -- If true use radian
-            d_theta       -- This determines how finely to partition [0,2*pi]
-            points        -- This adds some points without labels to the graph
-            extra_points  -- These are (x,y) pairs for points not on the plot.
-            point_labels  -- Add points with labels to the graph. 
+            r_ticks       : list of pairs (r,s) where r is the location ans s is the value 
+            r_ticks_angle : The angle to put the r_ticks on.
+            rad           : If true use radian
+            d_theta       : This determines how finely to partition [0,2*pi]
+            points        : This adds some points without labels to the graph
+            extra_points  : These are (x,y) pairs for points not on the plot.
+            point_labels  : Add points with labels to the graph. 
 
-            img_type      --
-            file_name     -- Name  of image. If 'show', then just display.
-            path          -- Path to store image. The folder is created if does not exist
-            label         -- Controls whether or not to add label
-            draw_rect     -- Draw r = f(theta) in rectangular (theta, r) plane
-            xkcd          -- (True/False) Interesting rendering
-            coloring      -- Boolean. If True color the graph by radius (for explanations)
-            force         -- (Boolean) Force rbuild of images if they exist.
+            img_type      :
+            file_name     : Name  of image. If 'show', then just display.
+            path          : Path to store image. The folder is created if does not exist
+            label         : Controls whether or not to add label
+            draw_rect      Draw r = f(theta) in rectangular (theta, r) plane
+            xkcd          : (True/False) Interesting rendering
+            coloring      : Boolean. If True color the graph by radius (for explanations)
+            force         : (Boolean) Force rbuild of images if they exist.
 
         * = manditory
         """
@@ -438,7 +514,7 @@ class PolarFunction():
         if os.path.isfile(fname) and not force and file_name != 'show':
             print("The file \'" + fname + "\' exists, \
             not regenerating. Delete file to force regeneration.", file=sys.stderr)
-            return
+            return fname
         
         # r, theta = sym.symbols('r, theta')
         Thetas = np.arange(float(sym.sympify(theta_min)), float(sym.sympify(theta_max)),
@@ -802,7 +878,9 @@ class PolarFunction():
             tools.make_folder_if_necessary(".", path)
             plt.savefig(fname) 
             plt.close()
-          
+            
+        
+        return fname 
         
     def explain(self, rad=False, path="explanations", include_image=False, force=False):
         """
@@ -1130,16 +1208,8 @@ class PolarFunction():
                                        ['%s  * pi / (2 * %s) + %s' % (k, self.n, case) 
                                                     for k in range(((1 + self.n) % 2 + 1) * 2 * self.n)])
             
-            #print(default_point_labels, map(sym.sympify,
-            #        ['%s  * pi / (2 * %s) + %s' % (k, self.n, case) 
-            #                    for k in range(((1 + self.n) % 2 + 1) * 2 * self.n)]))
-            
             default_points = []
             
-            # map(lambda x: self.mod2pi(x, num_pi = 2 - self.n % 2, upper = True), 
-            #                     ['pi/ (2 * %s) + %s' % (self.n, case)])
-            
-           
         elif self.f_type == 'spiral':
             
             theta_min , theta_max = ['0', 4 * sym.pi]
@@ -1247,37 +1317,41 @@ class PolarFunction():
             
         
 if __name__ == "__main__":
-    PolarFunction(a=0, b=2, n=2, f='sin')
-    PolarFunction(a=0, b=2, n=2, f='sin', f_type='lemniscate')
-    PolarFunction(a=1, b=2, n=1, f='cos')
-    PolarFunction(a=3, b=-4, n=1, f='cos')
-    PolarFunction(a=6, b=2, n=1, f='sin')
-    PolarFunction(a=0, b=-3, n=1, f='csc')
-    PolarFunction(a='pi/4', f=0)
-    PolarFunction(a=0, b=2, f=1)
-    PolarFunction(a = 6, b = -36, n = 2, f = 'sin', f_type = 'lemniscate')
-    PolarFunction(f_type = 'line through the origin')
-    
-    
-    # Generate a bunc of random graphs of specific types
-    for ftype in PolarFunction.TYPES:
-        for i in range(6):
-            f = PolarFunction(f_type = ftype)
-            
-    # Now generate a bunch of random graphs (non-specific type)
-    for i in range(10):
-        PolarFunction()
-    
-    # Generate plots/ explanations
-    explanations = []
-    for f in PolarFunction.cache:
-        print(f.f_name, f.f_type)
-        rad_ = random.choice([True,False])
-        f.show(path='test', rad = rad_)
-        explanations.append(f.explain(path='test/explanations', include_image=True,
-                              rad=rad_))
-                    
-                    
-    for explanation in explanations:
-        print(explanation)
-        print("\n\n\n<br>")
+#    PolarFunction(a=0, b=2, n=2, f='sin')
+#    PolarFunction(a=0, b=2, n=2, f='sin', f_type='lemniscate')
+#    PolarFunction(a=1, b=2, n=1, f='cos')
+#    PolarFunction(a=3, b=-4, n=1, f='cos')
+#    PolarFunction(a=6, b=2, n=1, f='sin')
+#    PolarFunction(a=0, b=-3, n=1, f='csc')
+#    PolarFunction(a='pi/4', f=0)
+#    PolarFunction(a=0, b=2, f=1)
+#    PolarFunction(a = 6, b = -36, n = 2, f = 'sin', f_type = 'lemniscate')
+#    PolarFunction(f_type = 'line through the origin')
+#    
+#    
+#    # Generate a bunc of random graphs of specific types
+#    for ftype in PolarFunction.TYPES:
+#        for i in range(6):
+#            f = PolarFunction(f_type = ftype)
+#            
+#    # Now generate a bunch of random graphs (non-specific type)
+#    for i in range(10):
+#        PolarFunction()
+#    
+#    # Generate plots/ explanations
+#    explanations = []
+#    for f in PolarFunction.cache:
+#        rad_ = random.choice([True,False])
+#        f.show(path='test', rad = rad_)
+#        explanations.append(f.explain(path='test/explanations', include_image=True,
+#                              rad=rad_))
+#                    
+#                    
+#    for explanation in explanations:
+#        print(explanation)
+#         print("\n\n\n<br>")
+    f = PolarFunction(f_name = '2 * sin(2*theta)')
+    g = PolarFunction(a=0, b=-2, n=2, f='sin')
+    print(f == g)
+    f.show(file_name = 'show')
+    g.show(file_name = 'show')
