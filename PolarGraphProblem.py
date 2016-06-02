@@ -27,7 +27,6 @@ from __future__ import print_function
 from __future__ import division
 import sys
 import os
-print('oops', file = sys.stderr)
 
 import random
 import sympy as sym
@@ -74,16 +73,18 @@ class PolarGraphProblem():
         # Generate our current problem
         prob = PolarFunction(f_type = q_type)
                 
-    def gen_errors(self, prob, error_types, force = False):
+    def gen_errors(self, prob, error_types, force = False, rad = False,
+                   include_image = False, xkcd = False):
         """
         This will generate the errors for MC.
         
         Parameters:
         ----------
-            prob        : (q_type, a, b, trig) (the correct problem)
-            error_types : Besides instances of the same q_type with the same 
+            prob         : (q_type, a, b, trig) (the correct problem)
+            error_types  : Besides instances of the same q_type with the same 
                            a, b generate some other reasonable options.
-            force       : Regenerate images (passed down)
+            force        : Regenerate images (passed down)
+            include_image: (Boolean) For preview.
         """
         # Initially consider the variant of the original
         
@@ -97,7 +98,7 @@ class PolarGraphProblem():
         elif prob.f == 'sec':
             new_func = 'csc'
         else:
-            pass
+            new_func = prob.f
 
 
         # Generate some distractors very similar to given        
@@ -126,8 +127,7 @@ class PolarGraphProblem():
             er = errors.pop()
             f = PolarFunction(a = er[0], b = er[1], n = er[2], 
                             f = er[3], f_type = er[4])
-            print(f.f_name)
-            if len(ers) == 0:
+            if len(ers) == 0 and f != prob:
                 ers.append(f)
             elif reduce(lambda x, y: x & y, [f != g for g in ers], True)\
                 and f != prob:
@@ -136,28 +136,33 @@ class PolarGraphProblem():
                 print("A function with same graph is present")
      
         # Change number of distractors here
-        errors = [f.show(path = self.path, force = force) for f in ers]
+        errors = [f.show(path = self.path, force = force, rad = rad) for f in ers]
         
         return errors
         
     
     
     def stem(self, q_type = None, a_type = 'MC', error_types = [], 
-             force = False):
+             force = False, rad = False, include_image = False,
+             xkcd = False):
         """
         Parameters:
         ----------
-            q_type      : This is the kind of polar graph
-            a_type      : "MC" (multiple choice) for now. Matching coming soon?
-            error_types : When generating distractors, what other types of plots 
-                           should show up?
-            force       : (Boolean) Force regeneration of images.
+            q_type        : This is the kind of polar graph
+            a_type        : "MC" (multiple choice) for now. Matching coming soon?
+            error_types   : When generating distractors, what other types of plots 
+                            should show up?
+            force         : (Boolean) Force regeneration of images.
+            include_image : (Boolean) For previewing. 
         """
     
         kwargs = {
             'q_type': q_type,
             'a_type': a_type,
-            'error_types': error_types
+            'error_types': error_types,
+            'force':force,
+            'include_image':include_image,
+            'xkcd':xkcd
         }
     
           
@@ -173,17 +178,22 @@ class PolarGraphProblem():
         
         question_stem = 'Choose the graph of $$%s.$$' % (prob.latex())
         
-        ans = prob.show(path = self.path, force = force)
+        ans = prob.show(path = self.path, rad = rad)
         
-        explanation = prob.explain(path = self.path + "/explanation", force = force)
+        explanation = prob.explain(path = self.path + "/explanation", 
+                        include_image = include_image, rad = rad,
+                        xkcd = xkcd)
         
         
         if a_type == 'MC':
-            errors = self.gen_errors(prob, error_types, force = force)
-            print(errors)
+            errors = self.gen_errors(prob, error_types, force = force, 
+                            include_image = include_image, 
+                            xkcd = xkcd, rad = rad)
             errors = [ans] + errors 
-            print("errors: " + str(errors))
-            distractors = ["${%s}$" % (er) for er in errors]
+            if include_image:
+                distractors = ["<img width = 25%s src=\'%s\'>" % ('%', er) for er in errors]               
+            else:
+                distractors = ["${%s}$" % (er) for er in errors]
             return tools.fully_formatted_question(question_stem, explanation, answer_choices=distractors)
         elif a_type == 'Match':
             pass
@@ -192,10 +202,33 @@ class PolarGraphProblem():
         
         
 if __name__ == "__main__":
-    q_type = PolarGraphProblem.qtd[5]
-  
-    pb = PolarGraphProblem().stem(q_type = q_type,
-                               error_types = ['rose'])
+    pb = ""
     
-    print(pb)
+    # I have xkcd turned on for fun, the default is off, but if you turn
+    # it off you need to add force = True to force regeneration of images
+    # This should run very fast after the first run.    
+    
+    preview = True
+    xkcd = True
+    
+    for i in range(10):
+        pb += '<p class = \'posts\'>'
+        pb += PolarGraphProblem(seed = 42).stem(q_type = 'lemniscate',
+                error_types = ['rose','circle'], 
+                rad = random.choice([True, False]),
+                include_image = preview, xkcd = xkcd)
+        pb += '</p><br><br><p class = \'posts\'>'
+        pb += PolarGraphProblem(seed = 43).stem(q_type = 'line',
+                error_types = ['circle','line through the origin'],
+                rad = random.choice([True, False]),
+                include_image = preview, xkcd = xkcd)
+        pb += '</p><br><br><p class = \'posts\'>'        
+        pb += PolarGraphProblem(seed = 44).stem(q_type = '(convex one-loop) limacon',
+                error_types = ['circle','(dimpled one-loop) limacon'],
+                rad = random.choice([True, False]),
+                include_image = preview, xkcd = xkcd)
+        pb += '</p><br><br>'
+    
+    # The following formats things for preview.
+    print(pb.replace('\n',""))
  

@@ -122,6 +122,8 @@ class PolarFunction():
             self.url = quote_plus('circle' + self.f_name)
         else:
             self.url = quote_plus(self.f_type + self.f_name)
+            
+        self.url = self.url
         
         self.hash_ = 17
         PolarFunction.cache.add(self)
@@ -140,8 +142,6 @@ class PolarFunction():
         
         if f_type is None:
             f_type = random.choice(PolarFunction.TYPES)
-    
-        print("f_type is " + f_type)
         
         pm = random.choice([-1,1])
         pm1 = random.choice([-1,1])        
@@ -207,9 +207,7 @@ class PolarFunction():
             a = 0
         else:
             #add more
-            pass   
-        
-        print((a,b,n,f,f_type))        
+            pass           
         
         return (a, b, n, f, f_type)
         
@@ -331,6 +329,8 @@ class PolarFunction():
         """
         f == g is true if they have the same graphs
         """
+        
+        
         if self.__class__ != other.__class__:
             return False
             
@@ -359,8 +359,11 @@ class PolarFunction():
                             and self.b == other.b
                 else:
                     return False
-            else:
-                pass
+        elif self.f_type != other.f_type \
+             and 'other' not in [self.f_type, other.f_type]:
+            return False
+        else:
+            return False
             
         # Id we are some other thing try to figure out if the
         # graphs are the same.
@@ -377,7 +380,8 @@ class PolarFunction():
         print(np.max(D))
         return np.all(I)
 
-
+    def __ne__(self, other):
+        return not self.__eq__(other)
     
     # A cached hash
     def __hash__(self):
@@ -462,7 +466,7 @@ class PolarFunction():
              r_ticks=None, r_ticks_angle='pi / 4',
              points=[], point_labels=[], extra_points=[],
              img_type='png', file_name=None, path=".", label=False, draw_rect=False,
-             xkcd=True, coloring=False, force=False):
+             xkcd=False, coloring=False, force=False):
         """
         This will draw a polar plot of the function given by r_str, e.g. r_str = '2*cos(theta)'.
 
@@ -487,10 +491,11 @@ class PolarFunction():
             file_name     : Name  of image. If 'show', then just display.
             path          : Path to store image. The folder is created if does not exist
             label         : Controls whether or not to add label
-            draw_rect      Draw r = f(theta) in rectangular (theta, r) plane
+            draw_rect     : Draw r = f(theta) in rectangular (theta, r) plane
             xkcd          : (True/False) Interesting rendering
-            coloring      : Boolean. If True color the graph by radius (for explanations)
+            coloring      : (Boolean) If True color the graph by radius (for explanations)
             force         : (Boolean) Force rbuild of images if they exist.
+            include_image : (Boolean) Format output for preview
 
         * = manditory
         """
@@ -514,7 +519,8 @@ class PolarFunction():
         if os.path.isfile(fname) and not force and file_name != 'show':
             print("The file \'" + fname + "\' exists, \
             not regenerating. Delete file to force regeneration.", file=sys.stderr)
-            return fname
+            return fname.replace('%2', '%252')
+            
         
         # r, theta = sym.symbols('r, theta')
         Thetas = np.arange(float(sym.sympify(theta_min)), float(sym.sympify(theta_max)),
@@ -880,19 +886,21 @@ class PolarFunction():
             plt.close()
             
         
-        return fname 
+        return fname.replace('%2', '%252') 
         
-    def explain(self, rad=False, path="explanations", include_image=False, force=False):
+    def explain(self, rad=False, path="explanations", include_image=False, 
+                xkcd=False, force=False):
         """
         For this to work well, the parameters a,b,n,f _probably need to be used for now.
         
-        Named Parameters:
-            
-            path           -- (String) This is where images will be stored.
-            rad            -- (Boolean) Use radians (True) / degrees (False)
-            include_images -- (Boolean) For testing, include <img href = "..."> in output. If False output
+        Parameters:
+        ----------
+            path            : (String) This is where images will be stored.
+            rad             : (Boolean) Use radians (True) / degrees (False)
+            include_image   : (Boolean) For testing, include <img href = "..."> in output. If False output
                               ${path/f.url.png}$
-            force          -- force rebuilding of existing images
+            force           : force rebuilding of existing images
+            xkcd            : Turn on XKCD Artist
         """
         
         a_ = float(self.a)
@@ -949,8 +957,8 @@ class PolarFunction():
         default_file_name = rad_ + self.url
         
         if include_image:
-            image_name = "<img width=900 height=450 src=\'%s/%s%s.png\'>" \
-                    % (path, rad_, self.url.replace('%2', '%252'))
+            image_name = "<img width = 50%s src=\'%s/%s%s.png\'>" \
+                    % ('%', path, rad_, self.url.replace('%2', '%252'))
         else:
             image_name = "${%s/%s%s.png}$" % (path, rad_, self.url.replace('%2', '%252'))
 
@@ -1001,7 +1009,7 @@ class PolarFunction():
                     The graph of $_%s$_ is a lemniscate symetric about the line $_\\theta =
                     %s$_. The natural domain on which this graph is defined is 
                     $_[%s, %s]$_.The graph is furthest away from the pole at $_\\theta = %s$_ with $_r=%s$_ 
-                    and $_r=-%s$_. The graph is at the pole 
+                    and $_r=%s$_. The graph is at the pole 
                     at $_\\theta = %s$_ and $_\\theta = %s$_. 
                     <br>
                     %s

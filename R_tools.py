@@ -19,10 +19,10 @@ def lfy(f, p):
     """
     sym.var(p)
     def f_(*q):
-        return sym.sympify(f).subs(zip(p, q))
+        return sym.sympify(f).subs(zip(p,q))
     return f_
 
-def make_func(func_desc, func_params=('x'), func_type='numpy'):
+def make_func(func_desc, func_params = ('x'), func_type = 'numpy'):
     """
     This will take a string or sympy expresion for a function together with a tuple of
     parameters / vars and return a function that will correctly evaluate the expression
@@ -93,7 +93,7 @@ def make_func(func_desc, func_params=('x'), func_type='numpy'):
         if func_type == 'numpy':
             if  func_desc.__class__ is str:
                 f_ = np.vectorize(sym.lambdify(func_params, sym.sympify(func_desc), func_type))
-            else:  # s is already a sympy expression
+            else: # s is already a sympy expression
                 f_ = np.vectorize(sym.lambdify(func_params, func_desc, func_type))
         else:
             f_ = np.vectorize(lfy(func_desc, func_params))
@@ -114,7 +114,7 @@ def make_func(func_desc, func_params=('x'), func_type='numpy'):
                                if type(ar) is np.ndarray and ar.dtype is not np.float_ else ar, func_inputs) 
                                  #  and ar.dtype.type is np.string_ else ar, func_inputs) 
             func_inputs = map(lambda s: float(sym.sympify(s)) if type(s) is not np.ndarray else s, func_inputs) 
-                                 # if type(s) is str else s, func_inputs)
+                                 #if type(s) is str else s, func_inputs)
        
     
         Y = f_(*func_inputs)
@@ -129,88 +129,15 @@ def make_func(func_desc, func_params=('x'), func_type='numpy'):
        
     return func
 
-def mod2pi(x, num_pi=2, upper=False):
-        """
-        This returns the modulus of a radian angle by 2*pi (actually num_pi*pi)
-
-        Example:
-
-        mod2pi('7*pi/3') = 'pi/3' (a string)
-        mod2pi(7*sym.pi/3) = pi/3 (sympy expr equivalent to sym.pi/3)
-        mod2pi(7*np.pi/3) = 1.0471975511965974 (np.pi/3)
-        
-        mod2pi('4*pi/3', num_pi = 1) = 'pi/3
-        
-        This works for negative angles as well.
-        
-        Named Parameters:
-            
-            num_pi -- Perform mod num_pi * pi
-            upper  -- If true: Return 2 * pi instead of 0 for mod2pi('2*pi')
-                      This is (0,2*pi] instead of [0,2*pi)
-        """
-        
-        if type(x) == str:
-            return str(mod2pi(sym.sympify(x), num_pi=num_pi, upper=upper))
-        elif str(type(x)).find('sym') != -1:
-            if x < 0:
-                ret = num_pi * sym.pi - (sym.Abs(x) - int(sym.Abs(x) / (num_pi * sym.pi)) * num_pi * sym.pi)
-            else:
-                ret = x - int(x / (num_pi * sym.pi)) * num_pi * sym.pi
-            if ret == 0 and upper:
-                ret = sym.sympify(num_pi * sym.pi)
-            
-        else:  # type(x) is float:
-            if x < 0:
-                ret = num_pi * np.pi - (np.abs(x) - int(np.abs(x) / (num_pi * np.pi)) * num_pi * np.pi)
-            else:
-                ret = x - int(x / (num_pi * np.pi)) * num_pi * np.pi
-            if ret == 0 and upper:
-                ret = sym.sympify(num_pi * np.pi)
-                
-        return ret
-
-def r2d(t, rad=False, latex=False):
-        """
-        Converts radians to degrees nicely for use in plots, explanatons, etc. This 
-        can take floats (numpy), symbolic (sympy), or string. The output will have the
-        same tye as the input.
-        
-        Usage: 
-        
-        Note: Initial value must be in radians.
-        
-        function(data, rad = True/False):
-            ...
-            r2d('pi/2', rad)
-            
-        
-        """
-        if type(t) is str:
-            t_ = sym.sympify(t)
-            return str(r2d(t_, rad=rad, latex=latex))
-        if not rad:
-            if str(type(t)).find('sympy') != -1:
-                res = sym.sympify(180 / sym.pi * +t)
-            else:
-                res = 180 / np.pi * t
-        else:
-            res = t
-            
-        if latex:
-            return sym.latex(res)
-        return res
-
-
 if __name__ == "__main__":
     
-    f = make_func('Piecewise((sqrt(4 * cos(2 * theta)), 4 * cos(2 * theta) >= 0))',
-              func_params=('theta'), func_type='sympy')
+    f = make_func('Piecewise((sqrt(4 * cos(2 * theta)), 4 * cos(2 * theta) >= 0))', 
+              func_params = ('theta'), func_type = 'sympy')
     pts = ['0 + 0', 'pi/4 + 0', 'pi/2 + 0']
     
-    print f(pts)
-    print f([sym.pi / 16 * i for i in range(-4, 5)])
-    print f(np.arange(-np.pi / 4, np.pi / 4, np.pi / 16))
-    print f('pi/8')
+    print(f(pts))
+    print(f([sym.pi/16 * i for i in range(-4,5)]))
+    print(f(np.arange(-np.pi/4, np.pi/4,np.pi/16)))
+    print(f('pi/8'))
     
             
