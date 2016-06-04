@@ -1,6 +1,8 @@
+from __future__ import print_function
 import numpy as np
 import sympy as sym
 import sys
+
 
 
 def lfy(f, p):
@@ -204,44 +206,69 @@ def r2d(t, rad=False, latex=False):
             return sym.latex(res)
         return res
     
-def parse_name(nm):
+def parse_name(nm, G = None, A = None, B = None, N = None, F = None, T = None):
     """
     This will assume that the f_name is given in the form "a + bf(n*theta)",
     in partcular the "n*theta" order is important
     
     Parameters:
     ----------
-    nm : Either a sympy expression or a strng giving a function in theta
+    
+    nm : A function written as a string or sympy. If t has the form 
+    a + b*f(n*x) this will return a,b,n,f,x
     """
-        
-    if type(nm) is str:
-        return parse_name(sym.sympify(nm))
     
-    try:
-        A, G = nm.args
-    except:
-        A = 0
-        G = nm
-    
-    try:
-        B, F = G.args
-    except:
-        B = 1
-        F = G
-              
-    try:
-        N, T = F.args[0].args
-    except:
-        N = 1
-        T = F.args[0]
-        
-    print(sym.sympify(A + B*F.func(N * T)))
-    
-    if sym.sympify(A + B*F.func(N * T)) == sym.sympify(nm):
-        return (A,B,N,F)
-    else:
-        print("Original is not in the form \"a + b*f(ntheta)\"", file = sys.stderr)
+    def error():
+        print("Original is not in the form \"a + b * f(n * theta)\"", file=sys.stderr)
         return (None, None, None, None)
+    
+    nm = sym.sympify(nm)
+    
+    
+    if A == None:
+        if str(type(nm)).find('core.add') != -1:
+            if len(nm.args) > 2:
+                return error()
+            A, G  = nm.args
+        else:
+            A = 0
+            G = nm
+        return parse_name(nm, G, A = A, B = B, N = N, F = F, T = None)
+            
+    elif B == None:
+        if str(type(G)).find('core.mul') != -1:
+            if len(G.args) > 2:
+                return error()
+            B, G = G.args
+        else:
+            B = 1
+        return parse_name(nm, G, A = A, B = B, N = N, F = F, T = None)
+    
+    elif N == None:
+        F = G.func
+        ag = G.args[0]
+        if str(type(ag)).find('core.mul') != -1:
+            if len(G.args) > 2:
+                return error()
+            N, T = ag.args
+        else:
+            N = 1
+            T = ag
+        return parse_name(nm, G, A = A, B = B, N = N, F = F, T = T)
+    
+    else:
+        exp = sym.sympify(A + B*F(N * T))
+    
+        print(exp)
+        print(nm)
+    
+        if exp == nm:
+            return (A, B, N, F, T)
+        else:
+            return error()
+    
+        return (A, B, N, F, T)
+    
 
 if __name__ == "__main__":
     

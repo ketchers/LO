@@ -12,11 +12,6 @@ import re
 from urllib import quote_plus
 
 
-
-
-
-
-
 class PolarFunction():
     
     """
@@ -80,7 +75,7 @@ class PolarFunction():
             a, b, n, f, f_type = self.gen_random(f_type = f_type)  
             
         if {a, b, n, f} == {None}:
-            a, b, n, f = self.parse_name(f_name)
+            a, b, n, f, x = self.parse_name(f_name)
             
         
         # Try to parse name if f_name is given   
@@ -99,7 +94,7 @@ class PolarFunction():
         self.a = ident(a)
         self.b = ident(b)
         self.n = ident(n)
-        self.f = f
+        self.f = sym.sympify(f)
 
         self.call_type = 'unknown'
 
@@ -133,37 +128,70 @@ class PolarFunction():
         self.hash_ = 17
         PolarFunction.cache.add(self)
         
-    def parse_name(self, nm):
+    def parse_name(self, nm, G = None, A = None, B = None, N = None, F = None, T = None):
         """
         This will assume that the f_name is given in the form "a + bf(n*theta)",
         in partcular the "n*theta" order is important
+    
+        Parameters:
+        ----------
+            
+        nm : A function written as a string or sympy. If t has the form 
+             a + b*f(n*x) this will return a,b,n,f,x
         """
-        if type(nm) is str:
-            return self.parse_name(sym.sympify(nm))
         
-        try:
-            A, G = nm.args
-        except:
-            A = 0
-            G = nm
         
-        try:
-            B, F = G.args
-        except:
-            B = 1
-            F = G
-                  
-        try:
-            N, T = F.args[0].args
-        except:
-            N = 1
-            T = F.args[0]
-        
-        if sym.sympify(A + B*F.func(N * T)) == sym.sympify(nm):
-            return (A,B,N,F.func)
-        else:
-            print("Original is not in the form \"a + b*f(ntheta)\"", file = sys.stderr)
+        def error():
+            print("Original is not in the form \"a + b * f(n * theta)\"", file=sys.stderr)
             return (None, None, None, None)
+        
+        nm = sym.sympify(nm)
+        
+        
+        if A == None:
+            if str(type(nm)).find('core.add') != -1:
+                if len(nm.args) > 2:
+                    return error()
+                A, G  = nm.args
+            else:
+                A = 0
+                G = nm
+            return self.parse_name(nm, G, A = A, B = B, N = N, F = F, T = None)
+                
+        elif B == None:
+            if str(type(G)).find('core.mul') != -1:
+                if len(G.args) > 2:
+                    return error()
+                B, G = G.args
+            else:
+                B = 1
+            return self.parse_name(nm, G, A = A, B = B, N = N, F = F, T = None)
+        
+        elif N == None:
+            F = G.func
+            ag = G.args[0]
+            if str(type(ag)).find('core.mul') != -1:
+                if len(G.args) > 2:
+                    return error()
+                N, T = ag.args
+            else:
+                N = 1
+                T = ag
+            return self.parse_name(nm, G, A = A, B = B, N = N, F = F, T = T)
+        
+        else:
+            exp = sym.sympify(A + B*F(N * T))
+        
+            print(exp)
+            print(nm)
+        
+            if exp == nm:
+                return (A, B, N, F, T)
+            else:
+                return error()
+        
+            return (A, B, N, F, T)
+
        
     def gen_random(self, f_type = None):
         """
@@ -1393,8 +1421,13 @@ if __name__ == "__main__":
 #    for explanation in explanations:
 #        print(explanation)
 #         print("\n\n\n<br>")
+    
+    # You can use either f_name    
     f = PolarFunction(f_name = '2 * sin(2*theta)')
+    # or the pieces to build the name
     g = PolarFunction(a=0, b=-2, n=2, f='sin')
-    print(f == g)
+    print(f == g) # Same graphs
+    print("g,f have the sam graph, but they are distinct objects. \
+        {f,g} has size %s" % len({f,g}))
     f.show(file_name = 'show')
     g.show(file_name = 'show')

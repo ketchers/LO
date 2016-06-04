@@ -4,3 +4,4 @@ test/*
 preview/test/
 .project
 .pydevproject
+*.ipynb*
