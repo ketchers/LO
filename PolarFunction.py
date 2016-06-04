@@ -79,6 +79,11 @@ class PolarFunction():
         if {a, b, n, f, f_name} == {None}:
             a, b, n, f, f_type = self.gen_random(f_type = f_type)  
             
+        if {a, b, n, f} == {None}:
+            a, b, n, f = self.parse_name(f_name)
+            
+        
+        # Try to parse name if f_name is given   
         
         if a is None:
             a = 0
@@ -128,7 +133,37 @@ class PolarFunction():
         self.hash_ = 17
         PolarFunction.cache.add(self)
         
-    
+    def parse_name(self, nm):
+        """
+        This will assume that the f_name is given in the form "a + bf(n*theta)",
+        in partcular the "n*theta" order is important
+        """
+        if type(nm) is str:
+            return self.parse_name(sym.sympify(nm))
+        
+        try:
+            A, G = nm.args
+        except:
+            A = 0
+            G = nm
+        
+        try:
+            B, F = G.args
+        except:
+            B = 1
+            F = G
+                  
+        try:
+            N, T = F.args[0].args
+        except:
+            N = 1
+            T = F.args[0]
+        
+        if sym.sympify(A + B*F.func(N * T)) == sym.sympify(nm):
+            return (A,B,N,F.func)
+        else:
+            print("Original is not in the form \"a + b*f(ntheta)\"", file = sys.stderr)
+            return (None, None, None, None)
        
     def gen_random(self, f_type = None):
         """
@@ -224,7 +259,7 @@ class PolarFunction():
             return 'line through the origin'  # This will be theta = a
         elif self.f == 1:  # This is a hack
             return 'spiral'  # This will be a + b * theta
-        elif self.f in ['sin', 'cos'] and self.n == 1:   
+        elif str(self.f) in ['sin', 'cos'] and self.n == 1:   
             if self.a == 0:
                 return 'circle'
             elif self.a / np.abs(self.b) == 1:
@@ -235,9 +270,9 @@ class PolarFunction():
                 return '(convex one-loop) limacon'
             else:
                 return '(dimpled one-loop) limacon'
-        elif self.a == 0 and self.f in ['sin', 'cos'] and self.n > 1:
+        elif self.a == 0 and str(self.f) in ['sin', 'cos'] and self.n > 1:
                 return 'rose'  # Assume rose for b*sin(2*theta) unless told otherwise
-        elif self.f in ['sec', 'csc'] and self.a == 0:
+        elif str(self.f) in ['sec', 'csc'] and self.a == 0:
             return 'line'
         else:
             return 'other'

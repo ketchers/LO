@@ -1,5 +1,6 @@
 import numpy as np
 import sympy as sym
+import sys
 
 
 def lfy(f, p):
@@ -128,6 +129,119 @@ def make_func(func_desc, func_params = ('x'), func_type = 'numpy'):
         
        
     return func
+    
+    
+
+def mod2pi(x, num_pi=2, upper=False):
+        """
+        This returns the modulus of a radian angle by 2*pi (actually num_pi*pi)
+
+        Example:
+
+        mod2pi('7*pi/3') = 'pi/3' (a string)
+        mod2pi(7*sym.pi/3) = pi/3 (sympy expr equivalent to sym.pi/3)
+        mod2pi(7*np.pi/3) = 1.0471975511965974 (np.pi/3)
+        
+        mod2pi('4*pi/3', num_pi = 1) = 'pi/3
+        
+        This works for negative angles as well.
+        
+        Named Parameters:
+            
+            num_pi -- Perform mod num_pi * pi
+            upper  -- If true: Return 2 * pi instead of 0 for mod2pi('2*pi')
+                      This is (0,2*pi] instead of [0,2*pi)
+        """
+        
+        if type(x) == str:
+            return str(mod2pi(sym.sympify(x), num_pi=num_pi, upper=upper))
+        elif str(type(x)).find('sym') != -1:
+            if x < 0:
+                ret = num_pi * sym.pi - (sym.Abs(x) - int(sym.Abs(x) / (num_pi * sym.pi)) * num_pi * sym.pi)
+            else:
+                ret = x - int(x / (num_pi * sym.pi)) * num_pi * sym.pi
+            if ret == 0 and upper:
+                ret = sym.sympify(num_pi * sym.pi)
+            
+        else:  # type(x) is float:
+            if x < 0:
+                ret = num_pi * np.pi - (np.abs(x) - int(np.abs(x) / (num_pi * np.pi)) * num_pi * np.pi)
+            else:
+                ret = x - int(x / (num_pi * np.pi)) * num_pi * np.pi
+            if ret == 0 and upper:
+                ret = sym.sympify(num_pi * np.pi)
+                
+        return ret
+
+def r2d(t, rad=False, latex=False):
+        """
+        Converts radians to degrees nicely for use in plots, explanatons, etc. This 
+        can take floats (numpy), symbolic (sympy), or string. The output will have the
+        same tye as the input.
+        
+        Usage: 
+        
+        Note: Initial value must be in radians.
+        
+        function(data, rad = True/False):
+            ...
+            r2d('pi/2', rad)
+            
+        
+        """
+        if type(t) is str:
+            t_ = sym.sympify(t)
+            return str(r2d(t_, rad=rad, latex=latex))
+        if not rad:
+            if str(type(t)).find('sympy') != -1:
+                res = sym.sympify(180 / sym.pi * +t)
+            else:
+                res = 180 / np.pi * t
+        else:
+            res = t
+            
+        if latex:
+            return sym.latex(res)
+        return res
+    
+def parse_name(nm):
+    """
+    This will assume that the f_name is given in the form "a + bf(n*theta)",
+    in partcular the "n*theta" order is important
+    
+    Parameters:
+    ----------
+    nm : Either a sympy expression or a strng giving a function in theta
+    """
+        
+    if type(nm) is str:
+        return parse_name(sym.sympify(nm))
+    
+    try:
+        A, G = nm.args
+    except:
+        A = 0
+        G = nm
+    
+    try:
+        B, F = G.args
+    except:
+        B = 1
+        F = G
+              
+    try:
+        N, T = F.args[0].args
+    except:
+        N = 1
+        T = F.args[0]
+        
+    print(sym.sympify(A + B*F.func(N * T)))
+    
+    if sym.sympify(A + B*F.func(N * T)) == sym.sympify(nm):
+        return (A,B,N,F)
+    else:
+        print("Original is not in the form \"a + b*f(ntheta)\"", file = sys.stderr)
+        return (None, None, None, None)
 
 if __name__ == "__main__":
     
