@@ -110,7 +110,7 @@ class PolarGraphProblem():
         if prob.f_type == 'rose' and prob.n % 2 == 0 and prob.n > 2:
             errors += [(prob.a, prob.b, prob.n / 2, prob.f, prob.f_type)]
         elif prob.f_type == 'rose' and prob.n % 2 == 1:
-            prob.errors += [(prob.a, prob.b, 2 * prob.n, prob.f, prob.f_type)]
+            errors += [(prob.a, prob.b, 2 * prob.n, prob.f, prob.f_type)]
         else:
             pass
         
@@ -211,22 +211,34 @@ if __name__ == "__main__":
     preview = True
     xkcd = True
     
-    for i in range(10):
+    prob = PolarGraphProblem(seed = 42) 
+    
+    for i in range(5):
         pb += '<p class = \'posts\'>'
-        pb += PolarGraphProblem(seed = 42).stem(q_type = 'lemniscate',
+        pb += prob.stem(q_type = 'lemniscate',
                 error_types = ['rose','circle'], 
                 rad = random.choice([True, False]),
                 include_image = preview, xkcd = xkcd)
         pb += '</p><br><br><p class = \'posts\'>'
-        pb += PolarGraphProblem(seed = 43).stem(q_type = 'line',
+        pb += prob.stem(q_type = 'rose',
+                error_types = ['rose','circle'], 
+                rad = random.choice([True, False]),
+                include_image = preview, xkcd = xkcd)
+        pb += '</p><br><br><p class = \'posts\'>'
+        pb += prob.stem(q_type = 'line',
                 error_types = ['circle','line through the origin'],
                 rad = random.choice([True, False]),
                 include_image = preview, xkcd = xkcd)
         pb += '</p><br><br><p class = \'posts\'>'        
-        pb += PolarGraphProblem(seed = 44).stem(q_type = '(convex one-loop) limacon',
+        pb += prob.stem(q_type = '(convex one-loop) limacon',
                 error_types = ['circle','(dimpled one-loop) limacon'],
                 rad = random.choice([True, False]),
                 include_image = preview, xkcd = xkcd)
+        pb += '</p><br><br><p class = \'posts\'>'
+        pb += prob.stem(q_type = '(dimpled one-loop) limacon',
+                error_types = ['circle','(convex one-loop) limacon'],
+                rad = random.choice([True, False]),
+                include_image = preview, xkcd = xkcd)      
         pb += '</p><br><br>'
     
     # The following formats things for preview.

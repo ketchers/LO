@@ -12,11 +12,6 @@ import re
 from urllib import quote_plus
 
 
-
-
-
-
-
 class PolarFunction():
     
     """
@@ -79,6 +74,11 @@ class PolarFunction():
         if {a, b, n, f, f_name} == {None}:
             a, b, n, f, f_type = self.gen_random(f_type = f_type)  
             
+        if {a, b, n, f} == {None}:
+            a, b, n, f, x = self.parse_name(f_name)
+            
+        
+        # Try to parse name if f_name is given   
         
         if a is None:
             a = 0
@@ -94,7 +94,7 @@ class PolarFunction():
         self.a = ident(a)
         self.b = ident(b)
         self.n = ident(n)
-        self.f = f
+        self.f = sym.sympify(f)
 
         self.call_type = 'unknown'
 
@@ -128,7 +128,70 @@ class PolarFunction():
         self.hash_ = 17
         PolarFunction.cache.add(self)
         
+    def parse_name(self, nm, G = None, A = None, B = None, N = None, F = None, T = None):
+        """
+        This will assume that the f_name is given in the form "a + bf(n*theta)",
+        in partcular the "n*theta" order is important
     
+        Parameters:
+        ----------
+            
+        nm : A function written as a string or sympy. If t has the form 
+             a + b*f(n*x) this will return a,b,n,f,x
+        """
+        
+        
+        def error():
+            print("Original is not in the form \"a + b * f(n * theta)\"", file=sys.stderr)
+            return (None, None, None, None)
+        
+        nm = sym.sympify(nm)
+        
+        
+        if A == None:
+            if str(type(nm)).find('core.add') != -1:
+                if len(nm.args) > 2:
+                    return error()
+                A, G  = nm.args
+            else:
+                A = 0
+                G = nm
+            return self.parse_name(nm, G, A = A, B = B, N = N, F = F, T = None)
+                
+        elif B == None:
+            if str(type(G)).find('core.mul') != -1:
+                if len(G.args) > 2:
+                    return error()
+                B, G = G.args
+            else:
+                B = 1
+            return self.parse_name(nm, G, A = A, B = B, N = N, F = F, T = None)
+        
+        elif N == None:
+            F = G.func
+            ag = G.args[0]
+            if str(type(ag)).find('core.mul') != -1:
+                if len(G.args) > 2:
+                    return error()
+                N, T = ag.args
+            else:
+                N = 1
+                T = ag
+            return self.parse_name(nm, G, A = A, B = B, N = N, F = F, T = T)
+        
+        else:
+            exp = sym.sympify(A + B*F(N * T))
+        
+            print(exp)
+            print(nm)
+        
+            if exp == nm:
+                return (A, B, N, F, T)
+            else:
+                return error()
+        
+            return (A, B, N, F, T)
+
        
     def gen_random(self, f_type = None):
         """
@@ -224,7 +287,7 @@ class PolarFunction():
             return 'line through the origin'  # This will be theta = a
         elif self.f == 1:  # This is a hack
             return 'spiral'  # This will be a + b * theta
-        elif self.f in ['sin', 'cos'] and self.n == 1:   
+        elif str(self.f) in ['sin', 'cos'] and self.n == 1:   
             if self.a == 0:
                 return 'circle'
             elif self.a / np.abs(self.b) == 1:
@@ -235,9 +298,9 @@ class PolarFunction():
                 return '(convex one-loop) limacon'
             else:
                 return '(dimpled one-loop) limacon'
-        elif self.a == 0 and self.f in ['sin', 'cos'] and self.n > 1:
+        elif self.a == 0 and str(self.f) in ['sin', 'cos'] and self.n > 1:
                 return 'rose'  # Assume rose for b*sin(2*theta) unless told otherwise
-        elif self.f in ['sec', 'csc'] and self.a == 0:
+        elif str(self.f) in ['sec', 'csc'] and self.a == 0:
             return 'line'
         else:
             return 'other'
@@ -296,10 +359,12 @@ class PolarFunction():
         if self.f_type == 'lemniscate':
             if func_type == 'numpy':
                 f_name_ = "sqrt((%s * %s(%s * theta) > 0) * %s * %s(%s * theta))" \
-                    % (self.b, self.f, self.n, self.b, self.f, self.n)
+                    % tuple(map(str, [self.b, self.f, self.n, self.b, 
+                                     self.f, self.n]))
             else:
                 f_name_ = 'Piecewise((sqrt(%s * %s(%s * theta)), %s * %s(%s * theta) >= 0))' \
-                    % (self.b, self.f, self.n, self.b, self.f, self.n)
+                    % tuple(map(str, [self.b, self.f, self.n, self.b, 
+                                     self.f, self.n]))
         # theta = a
         elif self.f_type == 'line through the origin':
             f_name_ = 'r'
@@ -513,7 +578,6 @@ class PolarFunction():
             file_name_ = rad_ + self.url
         else:
             file_name_ = file_name
-        
     
         fname = path + "/" + file_name_ + "." + img_type
         if os.path.isfile(fname) and not force and file_name != 'show':
@@ -621,11 +685,11 @@ class PolarFunction():
                         - y_vals(1.1 * int(r_max), thetas_), color='white')
         
          # Set some default positioning of the r_ticks
-        if self.b > 0 and self.f in ['cos', 'sec']:
+        if self.b > 0 and str(self.f) in ['cos', 'sec']:
                 case = '0'
-        elif self.b > 0 and self.f in ['sin', 'csc']:
+        elif self.b > 0 and str(self.f) in ['sin', 'csc']:
             case = 'pi/2'
-        elif self.b < 0 and self.f in ['cos', 'sec']:
+        elif self.b < 0 and str(self.f) in ['cos', 'sec']:
             case = 'pi'
         else:
             case = '3*pi/2'
@@ -634,11 +698,11 @@ class PolarFunction():
         
         if self.f_type == 'lemniscate':
             
-            if self.b > 0 and self.f == 'cos':
+            if self.b > 0 and str(self.f) == 'cos':
                 case = '0'
-            elif self.b > 0 and self.f == 'sin':
+            elif self.b > 0 and str(self.f) == 'sin':
                 case = 'pi/4'
-            elif self.b < 0 and self.f == 'cos':
+            elif self.b < 0 and str(self.f) == 'cos':
                 case = 'pi/2'
             else:
                 case = '3*pi/4'
@@ -740,7 +804,7 @@ class PolarFunction():
         # Plot some points and label
         labels = {}
         labels_rect = {}
-        pts = [pt for pt in point_labels if sym.sympify(pt) >= sym.sympify(theta_min) 
+        pts = [sym.sympify(pt) for pt in point_labels if sym.sympify(pt) >= sym.sympify(theta_min) 
                      and sym.sympify(pt) <= sym.sympify(theta_max)] 
         for pt in pts:
             r_ = self(pt)
@@ -766,7 +830,7 @@ class PolarFunction():
                     labels_rect[coord_rect] = {lbl}
                 else:
                     labels_rect[coord_rect].add(lbl)
-        
+    
         def lh(c):
             return np.sqrt(c[0] ** 2 + c[1] ** 2)
         
@@ -851,7 +915,7 @@ class PolarFunction():
         
         # Plot the actual graph
         if coloring:
-            colors = [[((150 + 1.0 * z / r_max * 100) / 255.0, .2 * (150 + 1.0 * z / r_max * 100) / 255.0,
+            colors = [[((150 + 1.0 * z / r_max * 100) / 255.0, .7 * (150 + 1.0 * z / r_max * 100) / 255.0,
                         (150 - 1.0 * z / r_max * 100) / 255.0) for z in R_[i]] for i in range(2)]
         else:
             colors = [[(.3, .6, .3, .5)], [(.3, .6, .3, .5)]]
@@ -909,23 +973,23 @@ class PolarFunction():
         
         case = '0'
         
-        if self.b >= 0 and self.f in ['cos', 'sec'] :
+        if self.b >= 0 and str(self.f) in ['cos', 'sec'] :
             case = '0'
             even_odd = 'odd'
             vert_horiz = 'vertical'
-        elif self.b >= 0 and self.f in ['sin', 'csc']:
+        elif self.b >= 0 and str(self.f) in ['sin', 'csc']:
             case = 'pi/2'
             even_odd = 'even'
             vert_horiz = 'horizontal'
-        elif self.b < 0 and self.f in ['cos', 'sec']:
-            if self.f == 'cos':
+        elif self.b < 0 and str(self.f) in ['cos', 'sec']:
+            if str(self.f) == 'cos':
                 case = 'pi'
             else:
                 case = '0'
             even_odd = 'odd'
             vert_horiz = 'vertical'
-        elif self.b < 0 and self.f in ['sin', 'csc']:
-            if self.f == 'sin':
+        elif self.b < 0 and str(self.f) in ['sin', 'csc']:
+            if str(self.f) == 'sin':
                 case = '3*pi/2'
             else:
                 case = 'pi/2'
@@ -990,18 +1054,19 @@ class PolarFunction():
             
         elif self.f_type == 'lemniscate':
             
-            if self.b > 0 and self.f == 'cos':
+            if self.b > 0 and str(self.f) == 'cos':
                 case = '0'
-            elif self.b > 0 and self.f == 'sin':
+            elif self.b > 0 and str(self.f) == 'sin':
                 case = 'pi/4'
-            elif self.b < 0 and self.f == 'cos':
+            elif self.b < 0 and str(self.f) == 'cos':
                 case = 'pi/2'
             else:
                 case = '3*pi/4'
                 
             # The domain
                 
-            theta_min, theta_max = map(lambda x : "%s - pi/4" % self.mod2pi(x, num_pi=2, upper = True),
+            theta_min, theta_max = map(lambda x : "%s - pi/4" \
+                % self.mod2pi(x, num_pi=2, upper = True),
                                        ['0 + %s' % case, 'pi/2 + %s' % case])
                                        
             
@@ -1096,7 +1161,7 @@ class PolarFunction():
             
             default_points = np.array([d for d in default_points if np.abs(d) <= 1])
             
-            if self.f == 'cos':
+            if str(self.f) == 'cos':
                 default_points = list(np.append(np.arccos(default_points), -np.arccos(default_points)))
             else:
                 default_points = list(np.append(np.arcsin(default_points), np.pi - np.arcsin(default_points)))
@@ -1136,7 +1201,7 @@ class PolarFunction():
             
             default_points = np.array([d for d in default_points if np.abs(d) <= 1])
             
-            if self.f == 'cos':
+            if str(self.f) == 'cos':
                 default_points = list(np.append(np.arccos(default_points), -np.arccos(default_points)))
             else:
                 default_points = list(np.append(np.arcsin(default_points), np.pi - np.arcsin(default_points)))
@@ -1179,7 +1244,7 @@ class PolarFunction():
             
             default_points = np.array([d for d in default_points if np.abs(d) <= 1])
             
-            if self.f == 'cos':
+            if str(self.f) == 'cos':
                 default_points = list(np.append(np.arccos(default_points), -np.arccos(default_points)))
             else:
                 default_points = list(np.append(np.arcsin(default_points), np.pi - np.arcsin(default_points)))
@@ -1358,8 +1423,13 @@ if __name__ == "__main__":
 #    for explanation in explanations:
 #        print(explanation)
 #         print("\n\n\n<br>")
+    
+    # You can use either f_name    
     f = PolarFunction(f_name = '2 * sin(2*theta)')
+    # or the pieces to build the name
     g = PolarFunction(a=0, b=-2, n=2, f='sin')
-    print(f == g)
+    print(f == g) # Same graphs
+    print("g,f have the sam graph, but they are distinct objects. \
+        {f,g} has size %s" % len({f,g}))
     f.show(file_name = 'show')
     g.show(file_name = 'show')
