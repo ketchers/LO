@@ -1172,7 +1172,7 @@ class PolarFunction():
 
             exp_string = """
                     The graph of $_%s$_ is a convex one-loop lima&ccedil;on 
-                    symetric about the line $_\\theta =
+                    symmetric about the line $_\\theta =
                     %s$_. The natural domain on which this graph is defined is 
                     $_[%s, %s]$_. The graph is furthest away from the pole at $_\\theta = %s$_ 
                     with $_r=%s$_. The graph is closest to the pole at $_\\theta = %s$_ with $_r = %s$_
@@ -1183,7 +1183,7 @@ class PolarFunction():
                     <br>
                     %s
                     """
-
+                    
             explanation = exp_string % (self.latex(), self.r2d('0 + %s' % case, rad),
                   self.r2d(theta_min, rad), self.r2d(theta_max, rad),
                   self.r2d(lim_max, rad), sym.latex(self(lim_max)),
@@ -1214,7 +1214,7 @@ class PolarFunction():
 
             exp_string = """
                     The graph of $_%s$_ is a convex one-loop lima&ccedil;on 
-                    symetric about the line $_\\theta =
+                    symmetric about the line $_\\theta =
                     %s$_. The natural domain on which this graph is defined is 
                     $_[%s, %s]$_. The graph is furthest away from the pole at $_\\theta = %s$_ 
                     with $_r=%s$_. The graph is closest to the pole at $_\\theta = %s$_ with $_r = %s$_
@@ -1259,7 +1259,7 @@ class PolarFunction():
             
             
             exp_string = """
-                    The graph of $_%s$_ is a rose with %s pedals symetric about the line $_\\theta =
+                    The graph of $_%s$_ is a rose with %s pedals symmetric about the line $_\\theta =
                     %s$_. The natural domain on which this 
                     graph is defined is $_[%s, %s]$_. The graph is furthest away from the pole when 
                     $_%s \\cdot \\theta$_ is an integer multiple of $_%s$_ at which the distance 
@@ -1311,7 +1311,7 @@ class PolarFunction():
                 theta_min, theta_max = ['0', 'pi'] 
                 
             exp_string = """
-                    The graph of $_%s$_ is a circle symetric about the line $_\\theta =
+                    The graph of $_%s$_ is a circle symmetric about the line $_\\theta =
                     %s$_. The natural domain on which this 
                     graph is defined is $_[%s, %s]$_. The graph is furthest away from the pole when 
                     $_\\theta = %s$_ at which the distance 
