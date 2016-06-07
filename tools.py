@@ -10,9 +10,9 @@ import distutils.spawn
 x = symbols('x')
 
 
-#if distutils.spawn.find_executable('itex2mml') != '/usr/local/bin/itex2mml':
-#    print 'ERROR: brew install itex2mml'
-#    sys.exit(-1)
+if distutils.spawn.find_executable('itex2mml') != '/usr/local/bin/itex2mml':
+    print('ERROR: brew install itex2mml')
+    sys.exit(-1)
 
 NAMES_TUPLES = [("Jamie", "her", "she", "her"),
                 ("John", "his", "he", "him"),
@@ -228,7 +228,7 @@ def interval_notation(list_of_intervals):
     list_of_intervals = [parse_interval(interval) for interval in list_of_intervals]
     return "\\cup".join(list_of_intervals)
 
-def tags_from_stem(question_string, leading_comma = True):
+def tags_from_stem(question_string, leading_comma=True):
     """
     Creates a list of tags from the question string by seeing if each function is present in the string
     :param question_string: the string representing the question stem (or any string really)
@@ -246,7 +246,7 @@ def tags_from_stem(question_string, leading_comma = True):
     for k in d.keys():
         if k in question_string:
             list_of_tags.append(d[k])
-    if intersect(["sine","cosine","tangent","secant"], list_of_tags) != []:
+    if intersect(["sine", "cosine", "tangent", "secant"], list_of_tags) != []:
         list_of_tags.append("trigonometric function")
     rs = ", ".join(list_of_tags)
     return "%s%s" % (", " if leading_comma else "", rs)
@@ -300,31 +300,31 @@ def table_by_columns(*cols):
     label_string = " & ".join(labels)
     entry_rows = zip(*data_columns)
     entry_rows = [" & ".join(map(latex, row)) for row in entry_rows]
-    table_string = "\\begin{array}{|%s}\hline %s \\\\" % ('c|'*len(labels), label_string)
+    table_string = "\\begin{array}{|%s}\hline %s \\\\" % ('c|' * len(labels), label_string)
     for row in entry_rows:
         table_string += " \\hline %s \\\\" % row
     table_string += "\\hline \\end{array}"
     return table_string
 
-def preamble(concept_name,ass_name,ques_num,fr):
-    return "%s\t%s\t%s\t%s\t\t%s\t" %(concept_name,"https://beta.knewton.com",ass_name,ques_num,fr)
+def preamble(concept_name, ass_name, ques_num, fr):
+    return "%s\t%s\t%s\t%s\t\t%s\t" % (concept_name, "https://beta.knewton.com", ass_name, ques_num, fr)
 
-def postamble(tags,n=7):
-    #n tabs to skip over the taxonomy etc.
-    return "\t"*n+"%s\t%s\t%s" %(tags,"Knewton","Standard Knewton License")
+def postamble(tags, n=7):
+    # n tabs to skip over the taxonomy etc.
+    return "\t"*n + "%s\t%s\t%s" % (tags, "Knewton", "Standard Knewton License")
 
-def num_ans_mults(ans,num=4,post_stem = "",mult_range=[0.2,0.25,0.5,1.5,2,3,4,5]):
-    #gives a range of multipliers times the correct answer
-    mults = random.sample(mult_range,num)
-    answers = [ans] + [ans*m for m in mults]
+def num_ans_mults(ans, num=4, post_stem="", mult_range=[0.2, 0.25, 0.5, 1.5, 2, 3, 4, 5]):
+    # gives a range of multipliers times the correct answer
+    mults = random.sample(mult_range, num)
+    answers = [ans] + [ans * m for m in mults]
     return answers_sorted(answers[0:1], answers[1:], 6, post_stem)
 
 def sign(x):
     if x == -oo: return -1
     if x == oo: return 1
-    return 0 if x==0 else x/abs(x)
+    return 0 if x == 0 else x / abs(x)
 
-def constant_sign(x, leading = False):
+def constant_sign(x, leading=False):
     """
     Gives the string x with the appropriate sign in front
     Useful for making strings involving adding a bunch of terms together
@@ -342,10 +342,10 @@ def constant_sign(x, leading = False):
     elif x < 0:
         return latex(x)
 
-def pmsign(x, leading = False):
+def pmsign(x, leading=False):
     if leading:
-        if abs(x)==1:
-            return "" if x>0 else "-"
+        if abs(x) == 1:
+            return "" if x > 0 else "-"
         else:
             return latex(x)
     elif sign(x) >= 0:
@@ -353,11 +353,11 @@ def pmsign(x, leading = False):
     else:
         return "- %s" % (latex(abs(x)) if x != -1 else "")
 
-def pmsign_nozero(x, var_name, leading = False):
+def pmsign_nozero(x, var_name, leading=False):
     if leading:
-        if x==1:
+        if x == 1:
             return "%s" % (var_name)
-        elif x==-1:
+        elif x == -1:
             return "- %s" % (var_name)
         else:
             return "%s %s" % (str(x), var_name)
@@ -369,20 +369,20 @@ def pmsign_nozero(x, var_name, leading = False):
         return "- %s %s" % (abs(x) if x != -1 else "", var_name)
 
 
-def quad_string(a,b,c,var_sym=symbols('x')):
+def quad_string(a, b, c, var_sym=symbols('x')):
     # formats the string with proper plus and minus signs for ax^2 + bx + c
-    return latex(a*var_sym**2 + b*var_sym + c)
+    return latex(a * var_sym ** 2 + b * var_sym + c)
 
-def quadsolve(a,b,c):
+def quadsolve(a, b, c):
     """
     solves the quadratic ax^2+bx+c = 0
     returns a reduced fraction tuple if it is rational
     otherwise, decimal
     """
-    if is_square(b**2-4*a*c):
-        return reduce_fraction(int(-b-(b**2 - 4*a*c)**(0.5)),int(2*a)),\
-               reduce_fraction(int(-b+(b**2 - 4*a*c)**(0.5)),int(2*a))
-    return (-b-(b**2 - 4*a*c)**(0.5))/(2*a),(-b+(b**2 - 4*a*c)**(0.5))/(2*a)
+    if is_square(b ** 2 - 4 * a * c):
+        return reduce_fraction(int(-b - (b ** 2 - 4 * a * c) ** (0.5)), int(2 * a)), \
+               reduce_fraction(int(-b + (b ** 2 - 4 * a * c) ** (0.5)), int(2 * a))
+    return (-b - (b ** 2 - 4 * a * c) ** (0.5)) / (2 * a), (-b + (b ** 2 - 4 * a * c) ** (0.5)) / (2 * a)
 
 def eliminate_duplicates(l):
     new_l = []
@@ -391,13 +391,13 @@ def eliminate_duplicates(l):
             new_l.append(i)
     return new_l
 
-def rand_fracs(a,b,denom=2,num=5,do_not_include = []):
+def rand_fracs(a, b, denom=2, num=5, do_not_include=[]):
     """
     returns num random fractions with denominator equal to denom
     between a and b
     """
-    if num<0: return []
-    possible = [foo for foo in range(a*int(denom)+1,b*int(denom)-1) if sympify(foo)/denom not in do_not_include]
+    if num < 0: return []
+    possible = [foo for foo in range(a * int(denom) + 1, b * int(denom) - 1) if sympify(foo) / denom not in do_not_include]
     return [sympify(foo) / denom for foo in random.sample(possible, num)]
 
 def partition(n, length=None):
@@ -419,14 +419,14 @@ def partition(n, length=None):
 
 def is_square(n):
     """determines if n is a perfect square"""
-    if n<0: return False
-    return n**(.5) == int(n**(.5))
+    if n < 0: return False
+    return n ** (.5) == int(n ** (.5))
 
 def largest_perfect_square(n):
     """returns the largest square factor of n"""
-    for i in range(int(n**0.5), 0, -1):
-        if n % i**2 == 0:
-            return i**2
+    for i in range(int(n ** 0.5), 0, -1):
+        if n % i ** 2 == 0:
+            return i ** 2
     return 1
 
 def decimalmml(d):
@@ -436,7 +436,7 @@ def decimalmml(d):
     intpart = int(d)
     return "<math><mn>%d</mn><mo>.</mo><mn>%s</mn></math>" % (intpart, decstring)
 
-def reformat(p,trig=False):
+def reformat(p, trig=False):
     # r = p.replace("**","^")
     # r = r.replace("*","")
     # if trig:
@@ -456,10 +456,10 @@ def reformat(p,trig=False):
     # 	for i in lrep:
     # 		r = r.replace(i,"\\%s"%i)
     # return r
-    r = p.replace("\\log","\\ln")
-    r = r.replace("\\operatorname{atan}","\\arctan")
-    r = r.replace("\\operatorname{asin}","\\arcsin")
-    r = r.replace("\\operatorname{acos}","\\arccos")
+    r = p.replace("\\log", "\\ln")
+    r = r.replace("\\operatorname{atan}", "\\arctan")
+    r = r.replace("\\operatorname{asin}", "\\arcsin")
+    r = r.replace("\\operatorname{acos}", "\\arccos")
     return r
 
 
@@ -483,9 +483,9 @@ def terms_constants(*args):
     return first_term + " ".join(other_terms)
 
 
-def parabola_plotter(a, b, c, image_number = 0, image_label = '', image_letter = '', color = 'blue', dpi=100,
-                     folder_name = 'vertical_horizontal_shifts', font_size = 20, file_name = 'vhplot', axis_size = 8,
-                     points_to_plot = (), dot_size = 100):
+def parabola_plotter(a, b, c, image_number=0, image_label='', image_letter='', color='blue', dpi=100,
+                     folder_name='vertical_horizontal_shifts', font_size=20, file_name='vhplot', axis_size=8,
+                     points_to_plot=(), dot_size=100):
     """
     plots the function y = a(x-b)^2 + c, saved to folder_name/file_name image_label image_number image_letter
     :param a: leading coefficient
@@ -501,13 +501,13 @@ def parabola_plotter(a, b, c, image_number = 0, image_label = '', image_letter =
     """
     diff = 10
     x_vals = np.linspace(b - diff, b + diff, 500)
-    y_vals = a * (x_vals - b)**2 + c
+    y_vals = a * (x_vals - b) ** 2 + c
     plt.figure(figsize=(4, 3))
     fig, ax = plt.subplots()
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
     for label in ['bottom', 'left']:
-        ax.spines[label].set_position('zero') # this is what zeros the axes
+        ax.spines[label].set_position('zero')  # this is what zeros the axes
         ax.spines[label].set_linewidth(4)
         ax.spines[label].set_alpha(0.6)
         ax.spines[label].set_capstyle('round')
@@ -517,8 +517,8 @@ def parabola_plotter(a, b, c, image_number = 0, image_label = '', image_letter =
     ax.set_yticks(non_zero_range(-axis_size + 1, axis_size))
     ax.set_xlim(-axis_size, axis_size)
     ax.set_ylim(-axis_size, axis_size)
-    plt.tick_params(axis='both', labelsize=font_size, labelcolor=(0,0,0,0.6))
-    plt.plot(x_vals, y_vals, c=color, linewidth= 4, alpha = 0.9)
+    plt.tick_params(axis='both', labelsize=font_size, labelcolor=(0, 0, 0, 0.6))
+    plt.plot(x_vals, y_vals, c=color, linewidth=4, alpha=0.9)
     if points_to_plot:
         x_point_values = [point[0] for point in points_to_plot]
         y_point_values = [point[1] for point in points_to_plot]
@@ -529,9 +529,9 @@ def parabola_plotter(a, b, c, image_number = 0, image_label = '', image_letter =
     plt.cla()
     plt.close()
 
-def function_plotter(function, image_number = 0, image_label = '', axis_size = 8, show_grid = False, dpi = 150,
-                     image_letter = '', color = 'blue', folder_name = 'horizontal_line_test', file_name = 'plot',
-                     font_size = 20):
+def function_plotter(function, image_number=0, image_label='', axis_size=8, show_grid=False, dpi=150,
+                     image_letter='', color='blue', folder_name='horizontal_line_test', file_name='plot',
+                     font_size=20):
     """
     Plots the function function (defined as a lambda function I think is best) on the grid -axis_size, axis_size
     """
@@ -543,7 +543,7 @@ def function_plotter(function, image_number = 0, image_label = '', axis_size = 8
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
     for label in ['bottom', 'left']:
-        ax.spines[label].set_position('zero') # this is what zeros the axes
+        ax.spines[label].set_position('zero')  # this is what zeros the axes
         ax.spines[label].set_linewidth(4)
         ax.spines[label].set_alpha(0.6)
         ax.spines[label].set_capstyle('round')
@@ -558,17 +558,17 @@ def function_plotter(function, image_number = 0, image_label = '', axis_size = 8
     ax.set_xlim(-axis_size, axis_size)
     ax.set_ylim(-axis_size, axis_size)
     if show_grid:
-        plt.tick_params(axis='both', labelsize=font_size, labelcolor=(0,0,0,0.6))
-    plt.plot(x_vals, y_vals, c=color, linewidth= 4, alpha = 0.9)
+        plt.tick_params(axis='both', labelsize=font_size, labelcolor=(0, 0, 0, 0.6))
+    plt.plot(x_vals, y_vals, c=color, linewidth=4, alpha=0.9)
     plt.grid(True)
     plt.savefig('../%s/%s%s%d%s.png' % (folder_name, file_name, image_label, image_number,
                                                                   image_letter), dpi=dpi, transparent=True)
     plt.cla()
     plt.close()
 
-def extreme_function_plotter(function, image_number = 0, image_label = '', x_range = (-8, 8), dpi = 150,
-                     image_letter = '', color = 'blue', folder_name = 'horizontal_line_test', file_name = 'plot',
-                     font_size = 20, y_tick_distance = None):
+def extreme_function_plotter(function, image_number=0, image_label='', x_range=(-8, 8), dpi=150,
+                     image_letter='', color='blue', folder_name='horizontal_line_test', file_name='plot',
+                     font_size=20, y_tick_distance=None):
     """
     Plots the function function (defined as a lambda function I think is best) on the grid -axis_size, axis_size
     Doesn't make assumptions about the y-values, tries to use a decent scale or something
@@ -581,7 +581,7 @@ def extreme_function_plotter(function, image_number = 0, image_label = '', x_ran
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
     for label in ['bottom', 'left']:
-        ax.spines[label].set_position('zero') # this is what zeros the axes
+        ax.spines[label].set_position('zero')  # this is what zeros the axes
         ax.spines[label].set_linewidth(4)
         ax.spines[label].set_alpha(0.6)
         ax.spines[label].set_capstyle('round')
@@ -593,14 +593,14 @@ def extreme_function_plotter(function, image_number = 0, image_label = '', x_ran
     # else:
     #     ax.set_xticks([])
     #     ax.set_yticks([])
-    ax.set_xticks(range(x_range[0], x_range[1]+1))
+    ax.set_xticks(range(x_range[0], x_range[1] + 1))
     if y_tick_distance:
-        ax.set_yticks(range(y_tick_distance, int(max(y_vals)), y_tick_distance) +
+        ax.set_yticks(range(y_tick_distance, int(max(y_vals)), y_tick_distance) + 
                       range(-y_tick_distance, int(min(y_vals)), -y_tick_distance))
     ax.set_xlim(x_range[0], x_range[1])
     # ax.set_ylim(-axis_size, axis_size)
-    plt.tick_params(axis='both', labelsize=font_size, labelcolor=(0,0,0,0.6))
-    plt.plot(x_vals, y_vals, c=color, linewidth= 4, alpha = 0.9, clip_on=False)
+    plt.tick_params(axis='both', labelsize=font_size, labelcolor=(0, 0, 0, 0.6))
+    plt.plot(x_vals, y_vals, c=color, linewidth=4, alpha=0.9, clip_on=False)
     plt.grid(True)
     plt.savefig('../%s/%s%s%d%s.png' % (folder_name, file_name, image_label, image_number,
                                                                   image_letter), dpi=dpi, transparent=True)
@@ -617,7 +617,7 @@ def substitute_unsimplified(eval_point, poly, x=symbols('x'), include_parenthese
     :return: a string of latex representing the substitution of eval_point into poly
     """
     string_of_eval = latex(eval_point)
-    string_of_eval = string_of_eval.replace(" ","")
+    string_of_eval = string_of_eval.replace(" ", "")
     if include_parentheses:
         eval_symbol = symbols('(%s)' % string_of_eval)
     else:
@@ -681,9 +681,9 @@ def gcd_helper(m, n):
     """
     computes the greatest common divisor of m and n
     """
-    if m<0 or n<0: return gcd(abs(m),abs(n))
-    if n==0: return m
-    if m<n: return gcd_helper(n,m)
+    if m < 0 or n < 0: return gcd(abs(m), abs(n))
+    if n == 0: return m
+    if m < n: return gcd_helper(n, m)
     return gcd_helper(m % n, n)
 
 def gcd(*args):
@@ -705,26 +705,26 @@ def lcm(*args):
     lcm_of_others = lcm(*args[1:])
     return abs(args[0] * lcm_of_others / gcd(args[0], lcm_of_others))
 
-def reduce_fraction(num,denom):
+def reduce_fraction(num, denom):
     """
     gives tuple for the reduced fraction
     """
     d = gcd(num, denom)
-    if denom<0: return (-num / d, -denom / d)
+    if denom < 0: return (-num / d, -denom / d)
     else: return (num / d, denom / d)
 
-def frac(a,b,big=False):
+def frac(a, b, big=False):
     """
     gives the string for the fraction a/b
     """
     try:
         # if it's a numeric fraction, reduce it
-        p,q = reduce_fraction(a,b)
-        #if it's actually an integer, return the integer
-        if abs(q)==1: return "%d" % (p*q)
-        else: return "%s\\frac{%d}{%d}" % ("\\Large" if big else "",p,q)
+        p, q = reduce_fraction(a, b)
+        # if it's actually an integer, return the integer
+        if abs(q) == 1: return "%d" % (p * q)
+        else: return "%s\\frac{%d}{%d}" % ("\\Large" if big else "", p, q)
     except TypeError:
-        return "%s\\frac{%s}{%s}" % ("\\Large" if big else "",a,b)
+        return "%s\\frac{%s}{%s}" % ("\\Large" if big else "", a, b)
 
 def tuple_to_dict(list_of_tuples):
     # given list of tuples [(a,b), (e,f), ...] returns dictionary
@@ -734,37 +734,37 @@ def tuple_to_dict(list_of_tuples):
         d[key] = value
     return d
 
-def random_poly(degree=3, coeff_range = 8, fixed = False, no_zeros = False, x = symbols('x')):
+def random_poly(degree=3, coeff_range=8, fixed=False, no_zeros=False, x=symbols('x')):
     """
     returns a random polynomial of degree at most degree
     fixed means it has to have degree degree
     no_zeros indicates if all coefficients should be non-zero
     """
-    #n = random.randint(2,degree+1)
+    # n = random.randint(2,degree+1)
     f = 0
-    for i in range(degree+1):
+    for i in range(degree + 1):
         if no_zeros:
-            coeff = non_zero_select(-coeff_range,coeff_range)
+            coeff = non_zero_select(-coeff_range, coeff_range)
         else:
-            coeff = random.randint(-coeff_range,coeff_range)
+            coeff = random.randint(-coeff_range, coeff_range)
 
-            #prevents leading coefficient from being 0 if fixed is True
-            while fixed and i==degree and coeff==0: coeff = random.randint(-coeff_range,coeff_range)
-        f += coeff*x**i
+            # prevents leading coefficient from being 0 if fixed is True
+            while fixed and i == degree and coeff == 0: coeff = random.randint(-coeff_range, coeff_range)
+        f += coeff * x ** i
     return f
 
-def poly_prescribed(l, x = symbols('x')):
+def poly_prescribed(l, x=symbols('x')):
     """
     returns polynomial with coefficients prescribed by l, where l[0] is the constant, etc
     """
     f = 0
     d = 0
     for coeff in l:
-        f += coeff*x**d
+        f += coeff * x ** d
         d += 1
     return f
 
-def coefficients(p, x = symbols('x')):
+def coefficients(p, x=symbols('x')):
     """
     finds the coefficients of a polynomial p
     returns them as a list from the constant and upward
@@ -772,8 +772,8 @@ def coefficients(p, x = symbols('x')):
     r = p
     l = []
     while r != 0:
-        l.append(r.subs(x,0))
-        r = simplify((r-r.subs(x,0))/x)
+        l.append(r.subs(x, 0))
+        r = simplify((r - r.subs(x, 0)) / x)
     return l
 
 def expand_multiply(p1, p2):
@@ -782,28 +782,28 @@ def expand_multiply(p1, p2):
     c2 = coefficients(p2)
     list_of_coefficients = []
     # list_of_coefficieints is a list of pairs (coeff, power) for the terms in the expansion
-    for i,c in enumerate(c1):
-        for j,d in enumerate(c2):
+    for i, c in enumerate(c1):
+        for j, d in enumerate(c2):
             list_of_coefficients.append((c * d, i + j))
     list_of_coefficients.reverse()
     list_of_terms = []
-    for i,c in enumerate(list_of_coefficients):
-        if i==0:
-            list_of_terms.append("%sx^{%d}" % (pmsign(c[0],True), c[1]))
+    for i, c in enumerate(list_of_coefficients):
+        if i == 0:
+            list_of_terms.append("%sx^{%d}" % (pmsign(c[0], True), c[1]))
         elif c[1] == 0:
-            list_of_terms.append("%s %d" % ("+" if c[0]>0 else "-", abs(c[0])))
+            list_of_terms.append("%s %d" % ("+" if c[0] > 0 else "-", abs(c[0])))
         else:
             list_of_terms.append("%sx^{%d}" % (pmsign(c[0]), c[1]))
     s = ' '.join(list_of_terms)
-    s = s.replace('x^{0}','')
-    s = s.replace('x^{1}','x')
+    s = s.replace('x^{0}', '')
+    s = s.replace('x^{1}', 'x')
     return s
 
 def factors(n):
     # lists the factors of n, not super efficient
     i = 2
     l = [1]
-    while i <= n/2:
+    while i <= n / 2:
         if n % i == 0:
             l.append(i)
         i = i + 1
@@ -815,23 +815,23 @@ def divisor_pairs(n):
         facs = factors(n)
         l = []
         for i in range((len(facs) + 1) / 2):
-            l.append((facs[i], n/facs[i]))
-            l.append((-facs[i], -n/facs[i]))
+            l.append((facs[i], n / facs[i]))
+            l.append((-facs[i], -n / facs[i]))
         return l
     else:
         facs = factors(-n)
         l = []
         for i in range((len(facs) + 1) / 2):
-            l.append((facs[i], n/facs[i]))
-            if abs(facs[i]) != abs(n/facs[i]):
-                l.append((-facs[i], -n/facs[i]))
+            l.append((facs[i], n / facs[i]))
+            if abs(facs[i]) != abs(n / facs[i]):
+                l.append((-facs[i], -n / facs[i]))
         return l
 
 def sum_pairs(n):
     # pairs p,q that add up to n
-    return [(i,n-i) for i in range(1,n/2+1)]
+    return [(i, n - i) for i in range(1, n / 2 + 1)]
 
-def base_variable(tuple_of_strings=('x','y','t','a')):
+def base_variable(tuple_of_strings=('x', 'y', 't', 'a')):
     """
     returns a base variable [list] and symbol [list] for it
     for example, could pass the tuple ('xy', 'pq', 'ab') to get one of the pairs x y, p q, a b as variables
@@ -845,17 +845,17 @@ def base_variable(tuple_of_strings=('x','y','t','a')):
     var_syms = symbols(' '.join(char_list))
     return var, var_syms
 
-def non_zero_select(n,m=None):
+def non_zero_select(n, m=None):
     """random non zero number between -n and n or n and m (if m is specified)"""
-    if n==0 and m==None: return 0
-    if m==None:
-        return random.choice(range(-n,0)+range(1,n+1))
+    if n == 0 and m == None: return 0
+    if m == None:
+        return random.choice(range(-n, 0) + range(1, n + 1))
     else:
-        return random.choice(range(n,0)+range(1,m+1))
+        return random.choice(range(n, 0) + range(1, m + 1))
 
-def non_zero_range(n,m,step=1):
+def non_zero_range(n, m, step=1):
     """gives range(n,m) but leaves out zero"""
-    l = range(n,m,step)
+    l = range(n, m, step)
     if 0 in l: l.remove(0)
     return l
 
@@ -864,16 +864,16 @@ def has_dupes(l):
     (for making sure distractors don't match)
     """
     s = sorted(l)
-    return any(s[i] == s[i+1] for i in range(len(l)-1))
+    return any(s[i] == s[i + 1] for i in range(len(l) - 1))
 
-def random_trig(basic = False):
+def random_trig(basic=False):
     """
     returns a random trig function
     if basic, then just sine or cosine
     otherwise, tangent or secant (avoids cosecant, cotangent)
     """
-    if basic: return random.choice([sin,cos])
-    else: return random.choice([sin,cos,tan,sec,ln,exp])
+    if basic: return random.choice([sin, cos])
+    else: return random.choice([sin, cos, tan, sec, ln, exp])
 
 def randomize_answers(list_of_answers, number_of_tabs=6):
     """
@@ -907,14 +907,14 @@ def randrange_exclude(num_els, min_num, max_num, exclude=None):
     excludes exclude if that number is given
     """
     if not exclude:
-        return random.sample(range(min_num,max_num+1), num_els)
+        return random.sample(range(min_num, max_num + 1), num_els)
     if exclude:
-        l = random.sample(range(min_num,max_num+1), num_els)
+        l = random.sample(range(min_num, max_num + 1), num_els)
         while exclude in l:
-            l = random.sample(range(min_num,max_num+1), num_els)
+            l = random.sample(range(min_num, max_num + 1), num_els)
         return l
 
-def randrange_exclude_list(num_els, min_num, max_num, exclude = ()):
+def randrange_exclude_list(num_els, min_num, max_num, exclude=()):
     if not exclude:
         return random.sample(range(min_num, max_num + 1), num_els)
     l = []
@@ -990,7 +990,7 @@ def format_answers(list_of_answers, correct_answer_index=0, total_number_of_answ
     correct_letter = 'ABCDEFGH'[correct_answer_index]
     return '\t'.join(list_of_answers) + '\t' * (total_number_of_answers - number_of_answers + 1) + correct_letter
 
-def format_answers_multiple(l,cor_ind = (0,), num=0, need_latex=False):
+def format_answers_multiple(l, cor_ind=(0,), num=0, need_latex=False):
     if need_latex:
         l = ["$_%s$_" % latex(answer) for answer in l]
     if num == 0: num = len(l)
@@ -1037,7 +1037,7 @@ def randomize_multiple(correct_answers, incorrect_answers, total_spaces=6, total
     if total_incorrect:
         incorrect_answers = random.sample(incorrect_answers, total_incorrect)
     list_of_answers = correct_answers + incorrect_answers
-    number_of_answers = len(correct_answers)+len(incorrect_answers)
+    number_of_answers = len(correct_answers) + len(incorrect_answers)
     answer_permutation = random.sample(range(number_of_answers), number_of_answers)
     correct_indices = [answer_permutation.index(correct_answer) for correct_answer in range(len(correct_answers))]
     correct_letters = sorted(['ABCDEFGH'[correct_index] for correct_index in correct_indices])
@@ -1045,21 +1045,21 @@ def randomize_multiple(correct_answers, incorrect_answers, total_spaces=6, total
     return '\t'.join([list_of_answers[i] for i in answer_permutation]) \
            + '\t' * (total_spaces - number_of_answers + 1) + correct_string
 
-def bunch_of_functions(correct, incorrect, total_spaces = 6):
+def bunch_of_functions(correct, incorrect, total_spaces=6):
     """
     given a bunch of functions (as strings, e.g. 3 x^2 + 5), some correct,
     some incorrect, it randomizes them and adds letters in front
     """
     list_of_answers = correct + incorrect
-    n = len(correct)+len(incorrect)
-    permutation_of_answer_indices = random.sample(range(n),n)
+    n = len(correct) + len(incorrect)
+    permutation_of_answer_indices = random.sample(range(n), n)
     correct_indices = [permutation_of_answer_indices.index(i) for i in range(len(correct))]
     correct_letters = sorted(['ABCDEF'[c] for c in correct_indices])
     correct_string = ",".join(correct_letters)
     list_of_answers = [list_of_answers[i] for i in permutation_of_answer_indices]
     list_of_answers = ["$_%s(x) = %s$_" % (function_letter, answer)
                        for (function_letter, answer) in zip('fghjkl', list_of_answers)]
-    return '\t'.join(list_of_answers)+'\t'*(total_spaces-n+1), correct_string
+    return '\t'.join(list_of_answers) + '\t' * (total_spaces - n + 1), correct_string
 
 def system_equations_string(coefficient_lists, b_list):
     """
@@ -1090,7 +1090,7 @@ def equation_add(coefficient_lists, b_list, equation_numbers, multiplication_num
     """
     x, y, z = symbols('x y z')
     equation_left_sides = [a * x + b * y + c * z for (a, b, c) in coefficient_lists]
-    full_equations = ["%s &=& %d & \\text{(%d) multiplied by $%d$}" %
+    full_equations = ["%s &=& %d & \\text{(%d) multiplied by $%d$}" % 
                       (latex(equation_left_side), b_value, equation_number, multiplication_number)
                       for (equation_left_side, b_value, equation_number, multiplication_number)
                       in zip(equation_left_sides, b_list, equation_numbers, multiplication_numbers)]

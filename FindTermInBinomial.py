@@ -1,18 +1,18 @@
-#13.6.3 Use the binomial theorem to find a single term 
+# 13.6.3 Use the binomial theorem to find a single term 
 
 import tools
 import sympy as sym
 import random
-from sympy.functions.combinatorial.numbers import nC, nP
+from sympy.functions.combinatorial.numbers import nC
 import datetime
 
 
 class FindTermInBinomial():
     """
-    This class has a single static method stem() that generates the problems.
+    This class has a single method stem() that generates the problems.
     """
 
-    def __init__(self, seed = None):
+    def __init__(self, seed=None):
         # Cache for problems already created
         self.done = []
         self.count = 0
@@ -20,21 +20,23 @@ class FindTermInBinomial():
             self.seed = datetime.datetime.now().microsecond
         else:
             self.seed = seed
-        random.seed(seed) # Set  once per instance
+        random.seed(seed)  # Set  once per instance
 
-    def stem(self, a_type = None, max_size = 10000, choose_style = None):
+    def stem(self, a_type=None, max_size=10000, choose_style=None):
         """
         This generates problems asking the students to find the coefficent on the x^n*y^m
         term in the expansion of (ax + by)^p where m + n = p.
         
-        Named Parameters
-            a_type       -- This determines if the answer is multiple choice (MC) or free response (FR)
-            max_size     -- Don't accept problems whose answer is biigger in magnitude than this.
-            choose_style -- choose_styles = ['{%s \\choose %s}', 'C(%s,%s)', '{}_%s C_%s'], if choose_style
-                            is < len(choose_styles), then it chooses the associated style, else it chooses randomly
+        Parameters:
+        ---------
+            a_type       : This determines if the answer is multiple choice (MC) or free response (FR)
+            max_size     : Don't accept problems whose answer is bigger in magnitude than this.
+            choose_style : (integer index into choose_styles = ['{%s \\choose %s}', 'C(%s,%s)', '{}_%s C_%s']). 
+                           If choose_style is < len(choose_styles), then it chooses the associated style, 
+                           else it chooses randomly
         """
         
-        #Make a copy of current args for later use.
+        # Make a copy of current args for later use.
         
         kwargs = {
                     'a_type': a_type,
@@ -42,7 +44,7 @@ class FindTermInBinomial():
                     'choose_style': choose_style
                  }
         
-        # If an answer is biger than this generate a new problem
+        # If an answer is bigger than this generate a new problem
         THREASH = 85000 
         
         x, y = sym.symbols('x, y')
@@ -58,7 +60,7 @@ class FindTermInBinomial():
             
 
         # Choose some coefficients a, b for (ax + by)^p
-        coeffs = range(-7,8)
+        coeffs = range(-7, 8)
         coeffs.remove(0)
         a, b = [random.choice(coeffs) for i in range(2)]
         # Choose a power p in [5,8]
@@ -74,9 +76,9 @@ class FindTermInBinomial():
 
         
         question_stem = "Find the coefficient of $_x^{%s}y^{%s}$_ in the expansion of \
-        $_(%s)^{%s}$_." % (x_pow, y_pow, sym.latex(sym.simplify(a*x+b*y)), power)
+        $_(%s)^{%s}$_." % (x_pow, y_pow, sym.latex(sym.simplify(a * x + b * y)), power)
 
-        answer = nC(power, x_pow) * a**x_pow * b**y_pow
+        answer = nC(power, x_pow) * a ** x_pow * b ** y_pow
 
         if abs(answer) > THREASH:
             return self.stem(**kwargs)
@@ -91,26 +93,26 @@ class FindTermInBinomial():
         else:
             choose_ = choose_styles[choose_style]
             
-        def choose(a ,b):
-            choice =  choose_ % (a, b)
+        def choose(a , b):
+            choice = choose_ % (a, b)
             return choice
         
         explanation = "According to the Binomial Theorem," \
                       "$$(a x + b y)^n = \\sum_{k = 0}^{n} %s \\cdot (ax)^k(by)^{n - k}$$" \
                       "In this case, $_n = %d$_, $_a = %d$_, $_b = %d$_, and $_k = %d$_, " \
-                      "so the coefficient is" % (choose('n','k'), power, a, b, x_pow)
+                      "so the coefficient is" % (choose('n', 'k'), power, a, b, x_pow)
         explanation += tools.align("%s \\cdot (%s)^{%s} \\cdot (%s)^{%s}"
-                                   % (choose(power,x_pow), a, x_pow, b, y_pow),
+                                   % (choose(power, x_pow), a, x_pow, b, y_pow),
                                    "\\frac{%s!}{%s!\\,%s!} \\cdot (%s)^{%s} \\cdot (%s)^{%s}"
                                    % (power, x_pow, power, a, x_pow, b, y_pow),
                                    sym.latex(answer))
 
         if a_type == "MC":
-            errors = list(set([nC(power + i, x_pow + i // 2)*a**x_pow*b**y_pow for i in range(-3,4) if i != 0 and x_pow + i // 2 > 0]))
-            errors += [int(-answer*(1.02)), int(answer*(1.02)), int(-answer*(0.98)), int(answer*(0.98))]
+            errors = list(set([nC(power + i, x_pow + i // 2) * a ** x_pow * b ** y_pow for i in range(-3, 4) if i != 0 and x_pow + i // 2 > 0]))
+            errors += [int(-answer * (1.02)), int(answer * (1.02)), int(-answer * (0.98)), int(answer * (0.98))]
             errors = [e for e in errors if e != answer]
             random.shuffle(errors)
-            errors = errors[:4] # This provides 4 distractions
+            errors = errors[:4]  # This provides 4 distractions
 
 
         if a_type == "FR":
@@ -126,22 +128,21 @@ class FindTermInBinomial():
 if __name__ == "__main__":
     
     # Unset seed to get different results on each run
-    #prob = FindTermInBinomial()   
+    # prob = FindTermInBinomial()   
     
     # Seed is set for reproducibility
-    prob = FindTermInBinomial(seed = 31415)
+    prob = FindTermInBinomial(seed=31415)
     
     for i in range(5):
-        print prob.stem(a_type = 'MC')
+        print prob.stem(a_type='MC')
         
     
     # You could check the prob.done cache
     # print prob.done
     
     for i in range(5):
-        print prob.stem(a_type = 'FR', choose_style = 2)
+        print prob.stem(a_type='FR', choose_style=2)
         
     # You could check the prob.done cache (this will extend what you see above)
     # print prob.done
   
-    
