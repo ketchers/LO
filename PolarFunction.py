@@ -5,6 +5,7 @@ import os
 import random 
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.collections import LineCollection
 import sympy as sym
 import tools
 from R_tools import make_func
@@ -635,16 +636,6 @@ class PolarFunction():
     
         X = R * np.cos(Thetas)
         Y = R * np.sin(Thetas)
-
-        # To get colors
-        X_plus = X[I_plus]
-        X_minus = X[I_minus]
-        Y_plus = Y[I_plus]
-        Y_minus = Y[I_minus]
-        X_ = [X_minus, X_plus]
-        Y_ = [Y_minus, Y_plus]
-        R_ = [R_minus, R_plus]
-        Thetas_ = [Thetas_minus, Thetas_plus]
         
         if xkcd:
             plt.xkcd()
@@ -915,29 +906,49 @@ class PolarFunction():
         
         # Plot the actual graph
         if coloring:
-            colors = [[((150 + 1.0 * z / r_max * 100) / 255.0, .7 * (150 + 1.0 * z / r_max * 100) / 255.0,
-                        (150 - 1.0 * z / r_max * 100) / 255.0) for z in R_[i]] for i in range(2)]
-        else:
-            colors = [[(.3, .6, .3, .5)], [(.3, .6, .3, .5)]]
-       
-        for i in range(2):
-                
-            ax.scatter(X_[i], Y_[i], c=colors[i],
-                       alpha=0.5, zorder=7, marker='o', edgecolors='face', s=2)
-            if self.f_type == 'lemniscate':
-                ax.scatter(-X_[1 - i], -Y_[1 - i], c=colors[1 - i],
-                           alpha=0.5, zorder=7, edgecolors='face', s=2)
             
+            colors = [(.5 * (1 + z/r_max), .25 * (1 + z/r_max), 
+                             1 - .5*(1 + z/r_max), .5) for z in R]
+        else:
+            colors = [(.3, .6, .3, .5)]
+       
+        
+            
+        M = len(X - 3)
+        line_segments = LineCollection([list(zip(X[i:i+3], Y[i:i+3])) 
+            for i in range(M)], linewidths=[2], linestyles='solid', 
+                           colors = colors)
+        ax.add_collection(line_segments)
+      
+        if self.f_type == 'lemniscate':
+            
+            line_segments = LineCollection([list(zip(-X[i:i+3], -Y[i:i+3])) 
+                for i in range(M)], linewidths=[2], linestyles='solid', 
+                           colors = colors)
+            ax.add_collection(line_segments)            
+            
+         
+        
 
-            if label:
-                ax.legend([r"$%s$" % (self.latex())], loc='lower center', bbox_to_anchor=(0.0, -0.15),
-                          frameon=False, framealpha=0.0)
-            if draw_rect:
-                ax1.scatter(Thetas_[i], R_[i], c=colors[i], marker='o',
-                            alpha=0.5, edgecolors='face', s=2)
-                if self.f_type == 'lemniscate':
-                    ax1.scatter(Thetas_[1 - i], -R_[1 - i], c=colors[1 - i],
-                                marker='o', alpha=0.5, edgecolors='face', s=2)
+        if label:
+            ax.legend([r"$%s$" % (self.latex())], loc='lower center', bbox_to_anchor=(0.0, -0.15),
+                      frameon=False, framealpha=0.0)
+        if draw_rect:
+            
+            M = len(Thetas - 3)
+            line_segments = LineCollection([list(zip(Thetas[i:i+3], R[i:i+3])) 
+                for i in range(M)], linewidths=[2], linestyles='solid', 
+                               colors = colors)
+            ax1.add_collection(line_segments)
+          
+            if self.f_type == 'lemniscate':
+                
+                line_segments = LineCollection([list(zip(Thetas[i:i+3], -R[i:i+3])) 
+                    for i in range(M)], linewidths=[2], linestyles='solid', 
+                               colors = colors)
+                ax1.add_collection(line_segments)      
+            
+            
         
         # plt.axis('off')
 
@@ -1172,7 +1183,7 @@ class PolarFunction():
 
             exp_string = """
                     The graph of $_%s$_ is a convex one-loop lima&ccedil;on 
-                    symetric about the line $_\\theta =
+                    symmetric about the line $_\\theta =
                     %s$_. The natural domain on which this graph is defined is 
                     $_[%s, %s]$_. The graph is furthest away from the pole at $_\\theta = %s$_ 
                     with $_r=%s$_. The graph is closest to the pole at $_\\theta = %s$_ with $_r = %s$_
@@ -1183,7 +1194,7 @@ class PolarFunction():
                     <br>
                     %s
                     """
-
+                    
             explanation = exp_string % (self.latex(), self.r2d('0 + %s' % case, rad),
                   self.r2d(theta_min, rad), self.r2d(theta_max, rad),
                   self.r2d(lim_max, rad), sym.latex(self(lim_max)),
@@ -1214,7 +1225,7 @@ class PolarFunction():
 
             exp_string = """
                     The graph of $_%s$_ is a convex one-loop lima&ccedil;on 
-                    symetric about the line $_\\theta =
+                    symmetric about the line $_\\theta =
                     %s$_. The natural domain on which this graph is defined is 
                     $_[%s, %s]$_. The graph is furthest away from the pole at $_\\theta = %s$_ 
                     with $_r=%s$_. The graph is closest to the pole at $_\\theta = %s$_ with $_r = %s$_
@@ -1259,7 +1270,7 @@ class PolarFunction():
             
             
             exp_string = """
-                    The graph of $_%s$_ is a rose with %s pedals symetric about the line $_\\theta =
+                    The graph of $_%s$_ is a rose with %s pedals symmetric about the line $_\\theta =
                     %s$_. The natural domain on which this 
                     graph is defined is $_[%s, %s]$_. The graph is furthest away from the pole when 
                     $_%s \\cdot \\theta$_ is an integer multiple of $_%s$_ at which the distance 
@@ -1311,7 +1322,7 @@ class PolarFunction():
                 theta_min, theta_max = ['0', 'pi'] 
                 
             exp_string = """
-                    The graph of $_%s$_ is a circle symetric about the line $_\\theta =
+                    The graph of $_%s$_ is a circle symmetric about the line $_\\theta =
                     %s$_. The natural domain on which this 
                     graph is defined is $_[%s, %s]$_. The graph is furthest away from the pole when 
                     $_\\theta = %s$_ at which the distance 
@@ -1431,5 +1442,5 @@ if __name__ == "__main__":
     print(f == g) # Same graphs
     print("g,f have the sam graph, but they are distinct objects. \
         {f,g} has size %s" % len({f,g}))
-    f.show(file_name = 'show')
-    g.show(file_name = 'show')
+    f.show(file_name = 'show', coloring = True, draw_rect = True)
+    g.show(file_name = 'show', coloring = True, draw_rect = True)
