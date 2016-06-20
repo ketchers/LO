@@ -2,6 +2,7 @@ from __future__ import print_function
 import numpy as np
 import sympy as sym
 import sys
+import random
 
 
 
@@ -320,10 +321,12 @@ def make_table(col_headers = None, row_headers = None, *entries ):
             out_string += "<tr class=\'%s\'>\n" % t_class
             if row_headers is not None:
                 out_string += "<th class=\'%s\'>" % t_class + str(row_headers[j]) + "</th>\n" + \
-                "".join(["<td class=\'%s\'>" % t_class + ("%s" % i if type(i) is str else "%.3g" % i)\
-                         + "</td>\n" for i in data[j]])
+                "".join(["<td class=\'%s\'>" % t_class + \
+                         ("%.3f" % i if str(type(i)).find('float') != -1 else "%s" % i) +\
+                         "</td>\n" for i in data[j]])
             else:
-                out_string += "".join(["<td class=\'%.3g\'>" % t_class + str(i) + "</td>\n" 
+                out_string += "".join(["<td class=\'%s\'>" % t_class + \
+                                       ("%.3f" % i if str(type(i)).find('float') != -1 else "%s" % i) + "</td>\n" 
                                        for i in data[j]])
             out_string += "</tr>\n"
         return out_string
@@ -416,11 +419,7 @@ def make_table(col_headers = None, row_headers = None, *entries ):
     """ % tuple([t_class] * 9)
     
     data = validate(entries) 
-    print('data', data)
-    
-    
-  
-    
+     
     tbl += build_rows(data, row_headers, col_headers)
         
     tbl += "</tr>\n</table>\n</div>\n</div><br>"
