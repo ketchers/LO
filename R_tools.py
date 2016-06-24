@@ -115,7 +115,8 @@ def make_func(func_desc, func_params = ('x'), func_type = 'numpy'):
             func_inputs = map(lambda s: sym.sympify(s) if type(s) is not np.ndarray else s, func_inputs)
         elif func_type == 'numpy':
             func_inputs = map(lambda ar: np.array(map(lambda x: float(sym.sympify(x)), ar)) 
-                               if type(ar) is np.ndarray and ar.dtype is not np.float_ else ar, func_inputs) 
+                               if type(ar) is np.ndarray and ar.dtype.type is not np.float_ 
+                               else ar, func_inputs) 
                                  #  and ar.dtype.type is np.string_ else ar, func_inputs) 
             func_inputs = map(lambda s: float(sym.sympify(s)) if type(s) is not np.ndarray else s, func_inputs) 
                                  #if type(s) is str else s, func_inputs)

@@ -84,14 +84,11 @@ def make_table(col_headers = None, row_headers = None, *entries ):
         if len(entries) == 1:
             if type(entries[0]) is type(np.array([])):
                 data = list(entries[0])
-                print("First entry is array")
             elif all(map(lambda x: type(x) is list, entries[0])) and \
                         all(map(lambda x: len(x) == len(entries[0][0]), entries[0])):
                 data = entries[0]
-                print("First entry is list of lists")
             elif type(entries[0]) is list:
                 data = list(entries)
-                print("First entry is a single list.")
             else:
                 raise VaueError("The data is ill formed.")
 
@@ -162,17 +159,23 @@ def make_table(col_headers = None, row_headers = None, *entries ):
     return tbl
 
 
-def html_image(image_url, height = 40, width = 40, preview = True):
+def html_image(image_url, height = None, width = None, 
+               display = 'block', preview = True):
     """
     Insert an image into a problem. If preview is set to "True", then this
     sets it up for previewing by inserting "<img src="image_url ....>".
     If preview is "False", then this inserts ${image_url}$"
     """
     if preview:
-        ret = "<img src=\'%s\'%s%s>" \
+        ret = """
+        <div display='inline-block' background-color='rgba(200,200,200,.5)'>
+        <img src=\'%s\'%s%s%s>
+        </div>
+        """ \
         %(image_url, 
           ' width=%s ' % width if width is not None else "", 
-          ' height=%s ' % height if height is not None else "")
+          ' height=%s ' % height if height is not None else "",
+          ' display=\'%s\' ' % display if display is not None else "")
     else:
         ret = "${%s}$"%image_url
     return ret
