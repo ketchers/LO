@@ -2,6 +2,6 @@
 test/
 test/*
 preview/test/
+*.ipynb*
 .project
 .pydevproject
-*.ipynb*

@@ -2,6 +2,7 @@ from __future__ import print_function
 import numpy as np
 import sympy as sym
 import sys
+import random
 
 
 
@@ -114,7 +115,8 @@ def make_func(func_desc, func_params = ('x'), func_type = 'numpy'):
             func_inputs = map(lambda s: sym.sympify(s) if type(s) is not np.ndarray else s, func_inputs)
         elif func_type == 'numpy':
             func_inputs = map(lambda ar: np.array(map(lambda x: float(sym.sympify(x)), ar)) 
-                               if type(ar) is np.ndarray and ar.dtype is not np.float_ else ar, func_inputs) 
+                               if type(ar) is np.ndarray and ar.dtype.type is not np.float_ 
+                               else ar, func_inputs) 
                                  #  and ar.dtype.type is np.string_ else ar, func_inputs) 
             func_inputs = map(lambda s: float(sym.sympify(s)) if type(s) is not np.ndarray else s, func_inputs) 
                                  #if type(s) is str else s, func_inputs)
@@ -208,8 +210,8 @@ def r2d(t, rad=False, latex=False):
     
 def parse_name(nm, G = None, A = None, B = None, N = None, F = None, T = None):
     """
-    This will assume that the f_name is given in the form "a + bf(n*theta)",
-    in partcular the "n*theta" order is important
+    This will assume that the f_name is given in the form "a + b * f(n * theta)",
+    in particular the "n * theta" order is important
     
     Parameters:
     ----------
@@ -269,6 +271,7 @@ def parse_name(nm, G = None, A = None, B = None, N = None, F = None, T = None):
     
         return (A, B, N, F, T)
     
+
 
 if __name__ == "__main__":
     

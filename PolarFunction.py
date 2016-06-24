@@ -534,34 +534,53 @@ class PolarFunction():
              img_type='png', file_name=None, path=".", label=False, draw_rect=False,
              xkcd=False, coloring=False, force=False):
         """
-        This will draw a polar plot of the function given by r_str, e.g. r_str = '2*cos(theta)'.
+        This will draw a polar plot of the function given by r_str, e.g. 
+        r_str = '2*cos(theta)'.
 
         Parameters:
         ----------
-            theta_min,    : The range of theta for wwhich the plot is made
-            theta_max
-            r_min,        : The range of radius
-            r_max
-
-            theta_ticks   : This determines the radial lines as well as labels to add. These should 
-                             be strings in radians, conversion to degree will happen if rad = False
-            r_ticks       : list of pairs (r,s) where r is the location ans s is the value 
-            r_ticks_angle : The angle to put the r_ticks on.
-            rad           : If true use radian
-            d_theta       : This determines how finely to partition [0,2*pi]
-            points        : This adds some points without labels to the graph
-            extra_points  : These are (x,y) pairs for points not on the plot.
-            point_labels  : Add points with labels to the graph. 
-
-            img_type      :
-            file_name     : Name  of image. If 'show', then just display.
-            path          : Path to store image. The folder is created if does not exist
-            label         : Controls whether or not to add label
-            draw_rect     : Draw r = f(theta) in rectangular (theta, r) plane
-            xkcd          : (True/False) Interesting rendering
-            coloring      : (Boolean) If True color the graph by radius (for explanations)
-            force         : (Boolean) Force rbuild of images if they exist.
-            include_image : (Boolean) Format output for preview
+            theta_min,    
+            theta_max     : numeric
+                The range of theta for wwhich the plot is made
+            r_min,        
+            r_max         : numeric 
+                The range of radius
+            theta_ticks   : list[numeric|sym]
+                This determines the radial lines as well as labels to add. 
+                These should be strings in radians, conversion to degree 
+                will happen if rad = False
+            r_ticks       : list[(numeric, string)]
+                list of pairs (r,s) where r is the location ans s is the value 
+            r_ticks_angle : numeric
+                The angle to put the r_ticks on.
+            rad           : Boolean
+                If true use radian
+            d_theta       : numeric
+                This determines how finely to partition [0,2*pi]
+            points        : 
+                This adds some points without labels to the graph
+            extra_points  : 
+                These are (x,y) pairs for points not on the plot.
+            point_labels  : list[(numeric, numeric)]
+                Add points with labels to the graph. 
+            img_type      : string
+                Defaults to "png"
+            file_name     : string
+                Name  of image. If 'show', then just display.
+            path          : string
+                Path to store image. The folder is created if does not exist
+            label         : Boolean
+                Controls whether or not to add label
+            draw_rect     : Boolean
+                Draw r = f(theta) in rectangular (theta, r) plane
+            xkcd          : Boolean
+                Interesting rendering
+            coloring      : Boolean 
+                If True color the graph by radius (for explanations)
+            force         : Boolean
+                Force rbuild of images if they exist.
+            include_image : Boolean 
+                Format output for preview
 
         * = manditory
         """

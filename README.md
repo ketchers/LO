@@ -23,4 +23,6 @@ Code to generate problems for learning objectives:
   
 * ExpandBinomial.py
   * 13.6.2	Expand a binomial using the binomial theorem
+  
+* 
 
