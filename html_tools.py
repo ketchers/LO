@@ -8,9 +8,13 @@ Created on Sun Jun 19 21:33:51 2016
 import numpy as np
 import random
 
-def make_table(col_headers = None, row_headers = None, *entries ):
+
+# This is a place wher pytho 3 would shine, the way python2 handles varargs
+# is not nice.
+def make_table(col_headers = None, row_headers = None, 
+               container=True, *entries ):
     """
-    This should make a well formatted html table.
+    This should make a well formatted html table. (This is pure CSS3)
     
     Parameters:
     ----------
@@ -18,7 +22,11 @@ def make_table(col_headers = None, row_headers = None, *entries ):
         This should be a list of headers that go across the top of the table.
     row_headers : (Required) list or None
         This should be a list of headers for rows of the table. 
-    entries : (Required) list[list], np.array, or var args style (list, list, list, ....) 
+    container   : Boolean
+        If true this wraps the table in a container with a border that adds
+        a scrollbar at the bottom if window is small. (Responsive)
+    entries     : (Required) list[list], np.array, 
+                  or var args style (list, list, list, ....) 
         This should fill out the main body of the table and can be alist of rows,
         an array or of the form "list1, list2, ...." each a row. 
     
@@ -48,23 +56,25 @@ def make_table(col_headers = None, row_headers = None, *entries ):
                     raise ValueError("len(row_headers) should be #rows or #rows + 1")
                 
                 
-            out_string += "<tr class=\'%s\'>" % t_class
+            out_string += "\n\t<div class=\'row-rk head-rk\'>"
             for h in col_headers:
-                out_string += "\n<th class=\'%s\'>%s</th>" % (t_class, h)
-            out_string += "</tr>"
+                out_string += "\n\t<div class=\'cell-rk\'>%s</div>" % h
+            out_string += "\n</div>\n"
         
         for j in range(len(data)):
-            out_string += "<tr class=\'%s\'>\n" % t_class
+            out_string += "<div class=\'row-rk\'>" 
             if row_headers is not None:
-                out_string += "<th class=\'%s\'>" % t_class + str(row_headers[j]) + "</th>\n" + \
-                "".join(["<td class=\'%s\'>" % t_class + \
-                         ("%.3f" % i if str(type(i)).find('float') != -1 else "%s" % i) +\
-                         "</td>\n" for i in data[j]])
+                out_string += "\n\t<div class=\'cell-rk head-rk\'>" \
+                    + str(row_headers[j]) + "</div>" + \
+                "".join(["\n\t<div class=\'cell-rk\'>" + \
+            ("%.3f" % i if str(type(i)).find('float') != -1 else "%s" % i) +\
+                         "</div>" for i in data[j]])
             else:
-                out_string += "".join(["<td class=\'%s\'>" % t_class + \
-                                       ("%.3f" % i if str(type(i)).find('float') != -1 else "%s" % i) + "</td>\n" 
+                out_string += "".join(["\n\t<div class=\'cell-rk\'>" + \
+            ("%.3f" % i if str(type(i)).find('float') != -1 else "%s" % i) + \
+                                       "</div>" 
                                        for i in data[j]])
-            out_string += "</tr>\n"
+            out_string += "\n</div>\n"
         return out_string
 
     # do some checks to make sure the entreis are of the correct type
@@ -93,74 +103,97 @@ def make_table(col_headers = None, row_headers = None, *entries ):
                 raise VaueError("The data is ill formed.")
 
         return data
-    
-    
-    t_class = "tbl" + str(random.randint(1000, 2000))
-    tbl = """
-    <style>
-        .%s {
-            padding: 10px;
-            text-align: left;
-            border: 0px;
-            font-family: sans-serif, serif;
-        }
         
-        table.%s {
-            border-collapse: collapse;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        div#tblcontainer {
-            display: inline-block;
-            padding: 5px;
-            border-radius: 10px;
-            border-style: solid;
-            border-width: 1px;
-            border-color: rgba(170, 100, 170, .5);
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        div.%s {
-            display: block;
-            padding: 5px;
-            margin-left: 10%%;
-            margin-right: 10%%;
-            overflow-x: auto;
-        }
-        
-        th.%s {
-            font-weight: bold;
-            text-align: center;
-        }
-        
-        td.%s {
-            text-align: center;
-        }
-        
-        tr.%s:nth-child(odd) {
-            background-color: rgba(170, 170, 200, .5);
-        }
-        
-        tr.%s {}
-    </style>
-    <div class=\'%s\'>
-     <div id='tblcontainer'>
+    style = """
+    <style type="text/css">
 
-    <table class=\'%s\'>
-    """ % tuple([t_class] * 9)
+        div.outer-container-rk {
+            display: block;
+            overflow-x: auto; 
+        }
+
+        div.centering-rk {
+            display: table;
+            margin: auto;
+            text-align: center;
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+
+        }
+
+        div.container-rk {
+            /*float: left;*/
+            display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+        }
+
+       
+
+        div.tbl-rk {
+            display: table;
+        }
+
+        div.row-rk {
+            display: table-row;
+            padding: 5px;
+        }
+
+        div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+        }
+
+        div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+        }
+
+        div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+        }
+
+        figure.rk {
+            margin: 5px;
+        }
+    </style>
+   
+    """ 
+    
+    if container:
+        tbl = """
+        <div class=\'outer-container-rk\'>
+            <div class=\'centering-rk\'>
+                <div class=\'tbl-rk\'>
+        """ 
+    else:
+        tbl = "<div class=\'tbl-rk\'>" 
     
     data = validate(entries) 
      
-    tbl += build_rows(data, row_headers, col_headers)
+    tbl_string = build_rows(data, row_headers, col_headers)
         
-    tbl += "</tr>\n</table>\n</div>\n</div><br>"
-    return tbl
-
-
+    tbl += tbl_string
+    
+    if container:
+        tbl += "\n\t\t</div>\n\t</div>\n</div>\n<br>\n"
+    else:
+        tbl += "\n</div>\n<br>\n"
+    return tbl, style
+    
+    
 def html_image(image_url, height = None, width = None, 
-               display = 'block', preview = True):
+               display = None, preview = True):
     """
     Insert an image into a problem. If preview is set to "True", then this
     sets it up for previewing by inserting "<img src="image_url ....>".
@@ -168,7 +201,7 @@ def html_image(image_url, height = None, width = None,
     """
     if preview:
         ret = """
-        <div display='inline-block' background-color='rgba(200,200,200,.5)'>
+        <div class='img'>
         <img src=\'%s\'%s%s%s>
         </div>
         """ \
@@ -179,16 +212,18 @@ def html_image(image_url, height = None, width = None,
     else:
         ret = "${%s}$"%image_url
     return ret
-        
+
     
 if __name__ == "__main__":
-    e = [1.2345,2.45234,2.1428]
-    o = [1,2,3]
-    cl = ['Day 1', 'Day 2', 'Day 3']
+    e = [1.2345,2.45234,2.1428,1.2345,2.45234,2.1428,1.2345,2.45234,2.1428]
+    o = range(1,len(e) + 1)
+    cl = map(lambda x: 'Day' + str(x), o)
     cl_alt = ['Days'] + cl
     rl = ['Expected', 'Observed']
     rl_alt = ['Days'] + rl
-    print(make_table(None, None, e, o))
-    print(make_table(cl, rl, e, o))
-    print(make_table(cl_alt, rl, e, o))
-    print(make_table(cl, rl_alt, e, o))
+    tbl1, style = make_table(None, None, True, e, o)
+    tbl2, _ = make_table(cl, rl, True, e, o)
+    tbl3, _ = make_table(cl_alt, rl, True, e, o)
+    tbl4, _ = make_table(cl, rl_alt, True, e, o)
+    ex = style + tbl1 + tbl2 + tbl3 + tbl4
+    print(ex)
