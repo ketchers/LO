@@ -83,7 +83,9 @@ class HyperbolaGraphProblem(object):
         
         distractors = [html_image(er, preview = preview, width = 300, height = 300) 
                        for er in errors]               
-        
+        if preview:
+            explanation = '\n<div class=\'clr\'></div>\n' + explanation
+            
         return tools.fully_formatted_question(question_stem, explanation, 
                                               answer_choices=distractors)
 
@@ -97,8 +99,8 @@ if __name__ == "__main__":
     
     pb = ""
     for i in range(10):
-        pb += '<p class = \'posts\'>'
+        pb += '<div class = \'posts\'>'
         pb += prob.stem(preview=preview, xkcd=xkcd)
-        pb += '</p><br><br><p class = \'posts\'>'
+        pb += '</div><br>'
     
     print(pb)

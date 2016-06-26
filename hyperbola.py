@@ -272,12 +272,10 @@ class Hyperbola(object):
         if preview:
             file_name = file_name.replace('%2','%252')
          
-        ex += "The graph of the hyperbola $$%s = 1$$ is: %s" \
-            % (self.latex, 
-               html_image(image_url = file_name, preview = preview))
+        ex += "The graph of the hyperbola $$%s = 1$$ is:" % self.latex
         
         if self.trans == 'x':
-            ex += make_table(None, None, 
+            tbl, style = make_table(None, None, False, 
                 [
                     ['center', '$_(%s, %s)$_' % (self.h, self.k)],
                     ['vertices', '$_(%s, %s), (%s, %s)$_' \
@@ -297,7 +295,7 @@ class Hyperbola(object):
                                                 [int(self.k)])]             
                 ])
         else:
-            ex += make_table(None, None, 
+            tbl, style = make_table(None, None, False,
                 [
                     ['center', '$_(%s, %s)$_' % (self.h, self.k)],
                     ['vertices', '$_(%s, %s), (%s, %s)$_' \
@@ -317,6 +315,27 @@ class Hyperbola(object):
                                     [int(self.k)])]             
                 ])
                 
+        img = html_image(image_url = file_name, width = '300px', preview = preview)
+        
+        ex +="""      
+        %s
+        <div class='outer-container-rk'>
+            <div class='centering-rk'>
+                <div class='container-rk'>
+                    <figure>
+                        %s
+                        <figcaption>$_%s = 1$_</figcaption>
+                    </figure>
+                </div>
+                
+                <div class='container-rk'>
+                    %s
+                </div>
+            </div>
+        </div>
+        """ % (style, img, self.latex, tbl)
+            
+        
         self.show(path = path, file_name = self.url, force = force, 
                   xkcd = xkcd)
         
