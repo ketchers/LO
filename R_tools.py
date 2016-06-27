@@ -21,9 +21,13 @@ def lfy(f, p):
     
     f = lfy('cos(theta)', ('theta',))
     """
-    sym.var(p)
+    
+    # Often p and q overlap in practice and this causes bugs....
+    p_new = [a + "_4563" for a in p]
+    sym.var(p_new)
+    f_new = sym.sympify(f).subs(zip(p,p_new))
     def f_(*q):
-        return sym.sympify(f).subs(zip(p,q))
+        return sym.sympify(f_new).subs(zip(p_new,q))
     return f_
 
 def make_func(func_desc, func_params = ('x'), func_type = 'numpy'):
