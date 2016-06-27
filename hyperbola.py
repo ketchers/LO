@@ -103,6 +103,7 @@ class Hyperbola(object):
         self.name = str(expr)
         self.url = quote_plus(self.name)
         
+        
         if trans == 'x':
             self.latex = sym.latex(x_expr, long_frac_ratio=sym.oo) + " - " + \
               sym.latex(y_expr, long_frac_ratio=sym.oo)
@@ -136,6 +137,28 @@ class Hyperbola(object):
 
     def __str__(self):
         return self.name
+        
+    def __call__(self, *input, **kwargs):
+
+        if 'func_type' not in kwargs:
+            func_type = None
+        else:
+            func_type = kwargs['func_type']
+        
+        if func_type is None:
+            is_np = False
+            for i in input:
+                if type(i) is np.ndarray and i.dtype.type is np.float_:
+                    is_np = is_np | True
+            if is_np:
+                func_type = 'numpy'
+            else:
+                func_type = 'sympy'        
+        
+        f_ = make_func(self.expr, func_params=('x','y'), func_type=func_type)
+        
+        return f_(*input)
+
 
     def show(self, path=".", file_name=None, force=False, \
         img_type="png", xkcd = False, label = False):
@@ -250,11 +273,12 @@ class Hyperbola(object):
         return fname.replace('%2','%252')
             
             
-    def explanation(self, path = 'explanations', preview = False,                     
-                    force = False, xkcd = False):
+    def explanation(self, path = 'explanations', 
+                expanded = True, preview = False,                     
+                force = False, xkcd = False):
         """
         Provides an explanation of the hyperbola.
-        
+    
         Parameters: (Largely shared with show)
         -----------
         path      : str
@@ -265,58 +289,141 @@ class Hyperbola(object):
             If true thing are set up for peviewing. (Images, ...)
         """
         ex = ""
-        
-       
+    
+    
         file_name = path + "/" + self.url + ".png"
-        
+    
         if preview:
             file_name = file_name.replace('%2','%252')
-         
-        ex += "The graph of the hyperbola $$%s = 1$$ is:" % self.latex
+            
+            
+        const = self.a ** 2 * self.b **2
+        x_part = const*(self(x, self.k).expand() - self(0, self.k))
+        y_part = const*(self(self.h, y).expand() - self(self.h, 0))
+        rhs = const - const*self(0, 0)
         
+        # The following is an attempt to avoid lots of code duplication.
         if self.trans == 'x':
-            tbl, style = make_table(None, None, False, 
-                [
-                    ['center', '$_(%s, %s)$_' % (self.h, self.k)],
-                    ['vertices', '$_(%s, %s), (%s, %s)$_' \
-                        % tuple(map(sym.latex, [self.h - self.a, self.k, self.h 
-                        + self.a, self.k]))],
-                    ['length of conjugate axis', '$_%s$_' % sym.latex(2*self.a)],
-                    ['co-vertices', '$_(%s, %s), (%s, %s)$_' \
-                        % tuple(map(sym.latex, [self.k - self.b, self.h, self.k 
-                        + self.b, self.h]))],
-                    ['length of conjugate axis', '$_%s$_'% sym.latex(2*self.b)],
-                    ['foci', '$_(%s, %s), (%s, %s)$_' \
-                        % tuple(map(sym.latex, [self.h - self.c, self.k, self.h 
-                        + self.c, self.k]))],
-                    ['asymptotes', '$_y = \\pm\\frac{%s}{%s}(%s) %+d$_' \
-                        % tuple(map(sym.latex, [self.b, self.a, 
-                                                sym.sympify(x - self.h)]) + 
-                                                [int(self.k)])]             
-                ])
+            X = x
+            Y = y
+            X_part = x_part
+            Y_part = y_part
+            TX = 1
+            TY = 0
         else:
-            tbl, style = make_table(None, None, False,
-                [
-                    ['center', '$_(%s, %s)$_' % (self.h, self.k)],
-                    ['vertices', '$_(%s, %s), (%s, %s)$_' \
-                        % tuple(map(sym.latex, [self.h, self.k - self.a, self.h, 
-                                                self.k + self.a]))],
-                    ['length of conjugate axis', '$_%s$_' % sym.latex(2*self.a)],
-                    ['co-vertices', '$_(%s, %s), (%s, %s)$_' \
-                        % tuple(map(sym.latex, [self.k, self.h - self.b, self.k, 
-                                                self.h + self.b]))],
-                    ['length of conjugate axis', '$_%s$_'% sym.latex(2*self.b)],
-                    ['foci', '$_(%s, %s), (%s, %s)$_' \
-                        % tuple(map(sym.latex, [self.h, self.k - self.c, self.h, 
-                                                self.k + self.c]))],
-                    ['asymptotes', '$_y = \\pm\\frac{%s}{%s}(%s) %+d$_' \
-                        % tuple(map(sym.latex, 
-                                    [self.a, self.b, sym.sympify(x - self.h)]) + 
-                                    [int(self.k)])]             
-                ])
-                
-        img = html_image(image_url = file_name, width = '300px', preview = preview)
+            X = y
+            Y = x
+            X_part = y_part
+            Y_part = x_part
+            TX = 0
+            TY = 1
+        # To reduce typing
+        A = self.a
+        B = self.b
+        H = self.h
+        K = self.k
+        C = self.c 
         
+        k, h, a, b, c = sym.symbols('k h a b c')
+        
+        gcd_X = sym.gcd(X_part.collect(X).coeff(X,1), X_part.collect(X).coeff(X,2))
+        gcd_Y = sym.gcd(Y_part.collect(Y).coeff(Y,1), Y_part.collect(Y).coeff(Y,2))
+        b_X = X_part.collect(X).coeff(X,1)/gcd_X
+        b_Y = -Y_part.collect(Y).coeff(Y,1)/gcd_Y        
+        
+        if expanded:
+            ex += "The first step to finding the graph of $$%s = 0$$ is\
+                to find the normal form of the equation." \
+            % sym.latex((const*(self(x, y) - 1)).expand())
+        
+            ex += " To begin move the constant term to the right hand side. \
+                This gives: $$(%s) + (%s) = %s$$" \
+                    % (sym.latex(x_part), sym.latex(y_part), rhs)
+                
+            
+            
+            ex += "Next factor common factors from the $_x$_ and $_y$_ terms to get: \
+                $$%s(%s) - %s(%s) = %s$$" \
+            % (gcd_X, sym.latex(X_part/gcd_X), gcd_Y, sym.latex(-Y_part/gcd_Y), rhs)
+                
+            ex += "Now complete the squares: \
+                $$%s\\left(%s + \\left(\\frac{%s}{2}\\right)^2\\right) \
+                - %s\\left(%s + \\left(\\frac{%s}{2}\\right)^2\\right) = \
+                %s + \\left(\\frac{%s}{2}\\right)^2 + \\left(\\frac{%s}{2}\\right)^2$$"\
+                 % (gcd_X, sym.latex(X_part/gcd_X), b_X, gcd_Y, sym.latex(-Y_part/gcd_Y), 
+                    b_Y, rhs, b_X, b_Y)
+            
+            ex += "This simplifies to: $$%s = %s$$" % (sym.latex(const*self.expr), const)
+            
+            ex += "Lastly divide both side by the right hand side to get: $$%s = %s$$" \
+                % (sym.latex(self.expr), 1)
+                
+            ex += "This simplifies to the final normal form: \
+                $$\\frac{(%s)^2}{%s^2} - \\frac{(%s)^2}{%s^2} = 1$$" \
+                % (sym.latex(X-H), A, sym.latex(Y-K), B)
+        else:
+            ex += "The hyperbola is given in standard normal form: \
+            $$\\frac{(%s)^2}{%s^2} - \\frac{(%s)^2}{%s^2} = 1$$" \
+                % (sym.latex(X-H), A, sym.latex(Y-K), B)
+            
+        ex += "From this we can read off the center to be at $_(h,k) = (%s, %s)$_. "\
+            % (H,K)
+            
+        ex += "The tansverse (major) axis is along $_%s = %s$_ and has length $_2a = %s$_."\
+            % (sym.latex(Y), K, 2*A)
+        
+        ex += "The vertices are $_(%s, %s) = (%s,%s)$_ and $_(%s, %s) = (%s, %s)$_."\
+            % (sym.latex(h - a * TX), sym.latex(k - a * TY), H - A * TX, K - A * TY,
+               sym.latex(h + a * TX), sym.latex(k + a * TY), H + A * TX, K + A * TY)
+        
+        ex += "The conjugate (minor) axis is along $_%s = %s$_ and has length \
+              $_2b = %s$_." % (sym.latex(Y), H, 2*B)
+        
+        ex += "The co-vertices are $_(%s, %s) = (%s,%s)$_ and $_(%s, %s) = (%s, %s)$_."\
+            % (sym.latex(h - B * (1 - TX)), sym.latex(k - B * (1 - TY)), 
+                    H - B * (1 - TX), K - B * (1 - TY), 
+                    sym.latex(h + B * (1 - TX)), sym.latex(k + B * (1 - TY)), 
+                    H + B * (1 - TX), K + B * (1 - TY))
+        
+        ex += "The two assymptotes are $_y = \\pm\\frac{b}{a}(%s) %s %s \
+              = \\pm\\frac{%s}{%s}(%s) %s %s $_. " \
+                % (sym.latex(x - H),  "+" if K > 0 else "-",
+                    sym.Abs(K), B, A, sym.latex(x - H), "+" if K > 0 else "-",
+                    sym.Abs(K))
+        
+        ex += "Finally, the focal length is $_c = \\sqrt{a^2+b^2}=%s$_ and the foci \
+            are located at $_(%s, %s) = (%s,%s)$_ and $_(%s, %s) = (%s, %s)$_."\
+            % (sym.latex(C),
+                    sym.latex(h - c * TX), sym.latex(k - c * TY), 
+                    sym.latex(H - C * TX), sym.latex(K - C * TY), 
+                    sym.latex(h + c * TX), sym.latex(k + c * TY), 
+                    sym.latex(H + C * TX), sym.latex(K + C * TY))
+    
+        
+        tbl, style = make_table(None, None, False, 
+            [
+                ['center', '$_(%s, %s)$_' % (H, K)],
+                ['vertices', '$_(%s, %s), (%s, %s)$_' \
+                    % tuple(map(sym.latex, [H - self.a * TX, K - self.b * TY, 
+                                            H + self.a * TX, K + self.b *TY]))],
+                ['length of conjugate axis', '$_%s$_' % sym.latex(2*A)],
+                ['co-vertices', '$_(%s, %s), (%s, %s)$_' \
+                    % tuple(map(sym.latex, [H - self.a * (1 - TX), K - self.b * (1 - TY), 
+                                            H + self.a * (1 - TX), K - self.b * (1 - TY)]))],
+                ['length of conjugate axis', '$_%s$_'% sym.latex(2*B)],
+                ['foci', '$_(%s, %s), (%s, %s)$_' \
+                    % tuple(map(sym.latex, [H - C * TX, K - C * TY, 
+                                            H + C * TX, K + C * TY]))],
+                ['asymptotes', '$_y = \\pm\\frac{%s}{%s}(%s) %s %s$_' \
+                    % tuple(map(sym.latex, [B, A, sym.sympify(x - H), 
+                                            "+" if K > 0 else "-",
+                                            sym.Abs(K)]))] 
+                                            
+            ])
+        
+    
+        img = html_image(image_url = file_name, width = '300px', preview = preview)
+    
         ex +="""      
         %s
         <div class='outer-container-rk'>
@@ -327,20 +434,21 @@ class Hyperbola(object):
                         <figcaption>$_%s = 1$_</figcaption>
                     </figure>
                 </div>
-                
+    
                 <div class='container-rk'>
                     %s
                 </div>
             </div>
         </div>
         """ % (style, img, self.latex, tbl)
-            
-        
+    
+    
         self.show(path = path, file_name = self.url, force = force, 
                   xkcd = xkcd)
-        
-        
+    
+    
         return ex
+ 
         
   
 if __name__ == "__main__":

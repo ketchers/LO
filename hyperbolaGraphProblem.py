@@ -54,7 +54,17 @@ class HyperbolaGraphProblem(object):
                   for er in errors]
         return errors
     
-    def stem(self, preview = False, xkcd = False, force = False):
+    def stem(self, preview = False, xkcd = False, force = False, 
+             expanded = True):
+        """
+        Parameters:
+        ----------
+        preview  : Boolean
+            Is this for testing / preview? If so set to true.
+        expanded : Boolean
+            If true, the equation is fully expanded and the student must
+            get the equation into normal form.
+        """
         
         kwargs = {
             'preview':False
@@ -68,13 +78,21 @@ class HyperbolaGraphProblem(object):
             self.done.add(prob)
             self.count += 1
         
-        
-        question_stem = 'Choose the graph of $$%s.$$' % (prob.latex)
+        if expanded:
+            const = (prob.a**2) * (prob.b **2)
+            question_stem = 'Find the normal form of the hyperbola given by the \
+                equation $$%s = 0$$ and use this \
+            to select the correct graph of the given hyperbola.' \
+            % ( sym.latex(const * (prob.expr.expand() - 1)))
+        else:
+            question_stem = 'Select the correct graph of the hyperbola given\
+            by the equations: $$%s = 1$$' % (prob.latex)
         
         ans = prob.show(path=self.path, xkcd = xkcd, force = force)
                                                          
         explanation = prob.explanation(path=self.path + "/explanation", 
-                                   preview = preview, xkcd = xkcd)
+                                   preview = preview, expanded = expanded,
+                                   xkcd = xkcd)
                                                          
         errors = self.gen_errors(prob, force = force, xkcd = xkcd)
         
@@ -85,6 +103,7 @@ class HyperbolaGraphProblem(object):
                        for er in errors]               
         if preview:
             explanation = '\n<div class=\'clr\'></div>\n' + explanation
+            question_stem = "<div>\n" + question_stem + "</div>"
             
         return tools.fully_formatted_question(question_stem, explanation, 
                                               answer_choices=distractors)
@@ -102,5 +121,8 @@ if __name__ == "__main__":
         pb += '<div class = \'posts\'>'
         pb += prob.stem(preview=preview, xkcd=xkcd)
         pb += '</div><br>'
-    
+    for i in range(5):
+        pb += '<div class = \'posts\'>'
+        pb += prob.stem(preview=preview, expanded = False, xkcd=xkcd)
+        pb += '</div><br>'
     print(pb)
