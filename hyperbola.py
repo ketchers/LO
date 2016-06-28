@@ -295,19 +295,21 @@ class Hyperbola(object):
     
         if preview:
             file_name = file_name.replace('%2','%252')
-            
-            
+    
+    
         const = self.a ** 2 * self.b **2
         x_part = const*(self(x, self.k).expand() - self(0, self.k))
         y_part = const*(self(self.h, y).expand() - self(self.h, 0))
         rhs = const - const*self(0, 0)
-        
+    
         # The following is an attempt to avoid lots of code duplication.
         if self.trans == 'x':
             X = x
             Y = y
             X_part = x_part
             Y_part = y_part
+            HH = self.h
+            KK = self.k
             TX = 1
             TY = 0
         else:
@@ -315,6 +317,8 @@ class Hyperbola(object):
             Y = x
             X_part = y_part
             Y_part = x_part
+            HH = self.k
+            KK = self.h
             TX = 0
             TY = 1
         # To reduce typing
@@ -323,74 +327,89 @@ class Hyperbola(object):
         H = self.h
         K = self.k
         C = self.c 
-        
+    
         k, h, a, b, c = sym.symbols('k h a b c')
-        
+    
         gcd_X = sym.gcd(X_part.collect(X).coeff(X,1), X_part.collect(X).coeff(X,2))
         gcd_Y = sym.gcd(Y_part.collect(Y).coeff(Y,1), Y_part.collect(Y).coeff(Y,2))
         b_X = X_part.collect(X).coeff(X,1)/gcd_X
         b_Y = -Y_part.collect(Y).coeff(Y,1)/gcd_Y        
-        
+    
         if expanded:
             ex += "The first step to finding the graph of $$%s = 0$$ is\
                 to find the normal form of the equation." \
             % sym.latex((const*(self(x, y) - 1)).expand())
-        
+    
             ex += " To begin move the constant term to the right hand side. \
                 This gives: $$(%s) + (%s) = %s$$" \
                     % (sym.latex(x_part), sym.latex(y_part), rhs)
-                
-            
-            
+    
+    
+    
             ex += "Next factor common factors from the $_x$_ and $_y$_ terms to get: \
                 $$%s(%s) - %s(%s) = %s$$" \
-            % (gcd_X, sym.latex(X_part/gcd_X), gcd_Y, sym.latex(-Y_part/gcd_Y), rhs)
-                
+            % (gcd_X if gcd_X != 1 else "", sym.latex(X_part/gcd_X), 
+               gcd_Y if gcd_Y != 1 else "", sym.latex(-Y_part/gcd_Y), rhs)
+    
             ex += "Now complete the squares: \
-                $$%s\\left(%s + \\left(\\frac{%s}{2}\\right)^2\\right) \
-                - %s\\left(%s + \\left(\\frac{%s}{2}\\right)^2\\right) = \
-                %s + \\left(\\frac{%s}{2}\\right)^2 + \\left(\\frac{%s}{2}\\right)^2$$"\
-                 % (gcd_X, sym.latex(X_part/gcd_X), b_X, gcd_Y, sym.latex(-Y_part/gcd_Y), 
-                    b_Y, rhs, b_X, b_Y)
-            
-            ex += "This simplifies to: $$%s = %s$$" % (sym.latex(const*self.expr), const)
-            
-            ex += "Lastly divide both side by the right hand side to get: $$%s = %s$$" \
-                % (sym.latex(self.expr), 1)
-                
+                $$%s\\left(%s  %s\\right) \
+                - %s\\left(%s  %s\\right) = \
+                %s %s %s$$"\
+                 % (gcd_X if gcd_X != 1 else "", sym.latex(X_part/gcd_X), 
+                    "+ \\left(\\frac{%s}{2}\\right)^2" % b_X if b_X != 0 else "", 
+                    gcd_Y if gcd_Y != 1 else "", sym.latex(-Y_part/gcd_Y), 
+                    "+ \\left(\\frac{%s}{2}\\right)^2" % b_Y if b_Y != 0 else "", 
+                    rhs, 
+                    "+ %s\\left(\\frac{%s}{2}\\right)^2" % (gcd_X, b_X) if b_X != 0 else "", 
+                    "- %s\\left(\\frac{%s}{2}\\right)^2" % (gcd_Y, b_Y) if b_Y != 0 else "")
+    
+            ex += "This simplifies to: $$%s\\left(%s\\right)^2 - %s\\left(%s\\right)^2 = %s$$" \
+                % (gcd_X if gcd_X != 1 else "",
+                   sym.latex(X + b_X/2),
+                   gcd_Y if gcd_Y != 1 else "",
+                    sym.latex(Y + b_Y/2),
+                   const)
+    
+            ex += "Lastly divide both side by the right hand side to get: \
+                $$%s\\left(%s\\right)^2 - %s\\left(%s\\right)^2 = 1$$" \
+                % (sym.latex(gcd_X/const) if gcd_X/const != 1 else "",
+                   sym.latex(X + b_X/2),
+                   sym.latex(gcd_Y/const) if gcd_Y/const != 1 else "",
+                    sym.latex(Y + b_Y/2))
+    
             ex += "This simplifies to the final normal form: \
                 $$\\frac{(%s)^2}{%s^2} - \\frac{(%s)^2}{%s^2} = 1$$" \
-                % (sym.latex(X-H), A, sym.latex(Y-K), B)
+                % (sym.latex(X-HH), A, sym.latex(Y-KK), B)
         else:
             ex += "The hyperbola is given in standard normal form: \
             $$\\frac{(%s)^2}{%s^2} - \\frac{(%s)^2}{%s^2} = 1$$" \
-                % (sym.latex(X-H), A, sym.latex(Y-K), B)
-            
+                % (sym.latex(X-HH), A, sym.latex(Y-KK), B)
+    
         ex += "From this we can read off the center to be at $_(h,k) = (%s, %s)$_. "\
             % (H,K)
-            
+    
         ex += "The tansverse (major) axis is along $_%s = %s$_ and has length $_2a = %s$_."\
             % (sym.latex(Y), K, 2*A)
-        
+    
         ex += "The vertices are $_(%s, %s) = (%s,%s)$_ and $_(%s, %s) = (%s, %s)$_."\
             % (sym.latex(h - a * TX), sym.latex(k - a * TY), H - A * TX, K - A * TY,
                sym.latex(h + a * TX), sym.latex(k + a * TY), H + A * TX, K + A * TY)
-        
+    
         ex += "The conjugate (minor) axis is along $_%s = %s$_ and has length \
               $_2b = %s$_." % (sym.latex(Y), H, 2*B)
-        
+    
         ex += "The co-vertices are $_(%s, %s) = (%s,%s)$_ and $_(%s, %s) = (%s, %s)$_."\
             % (sym.latex(h - B * (1 - TX)), sym.latex(k - B * (1 - TY)), 
                     H - B * (1 - TX), K - B * (1 - TY), 
                     sym.latex(h + B * (1 - TX)), sym.latex(k + B * (1 - TY)), 
                     H + B * (1 - TX), K + B * (1 - TY))
-        
+    
         ex += "The two assymptotes are $_y = \\pm\\frac{b}{a}(%s) %s %s \
               = \\pm\\frac{%s}{%s}(%s) %s %s $_. " \
                 % (sym.latex(x - H),  "+" if K > 0 else "-",
                     sym.Abs(K), B, A, sym.latex(x - H), "+" if K > 0 else "-",
                     sym.Abs(K))
-        
+    
         ex += "Finally, the focal length is $_c = \\sqrt{a^2+b^2}=%s$_ and the foci \
             are located at $_(%s, %s) = (%s,%s)$_ and $_(%s, %s) = (%s, %s)$_."\
             % (sym.latex(C),
@@ -399,7 +418,7 @@ class Hyperbola(object):
                     sym.latex(h + c * TX), sym.latex(k + c * TY), 
                     sym.latex(H + C * TX), sym.latex(K + C * TY))
     
-        
+    
         tbl, style = make_table(None, None, False, 
             [
                 ['center', '$_(%s, %s)$_' % (H, K)],
@@ -418,9 +437,9 @@ class Hyperbola(object):
                     % tuple(map(sym.latex, [B, A, sym.sympify(x - H), 
                                             "+" if K > 0 else "-",
                                             sym.Abs(K)]))] 
-                                            
+    
             ])
-        
+    
     
         img = html_image(image_url = file_name, width = '300px', preview = preview)
     
@@ -448,7 +467,7 @@ class Hyperbola(object):
     
     
         return ex
- 
+        
         
   
 if __name__ == "__main__":
