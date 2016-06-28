@@ -423,12 +423,12 @@ class Hyperbola(object):
             [
                 ['center', '$_(%s, %s)$_' % (H, K)],
                 ['vertices', '$_(%s, %s), (%s, %s)$_' \
-                    % tuple(map(sym.latex, [H - self.a * TX, K - self.b * TY, 
-                                            H + self.a * TX, K + self.b *TY]))],
+                    % tuple(map(sym.latex, [H - A * TX, K - A * TY, 
+                                            H + A * TX, K + A *TY]))],
                 ['length of conjugate axis', '$_%s$_' % sym.latex(2*A)],
                 ['co-vertices', '$_(%s, %s), (%s, %s)$_' \
-                    % tuple(map(sym.latex, [H - self.a * (1 - TX), K - self.b * (1 - TY), 
-                                            H + self.a * (1 - TX), K - self.b * (1 - TY)]))],
+                    % tuple(map(sym.latex, [H - B * (1 - TX), K - B * (1 - TY), 
+                                            H + B * (1 - TX), K - B * (1 - TY)]))],
                 ['length of conjugate axis', '$_%s$_'% sym.latex(2*B)],
                 ['foci', '$_(%s, %s), (%s, %s)$_' \
                     % tuple(map(sym.latex, [H - C * TX, K - C * TY, 
