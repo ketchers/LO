@@ -67,11 +67,11 @@ def make_table(col_headers = None, row_headers = None,
                 out_string += "\n\t<div class=\'cell-rk head-rk\'>" \
                     + str(row_headers[j]) + "</div>" + \
                 "".join(["\n\t<div class=\'cell-rk\'>" + \
-            ("%.3f" % i if str(type(i)).find('float') != -1 else "%s" % i) +\
+            ("%.3g" % i if str(type(i)).find('float') != -1 else "%s" % i) +\
                          "</div>" for i in data[j]])
             else:
                 out_string += "".join(["\n\t<div class=\'cell-rk\'>" + \
-            ("%.3f" % i if str(type(i)).find('float') != -1 else "%s" % i) + \
+            ("%.3g" % i if str(type(i)).find('float') != -1 else "%s" % i) + \
                                        "</div>" 
                                        for i in data[j]])
             out_string += "\n</div>\n"
