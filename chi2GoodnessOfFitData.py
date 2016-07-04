@@ -2,6 +2,7 @@ from __future__  import division
 from __future__ import print_function
 import random
 import numpy as np
+import warnings
 
 class DictObj(object):
     def __init__(self, dic):
@@ -18,9 +19,30 @@ class Chi2GoodnessOfFitData(object):
     then some defaults are used (see below). These can then be modified
       ctx.outcomes = [u'\u2680', u'\u2681', u'\u2682', u'\u2683', u'\u2684', u'\u2685']
     
-    If initialized as 
-      ctxNew = Chi2GoodnessOfFit(ctx)
-    then all the attributes of ctx are used. (A copy mechanism.)
+    If initialized as:
+
+    # Pass the pigs game
+    outcomes =  ['Pink', 'Dot', 'Razorback', 'Trotter', 'Snouter', 'Leaning Jowler']
+    t_dist = [.35, .30, .20, .10, .04, .01]
+    tbl, styles = make_table(outcomes, ['Position', 'Expected Frequency'],True, 
+                            t_dist)
+    
+    story = \"""Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
+            essentially a dice game except that instead of dice players toss
+            small plastic pigs that can land in any of 6 positions. For example, 
+            you roll a trotter if the pig falls standind on all 4 legs. 
+            The expected for the 6 positions are:
+            
+            {styles}
+            {tbl}            
+            \""".format(styles = styles, tbl = tbl)
+            
+    ctx2 = Chi2GoodnessOfFitData(
+        outcomes = outcomes,
+        t_dist = t_dist,
+        s_size = random.randint(5, 20) * 6,
+        a_level = random.choice([0.1,0.01,0.05]),
+        story = story)
     
     """
    
@@ -46,13 +68,23 @@ class Chi2GoodnessOfFitData(object):
         self.sample = np.random.choice(self.outcomes, self.s_size, 
                                        p = self.o_dist)
         # Generate counts
-        self.o_counts = [sum(self.sample == i) for i in self.outcomes]
+        self.o_counts = np.array([sum(self.sample == i) for i in self.outcomes])
         # Sample distribution
+        
+        self.is_valid = sum(self.o_counts - 4 > 0)/len(self.o_counts) >= .8
+        if not self.is_valid:
+            warnings.warn("The cell counts are too small!")
+        
+        
         self.s_dist = self.o_counts/sum(self.o_counts)
         # Set alpha level (a_level)
         self.a_level = getattr(context, 'a_level', random.choice([.1,.05,.01]))
         # The actual description of the problem
         self.chi2_stat = np.sum((self.o_counts - self.t_counts)**2/self.t_counts)
+        self.null = getattr(context, 'null', "The die is fair with each outcome \
+                being equally likly.")
+        self.alternate =  getattr(context, 'null', "The die is not fair some\
+            outcomes are more likely than others.")
         
 
         default_story = """
@@ -66,8 +98,10 @@ class Chi2GoodnessOfFitData(object):
         
     def __hash__(self):
         if self.hash == 17:
-            for i in sorted(self.__dict__):
-                self.hash = hash(self.__dict__[i] + 31 * self.hash)
+            hlist = map(lambda x: tuple(x) if type(x) in [list, np.ndarray] else x, 
+                        [self.__dict__[i] for i in sorted(self.__dict__)])
+            for i in hlist:
+                self.hash = hash(hash(hlist[i]) + 31 * self.hash)
             return self.hash
         return self.hash
         

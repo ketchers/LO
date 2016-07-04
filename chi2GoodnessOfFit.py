@@ -2,6 +2,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 import sys
+import warnings
 import tools
 import random
 import sympy as sym
@@ -27,7 +28,7 @@ class Chi2GoodnessOfFit():
         
         
     def stem(self, context = None, table = None, q_type = 'statistic',
-             preview = False):
+             preview = False, count = 0):
         """
         This will generate a problem for $\chi^2$ goodness of fit.
         
@@ -69,6 +70,10 @@ class Chi2GoodnessOfFit():
         if context == None:
             context = Chi2GoodnessOfFitData()
             
+        if not context.is_valid:
+            warnings.warn("Context had invalid cell counts.")
+            return       
+        
         # Generate unique name
         q_name = random.randint(1, 20000)
         while q_name in self.cache:
@@ -76,15 +81,22 @@ class Chi2GoodnessOfFit():
         self.cache.add(q_name)
         self.hist = self.path + "/" + str(q_name) + ".png"
         self.solution_plot = self.path + "/" + str(q_name) + "_sol.png"
+        
+        style = None
             
         
-        question_stem = "<div>" + context.story + "</div>\n" 
+        if preview:
+            question_stem = "<h2>Question</h2><br>"
+        else:
+            question_stem = ""
+        
+        question_stem += "<div class='par'>" + context.story + "</div>\n" 
         if table == 'table':
-            html, style = make_table(context.outcomes,
+            tbl, style = make_table(context.outcomes,
                                 [context.outcome_type, 
                                 'Observed Counts'],
                                 True,  context.o_counts)
-            question_stem += style + html
+            question_stem += style + tbl
             
         elif table == 'hist':
             self.gen_observed_hist(context.outcomes, context.t_dist, 
@@ -93,11 +105,11 @@ class Chi2GoodnessOfFit():
             img = html_image(self.hist, width = '300px', preview = preview)
             
             
-        
-            _, style = make_table(None,None,True,[1])
+            if style is None:
+                _, style = make_table(None,None,True,[1])
+                question_stem += style
             
             question_stem +="""      
-            %s
             <div class='outer-container-rk'>
                 <div class='centering-rk'>
                     <div class='container-rk'>
@@ -108,70 +120,141 @@ class Chi2GoodnessOfFit():
                     </div>
                 </div>
             </div>
-            """ % (style, img, "Observed Frequencies")                
+            """ % (img, "Observed Frequencies")                
         
+ 
+        N = len(context.outcomes)     
+        df =  N - 1        
+        chi2eq = "$$\\chi^2_{%s}=\\sum_{i=1}^{%s}\\frac{(O_i-E_i)^2}{E_i}\
+                = %.3g$$" % (df, N, context.chi2_stat)
+                
         if q_type == 'STAT':
             question_stem += "Compute the $_\\chi^2$_-statistic and degrees \
                 of freedom for the given observed values."
+
+        elif q_type == 'PVAL':
+           
+            question_stem += """The $_\\chi^2$_ statistic is 
+                {chi2eq}
+                with degrees of freedom $_df = {N} - 1 = {df}$_.                 
+                
+            Use this information to find the $_p$_-value, 
+            $_P(\chi^2_{{{df}}} > {chi2:.3g})$_.
+            """.format(chi2eq=chi2eq, N=N, df = df, chi2=context.chi2_stat)
+                       
         elif q_type == 'HT':
-            df = len(context.outcomes) - 1
-            chi2eq = "$$\\chi^2_{%s}=\\sum_{i=1}^{%s}\\frac{(O_i-E_i)^2}{E_i}\
-                = %.3g.$$" % (df, len(context.outcomes), context.chi2_stat)
             
-            question_stem += """The degrees of freedom are $_df = $_ {df} and 
-            the $_\\chi^2$_ statistic is {chi2} 
+            question_stem += """The degrees of freedom are $_df = {N} - 1 = 
+            {df}$_ and the $_\\chi^2$_ statistic is {chi2eq} 
             
             Use this information to conduct a hypothesis test with 
             $_\\alpha = {a_level}$_. Choose the answer that best captures
             the null hypothesis and conclusion.
-            """.format(df = len(context.outcomes) - 1,
-                       chi2 = chi2eq,
+            """.format(N = N, df = df, chi2eq = chi2eq,
                        a_level = context.a_level)
-        elif q_type == 'PVAL':
-            df = len(context.outcomes) - 1
-            chi2eq = "$$\\chi^2_{df}=\\sum_{i=1}^{%s}\\frac{(O_i-E_i)^2}{E_i}\
-                = %.3g.$$" % (df, context.chi2_stat)
-            
-            question_stem += """The $_\\chi^2$_ statistic is {chi2} 
-            
-            Use this information to find the $_p$_-value and 
-            degrees of freedom.
-            """.format(df = len(context.outcomes) - 1,
-                       chi2 = chi2eq)
-                            
-        explanation = "<br><br><strong>The explanation is in progress not done,\
-        but here is part of what they get:</strong>"
+       
         
-        img = html_image(self.solution_plot, width = '300px', 
-                             preview = preview)
-            
-        tbl, style = make_table(context.outcomes,
+        explanation = style
+        
+        if preview:
+            explanation += "<br><h2>Explanation</h2><br>"
+                    
+        tbl1, _ = make_table(context.outcomes,
+                                [context.outcome_type, 'Probabilities'],
+                                True,  context.t_dist) 
+        
+        tbl2, _ = make_table(context.outcomes,
                                 [context.outcome_type, 'Expected Counts', 
                                 'Observed Counts'],
-                                True,  context.t_counts, context.o_counts)
+                                True,  context.t_counts, context.o_counts)        
+        
+        
+        explanation += "<div class='par'>To find the expected counts multiply the total\
+            number of observations by the expected probability for an outcome. \
+            The probabilities for the expected outcomes are summarized in the \
+            following table:"
+        explanation += tbl1
+        explanation += "and there are %s observations." % context.s_size
+        explanation += " So the expected and observed counts are:<br>"
+        explanation += tbl2 
+        explanation += "</div>"
+        
+        explanation += "<div class='par'>The degrees of freedom are $_df = {N} - 1 = \
+        {df}$_ and the $_\\chi^2$_-statistic is:{chi2eq}</div>"\
+                .format(N=N,df=df,chi2eq=chi2eq)
+        
+        if q_type in ['HT','PVAL']:
             
-        self.gen_solution_plot(context.chi2_stat, context.outcomes, 
-                              context.t_dist, context.s_size, 
-                              a_level = context.a_level)
+            rv = stats.chi2(df)
+            p_val = 1 - rv.cdf(context.chi2_stat)
+            
+            img = html_image(self.solution_plot, width = '300px', 
+                             preview = preview)
+            
+        
+            
+            self.gen_solution_plot(context.chi2_stat, context.outcomes, 
+                                   context.t_dist, context.s_size, 
+                                   a_level = context.a_level)
                               
             
         
-        explanation +="""    
-        %s
-        %s
-        <div class='outer-container-rk'>
-            <div class='centering-rk'>
-                <div class='container-rk'>
-                    <figure>
-                        %s
-                        <figcaption>%s</figcaption>
-                    </figure>
+            caption = "Lightshading indicates the p-value.<br>\
+                The darker shading indicate the $_\\alpha = %.2g$_ level."\
+                % context.a_level
+            explanation +="""
+            The p-value for this data is:
+                $$\\text{p-value} = P(\\chi^2_{%s} > %.3g) = %.4g%s$$
+            <div class='outer-container-rk'>
+                <div class='centering-rk'>
+                    <div class='container-rk'>
+                        <figure>
+                            %s
+                            <figcaption>%s</figcaption>
+                        </figure>
+                    </div>
                 </div>
             </div>
-        </div>
-        """ % (style, tbl, img, "Observed Frequencies")         
+            """ % (df, context.chi2_stat, p_val * 100, '%', img, caption)
+            explanation += """
+                <div class='par'>The lightly shaded histogram represents a sampling distribution
+                of 5000 sample $_\chi^2$_-statistics where the  samples are 
+                of the same size as the given observed data (%s observations).
+                This indicate how well the $_\chi^2$_-distributions is capturing
+                the actual sampling distribution for this experiment.</div>
+                """ % context.s_size
         
-        return question_stem + "<div>" + explanation +"</div>"
+        
+        if q_type == 'HT':
+            
+            if p_val < context.a_level:
+                
+                explanation += """
+                    <div class='par'>The p-value is less than the $_\\alpha$_-level so
+                    the null hypothesis:
+                    <br>
+                    <strong>H<sub>0</sub>: {null} </strong>
+                    </br>
+                    is rejected. There is only a {p_val:.2%} probability due to 
+                    random chance in sampling that
+                    the difference in the expected and observed data is 
+                    least this large. There is evidence that the expected distribution 
+                    is incorrect.</div>
+                    """.format(null=context.null, p_val=p_val)
+            else:
+                explanation += """
+                    <div class='par'>The p-value is greater than the $_\\alpha$_-level so
+                    the null hypothesis:
+                    <br>
+                    <strong>H<sub>0</sub>: {null}</strong>
+                    </br>
+                    cannot be rejected. There is a {p_val:.2%} probability due to 
+                    random chance in sampling that
+                    the difference in the expected and observed data is at 
+                    least this large.</div>
+                    """.format(null=context.null, p_val=p_val)
+            
+        return question_stem + "<div class='par'>" + explanation +"</div>"
         
         
     def gen_solution_plot(self, chi2_stat, outcomes, t_dist, s_size, a_level = 0.05):
@@ -191,14 +274,16 @@ class Chi2GoodnessOfFit():
         ax.set_yticks([])
         ax.xaxis.set_ticks_position('bottom')
         ax.text((min(x_data) + max(x_data)) / 2 , (min(y_data) + max(y_data)) / 2,
-                "p-value = %.3f%s" % ((1-rv.cdf(chi2_stat)) * 100, '%'), fontsize = 14)
+                "p-value = %.4g%s" % ((1-rv.cdf(chi2_stat)) * 100, '%'), fontsize = 14)
         
         ax.plot([chi2_stat,chi2_stat], [0,max(.005,rv.pdf(chi2_stat))], 'r-', lw = 2)
-        ax.fill_between(x_data[x_above_crit ], 0, y_data[x_above_crit], color = (.7,.2,.7,.5))
-        ax.fill_between(x_data[x_above_statistic], 0, y_data[x_above_statistic], color = (.7,.2,.7,.3))
+        ax.fill_between(x_data[x_above_crit ], 0, y_data[x_above_crit],
+                        color = (.7,.2,.7,.5))
+        ax.fill_between(x_data[x_above_statistic], 0, y_data[x_above_statistic],
+                        color = (.7,.2,.7,.3))
     
     
-        s = np.random.choice(outcomes, (5000,s_size), p = t_dist)
+        s = np.random.choice(outcomes, (5000, s_size), p = t_dist)
         q = tuple(np.transpose([np.sum(s == i, axis = 1)]) for i in outcomes)
         q = np.sum((np.hstack(q) - 
                     s_size*np.ones((5000, len(t_dist)))*np.array(t_dist)) **2 / (s_size * np.array(t_dist))
@@ -230,7 +315,7 @@ class Chi2GoodnessOfFit():
         if rotation is None:
             try:
                 if any(map(lambda x: len(x) > 7, outcomes)):
-                    rotation = -60
+                    rotation = -45
                 elif any(map(lambda x: len(x) > 4, outcomes)):
                     rotation = -30
                 else:
@@ -264,41 +349,81 @@ if __name__ == "__main__":
         ctx1 = Chi2GoodnessOfFitData(outcomes = \
                [u'\u2680', u'\u2681', u'\u2682', u'\u2683', u'\u2684', u'\u2685'])
                 
-        
+        ######################################
         # Pass the pigs game
-        outcomes =  ['Pink', 'Dot', 'Razorback', 'Trotter', 'Snouter', 'Leaning Jowler']
+        outcomes =  ['Pink', 'Dot', 'Razorback', 'Trotter', 
+                     'Snouter', 'Leaning Jowler']
         t_dist = [.35, .30, .20, .10, .04, .01]
-        tbl, styles = make_table(outcomes, ['Position', 'Expected Frequency'],True, 
-                                t_dist)
-        
+        tbl, styles = make_table(outcomes, ['Position', 'Expected Frequency'],
+                                 True, t_dist)
+        s_size = random.randint(10, 20) * 10
         story = """Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
                 essentially a dice game except that instead of dice players toss
                 small plastic pigs that can land in any of 6 positions. For example, 
-                you roll a trotter if the pig falls standind on all 4 legs. 
-                The expected for the 6 positions are:
+                you roll a trotter if the pig falls standing on all 4 legs. 
+                It is claimed that the distribution for the 6 positions are:
                 
                 {styles}
                 {tbl}            
-                """.format(styles = styles, tbl = tbl)
                 
+                To test this you toss a pig {s_size} times and get the observed 
+                frequencies below:
+                """.format(styles = styles, tbl = tbl, s_size = s_size)
+        null = "The observed value of the positionons of the pigs agrees with \
+            the expected distribution."
         ctx2 = Chi2GoodnessOfFitData(
             outcomes = outcomes,
             t_dist = t_dist,
-            s_size = random.randint(5, 20) * 6,
+            s_size = s_size,
+            a_level = random.choice([0.1,0.01,0.05]),
+            story = story,
+            null = null)
+        
+        while not ctx2.is_valid:
+            ctx2 = Chi2GoodnessOfFitData(
+            outcome_type = 'Position',
+            outcomes = outcomes,
+            t_dist = t_dist,
+            s_size = random.randint(10, 20) * 10,
             a_level = random.choice([0.1,0.01,0.05]),
             story = story)
-        
-        return [ctx, ctx2]
+            
+        ###########################################
+        ## 11.2 from text
+        outcomes = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+                    'Friday', 'Saturday']
+        t_dist = np.ones(7) * 1/7
+        s_size = random.randint(5, 10) * 10
+        story = """
+              Teachers want to know which night each week their students are 
+              doing most of their homework. Most teachers think that students 
+              do homework equally throughout the week. Suppose a random sample 
+              of %s students were asked on which night of the week they 
+              did the most homework. The results were distributed as in  
+        """ % s_size
+        null = "Students are equally likely to do the majority of their \
+            homework on any of the seven nights of the week."
+            
+        ctx3 = Chi2GoodnessOfFitData(
+            outcomes = outcomes,
+            t_dist = t_dist,
+            s_size = s_size,
+            a_level = random.choice([0.1,0.01,0.05]),
+            story = story,
+            null = null)
+            
+        return [ctx, ctx2, ctx3]
             
     
     
     prob = Chi2GoodnessOfFit()
     pb = ""
-    for q_type in ['STAT', 'HT', 'PVAL']:
+    for q_type in ['STAT','PVAL','HT']:
         for table in ['hist', 'table']:
-            for context in ['ctx', 'ctx1']:
-                c = random.choice(gen_ctx())
-                pb += '<div class = \'posts\'>'
-                pb += prob.stem(context = c, preview=preview, q_type = q_type)
-                pb += '</div><br>'
+            for c in gen_ctx():
+                result = prob.stem(context = c, preview=preview, q_type = q_type)
+                if result is not None:
+                    pb += '<div class = \'posts\'>'
+                    pb += result
+                    pb += '</div><br>'
     print(pb)

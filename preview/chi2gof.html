@@ -21,12 +21,11 @@
   <div id = "posts">
     
   </div>
-  <div class = 'posts'><div>
+  <div class = 'posts'><h2>Question</h2><br><div class='par'>
     To test if a die is fair you roll the die
-    72 times with the following outcomes:
+    48 times with the following outcomes:
   </div>
-  
-  
+
   <style type="text/css">
 
     div.outer-container-rk {
@@ -34,6 +33,12 @@
       overflow-x: auto; 
     }
 
+
+    div.par {
+      margin: 10px;
+      padding: 5px;
+    }
+    
     div.centering-rk {
       display: table;
       margin: auto;
@@ -93,20 +98,32 @@
         
         <div class='outer-container-rk'>
           <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/3687.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>1</div>
+                <div class='cell-rk'>2</div>
+                <div class='cell-rk'>3</div>
+                <div class='cell-rk'>4</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>6</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>7</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>7</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>9</div>
+              </div>
+
             </div>
           </div>
         </div>
-        Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observed values.<div><br><br><strong>The explanation is in progress not done,        but here is part of what they get:</strong>    
-        
+        <br>
+        Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observed values.<div class='par'>
         <style type="text/css">
 
           div.outer-container-rk {
@@ -114,6 +131,12 @@
             overflow-x: auto; 
           }
 
+
+          div.par {
+            margin: 10px;
+            padding: 5px;
+          }
+          
           div.centering-rk {
             display: table;
             margin: auto;
@@ -170,8 +193,35 @@
           }
         </style>
         
-        
-        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>1</div>
+                <div class='cell-rk'>2</div>
+                <div class='cell-rk'>3</div>
+                <div class='cell-rk'>4</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>6</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        and there are 48 observations. So the expected and observed counts are:<br>
         <div class='outer-container-rk'>
           <div class='centering-rk'>
             <div class='tbl-rk'>
@@ -187,47 +237,32 @@
               </div>
               <div class='row-rk'>
                 <div class='cell-rk head-rk'>Expected Counts</div>
-                <div class='cell-rk'>12</div>
-                <div class='cell-rk'>12</div>
-                <div class='cell-rk'>12</div>
-                <div class='cell-rk'>12</div>
-                <div class='cell-rk'>12</div>
-                <div class='cell-rk'>12</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>8</div>
               </div>
               <div class='row-rk'>
                 <div class='cell-rk head-rk'>Observed Counts</div>
-                <div class='cell-rk'>10</div>
+                <div class='cell-rk'>7</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>7</div>
                 <div class='cell-rk'>11</div>
-                <div class='cell-rk'>12</div>
-                <div class='cell-rk'>13</div>
-                <div class='cell-rk'>13</div>
-                <div class='cell-rk'>13</div>
+                <div class='cell-rk'>9</div>
               </div>
 
             </div>
           </div>
         </div>
         <br>
-
-        <div class='outer-container-rk'>
-          <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/3687_sol.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-      </div></div><br><div class = 'posts'><div>Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
+      </div><div class='par'>The degrees of freedom are $_df = 6 - 1 =         5$_ and the $_\chi^2$_-statistic is:$$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 2$$</div></div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
       essentially a dice game except that instead of dice players toss
       small plastic pigs that can land in any of 6 positions. For example, 
-      you roll a trotter if the pig falls standind on all 4 legs. 
-      The expected for the 6 positions are:
+      you roll a trotter if the pig falls standing on all 4 legs. 
+      It is claimed that the distribution for the 6 positions are:
       
       
       <style type="text/css">
@@ -237,6 +272,12 @@
           overflow-x: auto; 
         }
 
+
+        div.par {
+          margin: 10px;
+          padding: 5px;
+        }
+        
         div.centering-rk {
           display: table;
           margin: auto;
@@ -323,9 +364,11 @@
         </div>
         <br>
         
+        
+        To test this you toss a pig 200 times and get the observed 
+        frequencies below:
       </div>
-      
-      
+
       <style type="text/css">
 
         div.outer-container-rk {
@@ -333,6 +376,12 @@
           overflow-x: auto; 
         }
 
+
+        div.par {
+          margin: 10px;
+          padding: 5px;
+        }
+        
         div.centering-rk {
           display: table;
           margin: auto;
@@ -392,87 +441,6 @@
         
         <div class='outer-container-rk'>
           <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/10961.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-        Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observed values.<div><br><br><strong>The explanation is in progress not done,        but here is part of what they get:</strong>    
-        
-        <style type="text/css">
-
-          div.outer-container-rk {
-            display: block;
-            overflow-x: auto; 
-          }
-
-          div.centering-rk {
-            display: table;
-            margin: auto;
-            text-align: center;
-            border-width: 2pt;
-            border-style: solid;
-            border-color: rgba(200,100,200,.5);
-            border-radius: 10px;
-            padding: 5px;
-
-          }
-
-          div.container-rk {
-            /*float: left;*/
-            display: inline-block;
-            /*            
-            border-width: 2pt;
-            border-style: solid;
-            border-color: rgba(200,100,200,.5);
-            border-radius: 10px;
-            padding: 5px;
-            */
-          }
-
-          
-
-          div.tbl-rk {
-            display: table;
-          }
-
-          div.row-rk {
-            display: table-row;
-            padding: 5px;
-          }
-
-          div.row-rk:nth-child(odd) {
-            background-color: rgba(200, 200, 200, .5);
-          }
-
-          div.head-rk {
-            display: table-header-group;
-            font-weight: bold;
-          }
-
-          div.cell-rk {
-            display: table-cell;
-            text-align: left;
-            vertical-align: middle;
-            padding: 5px;
-          }
-
-          figure.rk {
-            margin: 5px;
-          }
-        </style>
-        
-        
-        
-        <div class='outer-container-rk'>
-          <div class='centering-rk'>
             <div class='tbl-rk'>
               
               <div class='row-rk head-rk'>
@@ -485,21 +453,12 @@
                 <div class='cell-rk'>Leaning Jowler</div>
               </div>
               <div class='row-rk'>
-                <div class='cell-rk head-rk'>Expected Counts</div>
-                <div class='cell-rk'>14.7</div>
-                <div class='cell-rk'>12.6</div>
-                <div class='cell-rk'>8.4</div>
-                <div class='cell-rk'>4.2</div>
-                <div class='cell-rk'>1.68</div>
-                <div class='cell-rk'>0.42</div>
-              </div>
-              <div class='row-rk'>
                 <div class='cell-rk head-rk'>Observed Counts</div>
-                <div class='cell-rk'>11</div>
-                <div class='cell-rk'>12</div>
-                <div class='cell-rk'>11</div>
-                <div class='cell-rk'>4</div>
-                <div class='cell-rk'>3</div>
+                <div class='cell-rk'>89</div>
+                <div class='cell-rk'>51</div>
+                <div class='cell-rk'>33</div>
+                <div class='cell-rk'>21</div>
+                <div class='cell-rk'>5</div>
                 <div class='cell-rk'>1</div>
               </div>
 
@@ -507,204 +466,7 @@
           </div>
         </div>
         <br>
-
-        <div class='outer-container-rk'>
-          <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/10961_sol.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-      </div></div><br><div class = 'posts'><div>Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
-      essentially a dice game except that instead of dice players toss
-      small plastic pigs that can land in any of 6 positions. For example, 
-      you roll a trotter if the pig falls standind on all 4 legs. 
-      The expected for the 6 positions are:
-      
-      
-      <style type="text/css">
-
-        div.outer-container-rk {
-          display: block;
-          overflow-x: auto; 
-        }
-
-        div.centering-rk {
-          display: table;
-          margin: auto;
-          text-align: center;
-          border-width: 2pt;
-          border-style: solid;
-          border-color: rgba(200,100,200,.5);
-          border-radius: 10px;
-          padding: 5px;
-
-        }
-
-        div.container-rk {
-          /*float: left;*/
-          display: inline-block;
-            /*            
-            border-width: 2pt;
-            border-style: solid;
-            border-color: rgba(200,100,200,.5);
-            border-radius: 10px;
-            padding: 5px;
-            */
-          }
-
-          
-
-          div.tbl-rk {
-            display: table;
-          }
-
-          div.row-rk {
-            display: table-row;
-            padding: 5px;
-          }
-
-          div.row-rk:nth-child(odd) {
-            background-color: rgba(200, 200, 200, .5);
-          }
-
-          div.head-rk {
-            display: table-header-group;
-            font-weight: bold;
-          }
-
-          div.cell-rk {
-            display: table-cell;
-            text-align: left;
-            vertical-align: middle;
-            padding: 5px;
-          }
-
-          figure.rk {
-            margin: 5px;
-          }
-        </style>
-        
-        
-        
-        <div class='outer-container-rk'>
-          <div class='centering-rk'>
-            <div class='tbl-rk'>
-              
-              <div class='row-rk head-rk'>
-                <div class='cell-rk'>Position</div>
-                <div class='cell-rk'>Pink</div>
-                <div class='cell-rk'>Dot</div>
-                <div class='cell-rk'>Razorback</div>
-                <div class='cell-rk'>Trotter</div>
-                <div class='cell-rk'>Snouter</div>
-                <div class='cell-rk'>Leaning Jowler</div>
-              </div>
-              <div class='row-rk'>
-                <div class='cell-rk head-rk'>Expected Frequency</div>
-                <div class='cell-rk'>0.35</div>
-                <div class='cell-rk'>0.3</div>
-                <div class='cell-rk'>0.2</div>
-                <div class='cell-rk'>0.1</div>
-                <div class='cell-rk'>0.04</div>
-                <div class='cell-rk'>0.01</div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <br>
-        
-      </div>
-      
-      
-      <style type="text/css">
-
-        div.outer-container-rk {
-          display: block;
-          overflow-x: auto; 
-        }
-
-        div.centering-rk {
-          display: table;
-          margin: auto;
-          text-align: center;
-          border-width: 2pt;
-          border-style: solid;
-          border-color: rgba(200,100,200,.5);
-          border-radius: 10px;
-          padding: 5px;
-
-        }
-
-        div.container-rk {
-          /*float: left;*/
-          display: inline-block;
-            /*            
-            border-width: 2pt;
-            border-style: solid;
-            border-color: rgba(200,100,200,.5);
-            border-radius: 10px;
-            padding: 5px;
-            */
-          }
-
-          
-
-          div.tbl-rk {
-            display: table;
-          }
-
-          div.row-rk {
-            display: table-row;
-            padding: 5px;
-          }
-
-          div.row-rk:nth-child(odd) {
-            background-color: rgba(200, 200, 200, .5);
-          }
-
-          div.head-rk {
-            display: table-header-group;
-            font-weight: bold;
-          }
-
-          div.cell-rk {
-            display: table-cell;
-            text-align: left;
-            vertical-align: middle;
-            padding: 5px;
-          }
-
-          figure.rk {
-            margin: 5px;
-          }
-        </style>
-        
-        
-        <div class='outer-container-rk'>
-          <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/16486.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-        Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observed values.<div><br><br><strong>The explanation is in progress not done,        but here is part of what they get:</strong>    
-        
+        Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observed values.<div class='par'>
         <style type="text/css">
 
           div.outer-container-rk {
@@ -712,6 +474,12 @@
             overflow-x: auto; 
           }
 
+
+          div.par {
+            margin: 10px;
+            padding: 5px;
+          }
+          
           div.centering-rk {
             display: table;
             margin: auto;
@@ -768,8 +536,35 @@
           }
         </style>
         
-        
-        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Pink</div>
+                <div class='cell-rk'>Dot</div>
+                <div class='cell-rk'>Razorback</div>
+                <div class='cell-rk'>Trotter</div>
+                <div class='cell-rk'>Snouter</div>
+                <div class='cell-rk'>Leaning Jowler</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.35</div>
+                <div class='cell-rk'>0.3</div>
+                <div class='cell-rk'>0.2</div>
+                <div class='cell-rk'>0.1</div>
+                <div class='cell-rk'>0.04</div>
+                <div class='cell-rk'>0.01</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        and there are 200 observations. So the expected and observed counts are:<br>
         <div class='outer-container-rk'>
           <div class='centering-rk'>
             <div class='tbl-rk'>
@@ -785,48 +580,35 @@
               </div>
               <div class='row-rk'>
                 <div class='cell-rk head-rk'>Expected Counts</div>
-                <div class='cell-rk'>31.5</div>
-                <div class='cell-rk'>27</div>
-                <div class='cell-rk'>18</div>
-                <div class='cell-rk'>9</div>
-                <div class='cell-rk'>3.6</div>
-                <div class='cell-rk'>0.9</div>
+                <div class='cell-rk'>70</div>
+                <div class='cell-rk'>60</div>
+                <div class='cell-rk'>40</div>
+                <div class='cell-rk'>20</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>2</div>
               </div>
               <div class='row-rk'>
                 <div class='cell-rk head-rk'>Observed Counts</div>
-                <div class='cell-rk'>29</div>
-                <div class='cell-rk'>27</div>
-                <div class='cell-rk'>20</div>
-                <div class='cell-rk'>8</div>
-                <div class='cell-rk'>4</div>
-                <div class='cell-rk'>2</div>
+                <div class='cell-rk'>89</div>
+                <div class='cell-rk'>51</div>
+                <div class='cell-rk'>33</div>
+                <div class='cell-rk'>21</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>1</div>
               </div>
 
             </div>
           </div>
         </div>
         <br>
-
-        <div class='outer-container-rk'>
-          <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/16486_sol.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-      </div></div><br><div class = 'posts'><div>
-      To test if a die is fair you roll the die
-      96 times with the following outcomes:
+      </div><div class='par'>The degrees of freedom are $_df = 6 - 1 =         5$_ and the $_\chi^2$_-statistic is:$$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 9.41$$</div></div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+      Teachers want to know which night each week their students are 
+      doing most of their homework. Most teachers think that students 
+      do homework equally throughout the week. Suppose a random sample 
+      of 50 students were asked on which night of the week they 
+      did the most homework. The results were distributed as in  
     </div>
-    
-    
+
     <style type="text/css">
 
       div.outer-container-rk {
@@ -834,6 +616,256 @@
         overflow-x: auto; 
       }
 
+
+      div.par {
+        margin: 10px;
+        padding: 5px;
+      }
+      
+      div.centering-rk {
+        display: table;
+        margin: auto;
+        text-align: center;
+        border-width: 2pt;
+        border-style: solid;
+        border-color: rgba(200,100,200,.5);
+        border-radius: 10px;
+        padding: 5px;
+
+      }
+
+      div.container-rk {
+        /*float: left;*/
+        display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Sunday</div>
+                <div class='cell-rk'>Monday</div>
+                <div class='cell-rk'>Tuesday</div>
+                <div class='cell-rk'>Wednesday</div>
+                <div class='cell-rk'>Thursday</div>
+                <div class='cell-rk'>Friday</div>
+                <div class='cell-rk'>Saturday</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>9</div>
+                <div class='cell-rk'>7</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>9</div>
+                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>3</div>
+                <div class='cell-rk'>8</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observed values.<div class='par'>
+        <style type="text/css">
+
+          div.outer-container-rk {
+            display: block;
+            overflow-x: auto; 
+          }
+
+
+          div.par {
+            margin: 10px;
+            padding: 5px;
+          }
+          
+          div.centering-rk {
+            display: table;
+            margin: auto;
+            text-align: center;
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+
+          }
+
+          div.container-rk {
+            /*float: left;*/
+            display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Sunday</div>
+                <div class='cell-rk'>Monday</div>
+                <div class='cell-rk'>Tuesday</div>
+                <div class='cell-rk'>Wednesday</div>
+                <div class='cell-rk'>Thursday</div>
+                <div class='cell-rk'>Friday</div>
+                <div class='cell-rk'>Saturday</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        and there are 50 observations. So the expected and observed counts are:<br>
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Sunday</div>
+                <div class='cell-rk'>Monday</div>
+                <div class='cell-rk'>Tuesday</div>
+                <div class='cell-rk'>Wednesday</div>
+                <div class='cell-rk'>Thursday</div>
+                <div class='cell-rk'>Friday</div>
+                <div class='cell-rk'>Saturday</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Expected Counts</div>
+                <div class='cell-rk'>7.14</div>
+                <div class='cell-rk'>7.14</div>
+                <div class='cell-rk'>7.14</div>
+                <div class='cell-rk'>7.14</div>
+                <div class='cell-rk'>7.14</div>
+                <div class='cell-rk'>7.14</div>
+                <div class='cell-rk'>7.14</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>9</div>
+                <div class='cell-rk'>7</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>9</div>
+                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>3</div>
+                <div class='cell-rk'>8</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+      </div><div class='par'>The degrees of freedom are $_df = 7 - 1 =         6$_ and the $_\chi^2$_-statistic is:$$\chi^2_{6}=\sum_{i=1}^{7}\frac{(O_i-E_i)^2}{E_i}                = 3.76$$</div></div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+      To test if a die is fair you roll the die
+      60 times with the following outcomes:
+    </div>
+
+    <style type="text/css">
+
+      div.outer-container-rk {
+        display: block;
+        overflow-x: auto; 
+      }
+
+
+      div.par {
+        margin: 10px;
+        padding: 5px;
+      }
+      
       div.centering-rk {
         display: table;
         margin: auto;
@@ -897,7 +929,7 @@
               <figure>
                 
                 <div class='img'>
-                  <img src='chi2gof/17271.png' width=300px >
+                  <img src='chi2gof/1283.png' width=300px >
                 </div>
                 
                 <figcaption>Observed Frequencies</figcaption>
@@ -905,8 +937,7 @@
             </div>
           </div>
         </div>
-        Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observed values.<div><br><br><strong>The explanation is in progress not done,        but here is part of what they get:</strong>    
-        
+        Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observed values.<div class='par'>
         <style type="text/css">
 
           div.outer-container-rk {
@@ -914,6 +945,12 @@
             overflow-x: auto; 
           }
 
+
+          div.par {
+            margin: 10px;
+            padding: 5px;
+          }
+          
           div.centering-rk {
             display: table;
             margin: auto;
@@ -970,8 +1007,35 @@
           }
         </style>
         
-        
-        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>1</div>
+                <div class='cell-rk'>2</div>
+                <div class='cell-rk'>3</div>
+                <div class='cell-rk'>4</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>6</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        and there are 60 observations. So the expected and observed counts are:<br>
         <div class='outer-container-rk'>
           <div class='centering-rk'>
             <div class='tbl-rk'>
@@ -987,47 +1051,32 @@
               </div>
               <div class='row-rk'>
                 <div class='cell-rk head-rk'>Expected Counts</div>
-                <div class='cell-rk'>16</div>
-                <div class='cell-rk'>16</div>
-                <div class='cell-rk'>16</div>
-                <div class='cell-rk'>16</div>
-                <div class='cell-rk'>16</div>
-                <div class='cell-rk'>16</div>
+                <div class='cell-rk'>10</div>
+                <div class='cell-rk'>10</div>
+                <div class='cell-rk'>10</div>
+                <div class='cell-rk'>10</div>
+                <div class='cell-rk'>10</div>
+                <div class='cell-rk'>10</div>
               </div>
               <div class='row-rk'>
                 <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>14</div>
                 <div class='cell-rk'>6</div>
-                <div class='cell-rk'>16</div>
-                <div class='cell-rk'>17</div>
-                <div class='cell-rk'>17</div>
-                <div class='cell-rk'>20</div>
-                <div class='cell-rk'>20</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>13</div>
+                <div class='cell-rk'>5</div>
               </div>
 
             </div>
           </div>
         </div>
         <br>
-
-        <div class='outer-container-rk'>
-          <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/17271_sol.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-      </div></div><br><div class = 'posts'><div>Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
+      </div><div class='par'>The degrees of freedom are $_df = 6 - 1 =         5$_ and the $_\chi^2$_-statistic is:$$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 6.8$$</div></div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
       essentially a dice game except that instead of dice players toss
       small plastic pigs that can land in any of 6 positions. For example, 
-      you roll a trotter if the pig falls standind on all 4 legs. 
-      The expected for the 6 positions are:
+      you roll a trotter if the pig falls standing on all 4 legs. 
+      It is claimed that the distribution for the 6 positions are:
       
       
       <style type="text/css">
@@ -1037,6 +1086,12 @@
           overflow-x: auto; 
         }
 
+
+        div.par {
+          margin: 10px;
+          padding: 5px;
+        }
+        
         div.centering-rk {
           display: table;
           margin: auto;
@@ -1123,6 +1178,9 @@
         </div>
         <br>
         
+        
+        To test this you toss a pig 120 times and get the observed 
+        frequencies below:
       </div>
 
       <style type="text/css">
@@ -1132,6 +1190,12 @@
           overflow-x: auto; 
         }
 
+
+        div.par {
+          margin: 10px;
+          padding: 5px;
+        }
+        
         div.centering-rk {
           display: table;
           margin: auto;
@@ -1191,6 +1255,91 @@
         
         <div class='outer-container-rk'>
           <div class='centering-rk'>
+            <div class='container-rk'>
+              <figure>
+                
+                <div class='img'>
+                  <img src='chi2gof/8781.png' width=300px >
+                </div>
+                
+                <figcaption>Observed Frequencies</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observed values.<div class='par'>
+        <style type="text/css">
+
+          div.outer-container-rk {
+            display: block;
+            overflow-x: auto; 
+          }
+
+
+          div.par {
+            margin: 10px;
+            padding: 5px;
+          }
+          
+          div.centering-rk {
+            display: table;
+            margin: auto;
+            text-align: center;
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+
+          }
+
+          div.container-rk {
+            /*float: left;*/
+            display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
             <div class='tbl-rk'>
               
               <div class='row-rk head-rk'>
@@ -1203,27 +1352,384 @@
                 <div class='cell-rk'>Leaning Jowler</div>
               </div>
               <div class='row-rk'>
-                <div class='cell-rk head-rk'>Observed Counts</div>
-                <div class='cell-rk'>35</div>
-                <div class='cell-rk'>37</div>
-                <div class='cell-rk'>23</div>
-                <div class='cell-rk'>9</div>
-                <div class='cell-rk'>8</div>
-                <div class='cell-rk'>2</div>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.35</div>
+                <div class='cell-rk'>0.3</div>
+                <div class='cell-rk'>0.2</div>
+                <div class='cell-rk'>0.1</div>
+                <div class='cell-rk'>0.04</div>
+                <div class='cell-rk'>0.01</div>
               </div>
 
             </div>
           </div>
         </div>
         <br>
-        The degrees of freedom are $_df = $_ 5 and 
-        the $_\chi^2$_ statistic is $$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 4.58.$$ 
-        
-        Use this information to conduct a hypothesis test with 
-        $_\alpha = 0.1$_. Choose the answer that best captures
-        the null hypothesis and conclusion.
-        <div><br><br><strong>The explanation is in progress not done,        but here is part of what they get:</strong>    
+        and there are 190 observations. So the expected and observed counts are:<br>
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Pink</div>
+                <div class='cell-rk'>Dot</div>
+                <div class='cell-rk'>Razorback</div>
+                <div class='cell-rk'>Trotter</div>
+                <div class='cell-rk'>Snouter</div>
+                <div class='cell-rk'>Leaning Jowler</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Expected Counts</div>
+                <div class='cell-rk'>66.5</div>
+                <div class='cell-rk'>57</div>
+                <div class='cell-rk'>38</div>
+                <div class='cell-rk'>19</div>
+                <div class='cell-rk'>7.6</div>
+                <div class='cell-rk'>1.9</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>63</div>
+                <div class='cell-rk'>50</div>
+                <div class='cell-rk'>41</div>
+                <div class='cell-rk'>25</div>
+                <div class='cell-rk'>10</div>
+                <div class='cell-rk'>1</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+      </div><div class='par'>The degrees of freedom are $_df = 6 - 1 =         5$_ and the $_\chi^2$_-statistic is:$$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 4.36$$</div></div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+      Teachers want to know which night each week their students are 
+      doing most of their homework. Most teachers think that students 
+      do homework equally throughout the week. Suppose a random sample 
+      of 70 students were asked on which night of the week they 
+      did the most homework. The results were distributed as in  
+    </div>
+
+    <style type="text/css">
+
+      div.outer-container-rk {
+        display: block;
+        overflow-x: auto; 
+      }
+
+
+      div.par {
+        margin: 10px;
+        padding: 5px;
+      }
+      
+      div.centering-rk {
+        display: table;
+        margin: auto;
+        text-align: center;
+        border-width: 2pt;
+        border-style: solid;
+        border-color: rgba(200,100,200,.5);
+        border-radius: 10px;
+        padding: 5px;
+
+      }
+
+      div.container-rk {
+        /*float: left;*/
+        display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
           
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='container-rk'>
+              <figure>
+                
+                <div class='img'>
+                  <img src='chi2gof/792.png' width=300px >
+                </div>
+                
+                <figcaption>Observed Frequencies</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observed values.<div class='par'>
+        <style type="text/css">
+
+          div.outer-container-rk {
+            display: block;
+            overflow-x: auto; 
+          }
+
+
+          div.par {
+            margin: 10px;
+            padding: 5px;
+          }
+          
+          div.centering-rk {
+            display: table;
+            margin: auto;
+            text-align: center;
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+
+          }
+
+          div.container-rk {
+            /*float: left;*/
+            display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Sunday</div>
+                <div class='cell-rk'>Monday</div>
+                <div class='cell-rk'>Tuesday</div>
+                <div class='cell-rk'>Wednesday</div>
+                <div class='cell-rk'>Thursday</div>
+                <div class='cell-rk'>Friday</div>
+                <div class='cell-rk'>Saturday</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        and there are 70 observations. So the expected and observed counts are:<br>
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Sunday</div>
+                <div class='cell-rk'>Monday</div>
+                <div class='cell-rk'>Tuesday</div>
+                <div class='cell-rk'>Wednesday</div>
+                <div class='cell-rk'>Thursday</div>
+                <div class='cell-rk'>Friday</div>
+                <div class='cell-rk'>Saturday</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Expected Counts</div>
+                <div class='cell-rk'>10</div>
+                <div class='cell-rk'>10</div>
+                <div class='cell-rk'>10</div>
+                <div class='cell-rk'>10</div>
+                <div class='cell-rk'>10</div>
+                <div class='cell-rk'>10</div>
+                <div class='cell-rk'>10</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>16</div>
+                <div class='cell-rk'>7</div>
+                <div class='cell-rk'>16</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>13</div>
+                <div class='cell-rk'>7</div>
+                <div class='cell-rk'>6</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+      </div><div class='par'>The degrees of freedom are $_df = 7 - 1 =         6$_ and the $_\chi^2$_-statistic is:$$\chi^2_{6}=\sum_{i=1}^{7}\frac{(O_i-E_i)^2}{E_i}                = 14$$</div></div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+      To test if a die is fair you roll the die
+      66 times with the following outcomes:
+    </div>
+
+    <style type="text/css">
+
+      div.outer-container-rk {
+        display: block;
+        overflow-x: auto; 
+      }
+
+
+      div.par {
+        margin: 10px;
+        padding: 5px;
+      }
+      
+      div.centering-rk {
+        display: table;
+        margin: auto;
+        text-align: center;
+        border-width: 2pt;
+        border-style: solid;
+        border-color: rgba(200,100,200,.5);
+        border-radius: 10px;
+        padding: 5px;
+
+      }
+
+      div.container-rk {
+        /*float: left;*/
+        display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='container-rk'>
+              <figure>
+                
+                <div class='img'>
+                  <img src='chi2gof/13969.png' width=300px >
+                </div>
+                
+                <figcaption>Observed Frequencies</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        The $_\chi^2$_ statistic is 
+        $$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 8.18$$
+        with degrees of freedom $_df = 6 - 1 = 5$_.                 
+        
+        Use this information to find the $_p$_-value, 
+        $_P(\chi^2_{5} > 8.18)$_.
+        <div class='par'>
           <style type="text/css">
 
             div.outer-container-rk {
@@ -1231,6 +1737,12 @@
               overflow-x: auto; 
             }
 
+
+            div.par {
+              margin: 10px;
+              padding: 5px;
+            }
+            
             div.centering-rk {
               display: table;
               margin: auto;
@@ -1287,64 +1799,99 @@
           }
         </style>
         
-        
-        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
         <div class='outer-container-rk'>
           <div class='centering-rk'>
             <div class='tbl-rk'>
               
               <div class='row-rk head-rk'>
                 <div class='cell-rk'>Die</div>
-                <div class='cell-rk'>Pink</div>
-                <div class='cell-rk'>Dot</div>
-                <div class='cell-rk'>Razorback</div>
-                <div class='cell-rk'>Trotter</div>
-                <div class='cell-rk'>Snouter</div>
-                <div class='cell-rk'>Leaning Jowler</div>
-              </div>
-              <div class='row-rk'>
-                <div class='cell-rk head-rk'>Expected Counts</div>
-                <div class='cell-rk'>39.9</div>
-                <div class='cell-rk'>34.2</div>
-                <div class='cell-rk'>22.8</div>
-                <div class='cell-rk'>11.4</div>
-                <div class='cell-rk'>4.56</div>
-                <div class='cell-rk'>1.14</div>
-              </div>
-              <div class='row-rk'>
-                <div class='cell-rk head-rk'>Observed Counts</div>
-                <div class='cell-rk'>35</div>
-                <div class='cell-rk'>37</div>
-                <div class='cell-rk'>23</div>
-                <div class='cell-rk'>9</div>
-                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>1</div>
                 <div class='cell-rk'>2</div>
+                <div class='cell-rk'>3</div>
+                <div class='cell-rk'>4</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>6</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
               </div>
 
             </div>
           </div>
         </div>
         <br>
-
+        and there are 66 observations. So the expected and observed counts are:<br>
         <div class='outer-container-rk'>
           <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/15935_sol.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>1</div>
+                <div class='cell-rk'>2</div>
+                <div class='cell-rk'>3</div>
+                <div class='cell-rk'>4</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>6</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Expected Counts</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>11</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>4</div>
+                <div class='cell-rk'>10</div>
+                <div class='cell-rk'>15</div>
+                <div class='cell-rk'>9</div>
+                <div class='cell-rk'>15</div>
+                <div class='cell-rk'>13</div>
+              </div>
+
             </div>
           </div>
         </div>
-      </div></div><br><div class = 'posts'><div>Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
+        <br>
+      </div><div class='par'>The degrees of freedom are $_df = 6 - 1 =         5$_ and the $_\chi^2$_-statistic is:$$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 8.18$$</div>
+      The p-value for this data is:
+      $$\text{p-value} = P(\chi^2_{5} > 8.18) = 14.65%$$
+      <div class='outer-container-rk'>
+        <div class='centering-rk'>
+          <div class='container-rk'>
+            <figure>
+              
+              <div class='img'>
+                <img src='chi2gof/13969_sol.png' width=300px >
+              </div>
+              
+              <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.05$_ level.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      
+      <div class='par'>The lightly shaded histogram represents a sampling distribution
+        of 5000 sample $_\chi^2$_-statistics where the  samples are 
+        of the same size as the given observed data (66 observations).
+        This indicate how well the $_\chi^2$_-distributions is capturing
+        the actual sampling distribution for this experiment.</div>
+      </div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
       essentially a dice game except that instead of dice players toss
       small plastic pigs that can land in any of 6 positions. For example, 
-      you roll a trotter if the pig falls standind on all 4 legs. 
-      The expected for the 6 positions are:
+      you roll a trotter if the pig falls standing on all 4 legs. 
+      It is claimed that the distribution for the 6 positions are:
       
       
       <style type="text/css">
@@ -1354,6 +1901,12 @@
           overflow-x: auto; 
         }
 
+
+        div.par {
+          margin: 10px;
+          padding: 5px;
+        }
+        
         div.centering-rk {
           display: table;
           margin: auto;
@@ -1440,6 +1993,9 @@
         </div>
         <br>
         
+        
+        To test this you toss a pig 200 times and get the observed 
+        frequencies below:
       </div>
 
       <style type="text/css">
@@ -1449,6 +2005,12 @@
           overflow-x: auto; 
         }
 
+
+        div.par {
+          margin: 10px;
+          padding: 5px;
+        }
+        
         div.centering-rk {
           display: table;
           margin: auto;
@@ -1521,26 +2083,1179 @@
               </div>
               <div class='row-rk'>
                 <div class='cell-rk head-rk'>Observed Counts</div>
-                <div class='cell-rk'>17</div>
-                <div class='cell-rk'>21</div>
-                <div class='cell-rk'>11</div>
-                <div class='cell-rk'>3</div>
-                <div class='cell-rk'>0</div>
-                <div class='cell-rk'>2</div>
+                <div class='cell-rk'>64</div>
+                <div class='cell-rk'>60</div>
+                <div class='cell-rk'>48</div>
+                <div class='cell-rk'>19</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>1</div>
               </div>
 
             </div>
           </div>
         </div>
         <br>
-        The degrees of freedom are $_df = $_ 5 and 
-        the $_\chi^2$_ statistic is $$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 8.79.$$ 
+        The $_\chi^2$_ statistic is 
+        $$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 2.66$$
+        with degrees of freedom $_df = 6 - 1 = 5$_.                 
+        
+        Use this information to find the $_p$_-value, 
+        $_P(\chi^2_{5} > 2.66)$_.
+        <div class='par'>
+          <style type="text/css">
+
+            div.outer-container-rk {
+              display: block;
+              overflow-x: auto; 
+            }
+
+
+            div.par {
+              margin: 10px;
+              padding: 5px;
+            }
+            
+            div.centering-rk {
+              display: table;
+              margin: auto;
+              text-align: center;
+              border-width: 2pt;
+              border-style: solid;
+              border-color: rgba(200,100,200,.5);
+              border-radius: 10px;
+              padding: 5px;
+
+            }
+
+            div.container-rk {
+              /*float: left;*/
+              display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Pink</div>
+                <div class='cell-rk'>Dot</div>
+                <div class='cell-rk'>Razorback</div>
+                <div class='cell-rk'>Trotter</div>
+                <div class='cell-rk'>Snouter</div>
+                <div class='cell-rk'>Leaning Jowler</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.35</div>
+                <div class='cell-rk'>0.3</div>
+                <div class='cell-rk'>0.2</div>
+                <div class='cell-rk'>0.1</div>
+                <div class='cell-rk'>0.04</div>
+                <div class='cell-rk'>0.01</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        and there are 200 observations. So the expected and observed counts are:<br>
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Pink</div>
+                <div class='cell-rk'>Dot</div>
+                <div class='cell-rk'>Razorback</div>
+                <div class='cell-rk'>Trotter</div>
+                <div class='cell-rk'>Snouter</div>
+                <div class='cell-rk'>Leaning Jowler</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Expected Counts</div>
+                <div class='cell-rk'>70</div>
+                <div class='cell-rk'>60</div>
+                <div class='cell-rk'>40</div>
+                <div class='cell-rk'>20</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>2</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>64</div>
+                <div class='cell-rk'>60</div>
+                <div class='cell-rk'>48</div>
+                <div class='cell-rk'>19</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>1</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+      </div><div class='par'>The degrees of freedom are $_df = 6 - 1 =         5$_ and the $_\chi^2$_-statistic is:$$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 2.66$$</div>
+      The p-value for this data is:
+      $$\text{p-value} = P(\chi^2_{5} > 2.66) = 75.16%$$
+      <div class='outer-container-rk'>
+        <div class='centering-rk'>
+          <div class='container-rk'>
+            <figure>
+              
+              <div class='img'>
+                <img src='chi2gof/11061_sol.png' width=300px >
+              </div>
+              
+              <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.05$_ level.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      
+      <div class='par'>The lightly shaded histogram represents a sampling distribution
+        of 5000 sample $_\chi^2$_-statistics where the  samples are 
+        of the same size as the given observed data (200 observations).
+        This indicate how well the $_\chi^2$_-distributions is capturing
+        the actual sampling distribution for this experiment.</div>
+      </div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+      Teachers want to know which night each week their students are 
+      doing most of their homework. Most teachers think that students 
+      do homework equally throughout the week. Suppose a random sample 
+      of 100 students were asked on which night of the week they 
+      did the most homework. The results were distributed as in  
+    </div>
+
+    <style type="text/css">
+
+      div.outer-container-rk {
+        display: block;
+        overflow-x: auto; 
+      }
+
+
+      div.par {
+        margin: 10px;
+        padding: 5px;
+      }
+      
+      div.centering-rk {
+        display: table;
+        margin: auto;
+        text-align: center;
+        border-width: 2pt;
+        border-style: solid;
+        border-color: rgba(200,100,200,.5);
+        border-radius: 10px;
+        padding: 5px;
+
+      }
+
+      div.container-rk {
+        /*float: left;*/
+        display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Sunday</div>
+                <div class='cell-rk'>Monday</div>
+                <div class='cell-rk'>Tuesday</div>
+                <div class='cell-rk'>Wednesday</div>
+                <div class='cell-rk'>Thursday</div>
+                <div class='cell-rk'>Friday</div>
+                <div class='cell-rk'>Saturday</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>13</div>
+                <div class='cell-rk'>16</div>
+                <div class='cell-rk'>14</div>
+                <div class='cell-rk'>14</div>
+                <div class='cell-rk'>20</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>12</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        The $_\chi^2$_ statistic is 
+        $$\chi^2_{6}=\sum_{i=1}^{7}\frac{(O_i-E_i)^2}{E_i}                = 3.74$$
+        with degrees of freedom $_df = 7 - 1 = 6$_.                 
+        
+        Use this information to find the $_p$_-value, 
+        $_P(\chi^2_{6} > 3.74)$_.
+        <div class='par'>
+          <style type="text/css">
+
+            div.outer-container-rk {
+              display: block;
+              overflow-x: auto; 
+            }
+
+
+            div.par {
+              margin: 10px;
+              padding: 5px;
+            }
+            
+            div.centering-rk {
+              display: table;
+              margin: auto;
+              text-align: center;
+              border-width: 2pt;
+              border-style: solid;
+              border-color: rgba(200,100,200,.5);
+              border-radius: 10px;
+              padding: 5px;
+
+            }
+
+            div.container-rk {
+              /*float: left;*/
+              display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Sunday</div>
+                <div class='cell-rk'>Monday</div>
+                <div class='cell-rk'>Tuesday</div>
+                <div class='cell-rk'>Wednesday</div>
+                <div class='cell-rk'>Thursday</div>
+                <div class='cell-rk'>Friday</div>
+                <div class='cell-rk'>Saturday</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        and there are 100 observations. So the expected and observed counts are:<br>
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Sunday</div>
+                <div class='cell-rk'>Monday</div>
+                <div class='cell-rk'>Tuesday</div>
+                <div class='cell-rk'>Wednesday</div>
+                <div class='cell-rk'>Thursday</div>
+                <div class='cell-rk'>Friday</div>
+                <div class='cell-rk'>Saturday</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Expected Counts</div>
+                <div class='cell-rk'>14.3</div>
+                <div class='cell-rk'>14.3</div>
+                <div class='cell-rk'>14.3</div>
+                <div class='cell-rk'>14.3</div>
+                <div class='cell-rk'>14.3</div>
+                <div class='cell-rk'>14.3</div>
+                <div class='cell-rk'>14.3</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>13</div>
+                <div class='cell-rk'>16</div>
+                <div class='cell-rk'>14</div>
+                <div class='cell-rk'>14</div>
+                <div class='cell-rk'>20</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>12</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+      </div><div class='par'>The degrees of freedom are $_df = 7 - 1 =         6$_ and the $_\chi^2$_-statistic is:$$\chi^2_{6}=\sum_{i=1}^{7}\frac{(O_i-E_i)^2}{E_i}                = 3.74$$</div>
+      The p-value for this data is:
+      $$\text{p-value} = P(\chi^2_{6} > 3.74) = 71.18%$$
+      <div class='outer-container-rk'>
+        <div class='centering-rk'>
+          <div class='container-rk'>
+            <figure>
+              
+              <div class='img'>
+                <img src='chi2gof/7129_sol.png' width=300px >
+              </div>
+              
+              <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.01$_ level.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      
+      <div class='par'>The lightly shaded histogram represents a sampling distribution
+        of 5000 sample $_\chi^2$_-statistics where the  samples are 
+        of the same size as the given observed data (100 observations).
+        This indicate how well the $_\chi^2$_-distributions is capturing
+        the actual sampling distribution for this experiment.</div>
+      </div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+      To test if a die is fair you roll the die
+      108 times with the following outcomes:
+    </div>
+
+    <style type="text/css">
+
+      div.outer-container-rk {
+        display: block;
+        overflow-x: auto; 
+      }
+
+
+      div.par {
+        margin: 10px;
+        padding: 5px;
+      }
+      
+      div.centering-rk {
+        display: table;
+        margin: auto;
+        text-align: center;
+        border-width: 2pt;
+        border-style: solid;
+        border-color: rgba(200,100,200,.5);
+        border-radius: 10px;
+        padding: 5px;
+
+      }
+
+      div.container-rk {
+        /*float: left;*/
+        display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='container-rk'>
+              <figure>
+                
+                <div class='img'>
+                  <img src='chi2gof/1064.png' width=300px >
+                </div>
+                
+                <figcaption>Observed Frequencies</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        The $_\chi^2$_ statistic is 
+        $$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 6.44$$
+        with degrees of freedom $_df = 6 - 1 = 5$_.                 
+        
+        Use this information to find the $_p$_-value, 
+        $_P(\chi^2_{5} > 6.44)$_.
+        <div class='par'>
+          <style type="text/css">
+
+            div.outer-container-rk {
+              display: block;
+              overflow-x: auto; 
+            }
+
+
+            div.par {
+              margin: 10px;
+              padding: 5px;
+            }
+            
+            div.centering-rk {
+              display: table;
+              margin: auto;
+              text-align: center;
+              border-width: 2pt;
+              border-style: solid;
+              border-color: rgba(200,100,200,.5);
+              border-radius: 10px;
+              padding: 5px;
+
+            }
+
+            div.container-rk {
+              /*float: left;*/
+              display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>1</div>
+                <div class='cell-rk'>2</div>
+                <div class='cell-rk'>3</div>
+                <div class='cell-rk'>4</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>6</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        and there are 108 observations. So the expected and observed counts are:<br>
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>1</div>
+                <div class='cell-rk'>2</div>
+                <div class='cell-rk'>3</div>
+                <div class='cell-rk'>4</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>6</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Expected Counts</div>
+                <div class='cell-rk'>18</div>
+                <div class='cell-rk'>18</div>
+                <div class='cell-rk'>18</div>
+                <div class='cell-rk'>18</div>
+                <div class='cell-rk'>18</div>
+                <div class='cell-rk'>18</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>13</div>
+                <div class='cell-rk'>22</div>
+                <div class='cell-rk'>18</div>
+                <div class='cell-rk'>25</div>
+                <div class='cell-rk'>13</div>
+                <div class='cell-rk'>17</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+      </div><div class='par'>The degrees of freedom are $_df = 6 - 1 =         5$_ and the $_\chi^2$_-statistic is:$$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 6.44$$</div>
+      The p-value for this data is:
+      $$\text{p-value} = P(\chi^2_{5} > 6.44) = 26.53%$$
+      <div class='outer-container-rk'>
+        <div class='centering-rk'>
+          <div class='container-rk'>
+            <figure>
+              
+              <div class='img'>
+                <img src='chi2gof/1064_sol.png' width=300px >
+              </div>
+              
+              <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.05$_ level.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      
+      <div class='par'>The lightly shaded histogram represents a sampling distribution
+        of 5000 sample $_\chi^2$_-statistics where the  samples are 
+        of the same size as the given observed data (108 observations).
+        This indicate how well the $_\chi^2$_-distributions is capturing
+        the actual sampling distribution for this experiment.</div>
+      </div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
+      essentially a dice game except that instead of dice players toss
+      small plastic pigs that can land in any of 6 positions. For example, 
+      you roll a trotter if the pig falls standing on all 4 legs. 
+      It is claimed that the distribution for the 6 positions are:
+      
+      
+      <style type="text/css">
+
+        div.outer-container-rk {
+          display: block;
+          overflow-x: auto; 
+        }
+
+
+        div.par {
+          margin: 10px;
+          padding: 5px;
+        }
+        
+        div.centering-rk {
+          display: table;
+          margin: auto;
+          text-align: center;
+          border-width: 2pt;
+          border-style: solid;
+          border-color: rgba(200,100,200,.5);
+          border-radius: 10px;
+          padding: 5px;
+
+        }
+
+        div.container-rk {
+          /*float: left;*/
+          display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Position</div>
+                <div class='cell-rk'>Pink</div>
+                <div class='cell-rk'>Dot</div>
+                <div class='cell-rk'>Razorback</div>
+                <div class='cell-rk'>Trotter</div>
+                <div class='cell-rk'>Snouter</div>
+                <div class='cell-rk'>Leaning Jowler</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Expected Frequency</div>
+                <div class='cell-rk'>0.35</div>
+                <div class='cell-rk'>0.3</div>
+                <div class='cell-rk'>0.2</div>
+                <div class='cell-rk'>0.1</div>
+                <div class='cell-rk'>0.04</div>
+                <div class='cell-rk'>0.01</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        
+        
+        To test this you toss a pig 200 times and get the observed 
+        frequencies below:
+      </div>
+
+      <style type="text/css">
+
+        div.outer-container-rk {
+          display: block;
+          overflow-x: auto; 
+        }
+
+
+        div.par {
+          margin: 10px;
+          padding: 5px;
+        }
+        
+        div.centering-rk {
+          display: table;
+          margin: auto;
+          text-align: center;
+          border-width: 2pt;
+          border-style: solid;
+          border-color: rgba(200,100,200,.5);
+          border-radius: 10px;
+          padding: 5px;
+
+        }
+
+        div.container-rk {
+          /*float: left;*/
+          display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Pink</div>
+                <div class='cell-rk'>Dot</div>
+                <div class='cell-rk'>Razorback</div>
+                <div class='cell-rk'>Trotter</div>
+                <div class='cell-rk'>Snouter</div>
+                <div class='cell-rk'>Leaning Jowler</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>85</div>
+                <div class='cell-rk'>57</div>
+                <div class='cell-rk'>31</div>
+                <div class='cell-rk'>19</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>3</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        The $_\chi^2$_ statistic is 
+        $$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 7.06$$
+        with degrees of freedom $_df = 6 - 1 = 5$_.                 
+        
+        Use this information to find the $_p$_-value, 
+        $_P(\chi^2_{5} > 7.06)$_.
+        <div class='par'>
+          <style type="text/css">
+
+            div.outer-container-rk {
+              display: block;
+              overflow-x: auto; 
+            }
+
+
+            div.par {
+              margin: 10px;
+              padding: 5px;
+            }
+            
+            div.centering-rk {
+              display: table;
+              margin: auto;
+              text-align: center;
+              border-width: 2pt;
+              border-style: solid;
+              border-color: rgba(200,100,200,.5);
+              border-radius: 10px;
+              padding: 5px;
+
+            }
+
+            div.container-rk {
+              /*float: left;*/
+              display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Pink</div>
+                <div class='cell-rk'>Dot</div>
+                <div class='cell-rk'>Razorback</div>
+                <div class='cell-rk'>Trotter</div>
+                <div class='cell-rk'>Snouter</div>
+                <div class='cell-rk'>Leaning Jowler</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.35</div>
+                <div class='cell-rk'>0.3</div>
+                <div class='cell-rk'>0.2</div>
+                <div class='cell-rk'>0.1</div>
+                <div class='cell-rk'>0.04</div>
+                <div class='cell-rk'>0.01</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        and there are 200 observations. So the expected and observed counts are:<br>
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Pink</div>
+                <div class='cell-rk'>Dot</div>
+                <div class='cell-rk'>Razorback</div>
+                <div class='cell-rk'>Trotter</div>
+                <div class='cell-rk'>Snouter</div>
+                <div class='cell-rk'>Leaning Jowler</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Expected Counts</div>
+                <div class='cell-rk'>70</div>
+                <div class='cell-rk'>60</div>
+                <div class='cell-rk'>40</div>
+                <div class='cell-rk'>20</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>2</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>85</div>
+                <div class='cell-rk'>57</div>
+                <div class='cell-rk'>31</div>
+                <div class='cell-rk'>19</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>3</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+      </div><div class='par'>The degrees of freedom are $_df = 6 - 1 =         5$_ and the $_\chi^2$_-statistic is:$$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 7.06$$</div>
+      The p-value for this data is:
+      $$\text{p-value} = P(\chi^2_{5} > 7.06) = 21.59%$$
+      <div class='outer-container-rk'>
+        <div class='centering-rk'>
+          <div class='container-rk'>
+            <figure>
+              
+              <div class='img'>
+                <img src='chi2gof/4034_sol.png' width=300px >
+              </div>
+              
+              <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.1$_ level.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      
+      <div class='par'>The lightly shaded histogram represents a sampling distribution
+        of 5000 sample $_\chi^2$_-statistics where the  samples are 
+        of the same size as the given observed data (200 observations).
+        This indicate how well the $_\chi^2$_-distributions is capturing
+        the actual sampling distribution for this experiment.</div>
+      </div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+      To test if a die is fair you roll the die
+      96 times with the following outcomes:
+    </div>
+
+    <style type="text/css">
+
+      div.outer-container-rk {
+        display: block;
+        overflow-x: auto; 
+      }
+
+
+      div.par {
+        margin: 10px;
+        padding: 5px;
+      }
+      
+      div.centering-rk {
+        display: table;
+        margin: auto;
+        text-align: center;
+        border-width: 2pt;
+        border-style: solid;
+        border-color: rgba(200,100,200,.5);
+        border-radius: 10px;
+        padding: 5px;
+
+      }
+
+      div.container-rk {
+        /*float: left;*/
+        display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='container-rk'>
+              <figure>
+                
+                <div class='img'>
+                  <img src='chi2gof/7609.png' width=300px >
+                </div>
+                
+                <figcaption>Observed Frequencies</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        The degrees of freedom are $_df = 6 - 1 = 
+        5$_ and the $_\chi^2$_ statistic is $$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 7.62$$ 
         
         Use this information to conduct a hypothesis test with 
         $_\alpha = 0.01$_. Choose the answer that best captures
         the null hypothesis and conclusion.
-        <div><br><br><strong>The explanation is in progress not done,        but here is part of what they get:</strong>    
-          
+        <div class='par'>
           <style type="text/css">
 
             div.outer-container-rk {
@@ -1548,6 +3263,12 @@
               overflow-x: auto; 
             }
 
+
+            div.par {
+              margin: 10px;
+              padding: 5px;
+            }
+            
             div.centering-rk {
               display: table;
               margin: auto;
@@ -1604,216 +3325,35 @@
           }
         </style>
         
-        
-        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
         <div class='outer-container-rk'>
           <div class='centering-rk'>
             <div class='tbl-rk'>
               
               <div class='row-rk head-rk'>
                 <div class='cell-rk'>Die</div>
-                <div class='cell-rk'>Pink</div>
-                <div class='cell-rk'>Dot</div>
-                <div class='cell-rk'>Razorback</div>
-                <div class='cell-rk'>Trotter</div>
-                <div class='cell-rk'>Snouter</div>
-                <div class='cell-rk'>Leaning Jowler</div>
-              </div>
-              <div class='row-rk'>
-                <div class='cell-rk head-rk'>Expected Counts</div>
-                <div class='cell-rk'>18.9</div>
-                <div class='cell-rk'>16.2</div>
-                <div class='cell-rk'>10.8</div>
-                <div class='cell-rk'>5.4</div>
-                <div class='cell-rk'>2.16</div>
-                <div class='cell-rk'>0.54</div>
-              </div>
-              <div class='row-rk'>
-                <div class='cell-rk head-rk'>Observed Counts</div>
-                <div class='cell-rk'>17</div>
-                <div class='cell-rk'>21</div>
-                <div class='cell-rk'>11</div>
-                <div class='cell-rk'>3</div>
-                <div class='cell-rk'>0</div>
+                <div class='cell-rk'>1</div>
                 <div class='cell-rk'>2</div>
+                <div class='cell-rk'>3</div>
+                <div class='cell-rk'>4</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>6</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
               </div>
 
             </div>
           </div>
         </div>
         <br>
-
-        <div class='outer-container-rk'>
-          <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/15746_sol.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-      </div></div><br><div class = 'posts'><div>
-      To test if a die is fair you roll the die
-      114 times with the following outcomes:
-    </div>
-    
-    
-    <style type="text/css">
-
-      div.outer-container-rk {
-        display: block;
-        overflow-x: auto; 
-      }
-
-      div.centering-rk {
-        display: table;
-        margin: auto;
-        text-align: center;
-        border-width: 2pt;
-        border-style: solid;
-        border-color: rgba(200,100,200,.5);
-        border-radius: 10px;
-        padding: 5px;
-
-      }
-
-      div.container-rk {
-        /*float: left;*/
-        display: inline-block;
-            /*            
-            border-width: 2pt;
-            border-style: solid;
-            border-color: rgba(200,100,200,.5);
-            border-radius: 10px;
-            padding: 5px;
-            */
-          }
-
-          
-
-          div.tbl-rk {
-            display: table;
-          }
-
-          div.row-rk {
-            display: table-row;
-            padding: 5px;
-          }
-
-          div.row-rk:nth-child(odd) {
-            background-color: rgba(200, 200, 200, .5);
-          }
-
-          div.head-rk {
-            display: table-header-group;
-            font-weight: bold;
-          }
-
-          div.cell-rk {
-            display: table-cell;
-            text-align: left;
-            vertical-align: middle;
-            padding: 5px;
-          }
-
-          figure.rk {
-            margin: 5px;
-          }
-        </style>
-        
-        
-        <div class='outer-container-rk'>
-          <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/4070.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-        The degrees of freedom are $_df = $_ 5 and 
-        the $_\chi^2$_ statistic is $$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 9.89.$$ 
-        
-        Use this information to conduct a hypothesis test with 
-        $_\alpha = 0.05$_. Choose the answer that best captures
-        the null hypothesis and conclusion.
-        <div><br><br><strong>The explanation is in progress not done,        but here is part of what they get:</strong>    
-          
-          <style type="text/css">
-
-            div.outer-container-rk {
-              display: block;
-              overflow-x: auto; 
-            }
-
-            div.centering-rk {
-              display: table;
-              margin: auto;
-              text-align: center;
-              border-width: 2pt;
-              border-style: solid;
-              border-color: rgba(200,100,200,.5);
-              border-radius: 10px;
-              padding: 5px;
-
-            }
-
-            div.container-rk {
-              /*float: left;*/
-              display: inline-block;
-            /*            
-            border-width: 2pt;
-            border-style: solid;
-            border-color: rgba(200,100,200,.5);
-            border-radius: 10px;
-            padding: 5px;
-            */
-          }
-
-          
-
-          div.tbl-rk {
-            display: table;
-          }
-
-          div.row-rk {
-            display: table-row;
-            padding: 5px;
-          }
-
-          div.row-rk:nth-child(odd) {
-            background-color: rgba(200, 200, 200, .5);
-          }
-
-          div.head-rk {
-            display: table-header-group;
-            font-weight: bold;
-          }
-
-          div.cell-rk {
-            display: table-cell;
-            text-align: left;
-            vertical-align: middle;
-            padding: 5px;
-          }
-
-          figure.rk {
-            margin: 5px;
-          }
-        </style>
-        
-        
-        
+        and there are 96 observations. So the expected and observed counts are:<br>
         <div class='outer-container-rk'>
           <div class='centering-rk'>
             <div class='tbl-rk'>
@@ -1829,47 +3369,65 @@
               </div>
               <div class='row-rk'>
                 <div class='cell-rk head-rk'>Expected Counts</div>
-                <div class='cell-rk'>19</div>
-                <div class='cell-rk'>19</div>
-                <div class='cell-rk'>19</div>
-                <div class='cell-rk'>19</div>
-                <div class='cell-rk'>19</div>
-                <div class='cell-rk'>19</div>
+                <div class='cell-rk'>16</div>
+                <div class='cell-rk'>16</div>
+                <div class='cell-rk'>16</div>
+                <div class='cell-rk'>16</div>
+                <div class='cell-rk'>16</div>
+                <div class='cell-rk'>16</div>
               </div>
               <div class='row-rk'>
                 <div class='cell-rk head-rk'>Observed Counts</div>
-                <div class='cell-rk'>15</div>
+                <div class='cell-rk'>24</div>
                 <div class='cell-rk'>10</div>
-                <div class='cell-rk'>28</div>
-                <div class='cell-rk'>20</div>
-                <div class='cell-rk'>22</div>
+                <div class='cell-rk'>14</div>
                 <div class='cell-rk'>19</div>
+                <div class='cell-rk'>16</div>
+                <div class='cell-rk'>13</div>
               </div>
 
             </div>
           </div>
         </div>
         <br>
-
-        <div class='outer-container-rk'>
-          <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/4070_sol.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
-            </div>
+      </div><div class='par'>The degrees of freedom are $_df = 6 - 1 =         5$_ and the $_\chi^2$_-statistic is:$$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 7.62$$</div>
+      The p-value for this data is:
+      $$\text{p-value} = P(\chi^2_{5} > 7.62) = 17.81%$$
+      <div class='outer-container-rk'>
+        <div class='centering-rk'>
+          <div class='container-rk'>
+            <figure>
+              
+              <div class='img'>
+                <img src='chi2gof/7609_sol.png' width=300px >
+              </div>
+              
+              <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.01$_ level.</figcaption>
+            </figure>
           </div>
         </div>
-      </div></div><br><div class = 'posts'><div>Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
+      </div>
+      
+      <div class='par'>The lightly shaded histogram represents a sampling distribution
+        of 5000 sample $_\chi^2$_-statistics where the  samples are 
+        of the same size as the given observed data (96 observations).
+        This indicate how well the $_\chi^2$_-distributions is capturing
+        the actual sampling distribution for this experiment.</div>
+        
+        <div class='par'>The p-value is greater than the $_\alpha$_-level so
+          the null hypothesis:
+          <br>
+          <strong>H<sub>0</sub>: The die is fair with each outcome                 being equally likly.</strong>
+        </br>
+        cannot be rejected. There is a 17.81% probability due to 
+        random chance in sampling that
+        the difference in the expected and observed data is at 
+        least this large.</div>
+      </div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
       essentially a dice game except that instead of dice players toss
       small plastic pigs that can land in any of 6 positions. For example, 
-      you roll a trotter if the pig falls standind on all 4 legs. 
-      The expected for the 6 positions are:
+      you roll a trotter if the pig falls standing on all 4 legs. 
+      It is claimed that the distribution for the 6 positions are:
       
       
       <style type="text/css">
@@ -1879,6 +3437,12 @@
           overflow-x: auto; 
         }
 
+
+        div.par {
+          margin: 10px;
+          padding: 5px;
+        }
+        
         div.centering-rk {
           display: table;
           margin: auto;
@@ -1965,9 +3529,11 @@
         </div>
         <br>
         
+        
+        To test this you toss a pig 120 times and get the observed 
+        frequencies below:
       </div>
-      
-      
+
       <style type="text/css">
 
         div.outer-container-rk {
@@ -1975,6 +3541,12 @@
           overflow-x: auto; 
         }
 
+
+        div.par {
+          margin: 10px;
+          padding: 5px;
+        }
+        
         div.centering-rk {
           display: table;
           margin: auto;
@@ -2034,26 +3606,38 @@
         
         <div class='outer-container-rk'>
           <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/13479.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Pink</div>
+                <div class='cell-rk'>Dot</div>
+                <div class='cell-rk'>Razorback</div>
+                <div class='cell-rk'>Trotter</div>
+                <div class='cell-rk'>Snouter</div>
+                <div class='cell-rk'>Leaning Jowler</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>55</div>
+                <div class='cell-rk'>64</div>
+                <div class='cell-rk'>41</div>
+                <div class='cell-rk'>22</div>
+                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>2</div>
+              </div>
+
             </div>
           </div>
         </div>
-        The degrees of freedom are $_df = $_ 5 and 
-        the $_\chi^2$_ statistic is $$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 6.8.$$ 
+        <br>
+        The degrees of freedom are $_df = 6 - 1 = 
+        5$_ and the $_\chi^2$_ statistic is $$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 3.9$$ 
         
         Use this information to conduct a hypothesis test with 
         $_\alpha = 0.05$_. Choose the answer that best captures
         the null hypothesis and conclusion.
-        <div><br><br><strong>The explanation is in progress not done,        but here is part of what they get:</strong>    
-          
+        <div class='par'>
           <style type="text/css">
 
             div.outer-container-rk {
@@ -2061,6 +3645,12 @@
               overflow-x: auto; 
             }
 
+
+            div.par {
+              margin: 10px;
+              padding: 5px;
+            }
+            
             div.centering-rk {
               display: table;
               margin: auto;
@@ -2117,8 +3707,7 @@
           }
         </style>
         
-        
-        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
         <div class='outer-container-rk'>
           <div class='centering-rk'>
             <div class='tbl-rk'>
@@ -2133,130 +3722,7 @@
                 <div class='cell-rk'>Leaning Jowler</div>
               </div>
               <div class='row-rk'>
-                <div class='cell-rk head-rk'>Expected Counts</div>
-                <div class='cell-rk'>23.1</div>
-                <div class='cell-rk'>19.8</div>
-                <div class='cell-rk'>13.2</div>
-                <div class='cell-rk'>6.6</div>
-                <div class='cell-rk'>2.64</div>
-                <div class='cell-rk'>0.66</div>
-              </div>
-              <div class='row-rk'>
-                <div class='cell-rk head-rk'>Observed Counts</div>
-                <div class='cell-rk'>16</div>
-                <div class='cell-rk'>26</div>
-                <div class='cell-rk'>11</div>
-                <div class='cell-rk'>7</div>
-                <div class='cell-rk'>5</div>
-                <div class='cell-rk'>1</div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <br>
-
-        <div class='outer-container-rk'>
-          <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/13479_sol.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-      </div></div><br><div class = 'posts'><div>Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
-      essentially a dice game except that instead of dice players toss
-      small plastic pigs that can land in any of 6 positions. For example, 
-      you roll a trotter if the pig falls standind on all 4 legs. 
-      The expected for the 6 positions are:
-      
-      
-      <style type="text/css">
-
-        div.outer-container-rk {
-          display: block;
-          overflow-x: auto; 
-        }
-
-        div.centering-rk {
-          display: table;
-          margin: auto;
-          text-align: center;
-          border-width: 2pt;
-          border-style: solid;
-          border-color: rgba(200,100,200,.5);
-          border-radius: 10px;
-          padding: 5px;
-
-        }
-
-        div.container-rk {
-          /*float: left;*/
-          display: inline-block;
-            /*            
-            border-width: 2pt;
-            border-style: solid;
-            border-color: rgba(200,100,200,.5);
-            border-radius: 10px;
-            padding: 5px;
-            */
-          }
-
-          
-
-          div.tbl-rk {
-            display: table;
-          }
-
-          div.row-rk {
-            display: table-row;
-            padding: 5px;
-          }
-
-          div.row-rk:nth-child(odd) {
-            background-color: rgba(200, 200, 200, .5);
-          }
-
-          div.head-rk {
-            display: table-header-group;
-            font-weight: bold;
-          }
-
-          div.cell-rk {
-            display: table-cell;
-            text-align: left;
-            vertical-align: middle;
-            padding: 5px;
-          }
-
-          figure.rk {
-            margin: 5px;
-          }
-        </style>
-        
-        
-        
-        <div class='outer-container-rk'>
-          <div class='centering-rk'>
-            <div class='tbl-rk'>
-              
-              <div class='row-rk head-rk'>
-                <div class='cell-rk'>Position</div>
-                <div class='cell-rk'>Pink</div>
-                <div class='cell-rk'>Dot</div>
-                <div class='cell-rk'>Razorback</div>
-                <div class='cell-rk'>Trotter</div>
-                <div class='cell-rk'>Snouter</div>
-                <div class='cell-rk'>Leaning Jowler</div>
-              </div>
-              <div class='row-rk'>
-                <div class='cell-rk head-rk'>Expected Frequency</div>
+                <div class='cell-rk head-rk'>Probabilities</div>
                 <div class='cell-rk'>0.35</div>
                 <div class='cell-rk'>0.3</div>
                 <div class='cell-rk'>0.2</div>
@@ -2269,159 +3735,7 @@
           </div>
         </div>
         <br>
-        
-      </div>
-      
-      
-      <style type="text/css">
-
-        div.outer-container-rk {
-          display: block;
-          overflow-x: auto; 
-        }
-
-        div.centering-rk {
-          display: table;
-          margin: auto;
-          text-align: center;
-          border-width: 2pt;
-          border-style: solid;
-          border-color: rgba(200,100,200,.5);
-          border-radius: 10px;
-          padding: 5px;
-
-        }
-
-        div.container-rk {
-          /*float: left;*/
-          display: inline-block;
-            /*            
-            border-width: 2pt;
-            border-style: solid;
-            border-color: rgba(200,100,200,.5);
-            border-radius: 10px;
-            padding: 5px;
-            */
-          }
-
-          
-
-          div.tbl-rk {
-            display: table;
-          }
-
-          div.row-rk {
-            display: table-row;
-            padding: 5px;
-          }
-
-          div.row-rk:nth-child(odd) {
-            background-color: rgba(200, 200, 200, .5);
-          }
-
-          div.head-rk {
-            display: table-header-group;
-            font-weight: bold;
-          }
-
-          div.cell-rk {
-            display: table-cell;
-            text-align: left;
-            vertical-align: middle;
-            padding: 5px;
-          }
-
-          figure.rk {
-            margin: 5px;
-          }
-        </style>
-        
-        
-        <div class='outer-container-rk'>
-          <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/12398.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-        The $_\chi^2$_ statistic is $$\chi^2_{df}=\sum_{i=1}^{5}\frac{(O_i-E_i)^2}{E_i}                = 8.28.$$ 
-        
-        Use this information to find the $_p$_-value and 
-        degrees of freedom.
-        <div><br><br><strong>The explanation is in progress not done,        but here is part of what they get:</strong>    
-          
-          <style type="text/css">
-
-            div.outer-container-rk {
-              display: block;
-              overflow-x: auto; 
-            }
-
-            div.centering-rk {
-              display: table;
-              margin: auto;
-              text-align: center;
-              border-width: 2pt;
-              border-style: solid;
-              border-color: rgba(200,100,200,.5);
-              border-radius: 10px;
-              padding: 5px;
-
-            }
-
-            div.container-rk {
-              /*float: left;*/
-              display: inline-block;
-            /*            
-            border-width: 2pt;
-            border-style: solid;
-            border-color: rgba(200,100,200,.5);
-            border-radius: 10px;
-            padding: 5px;
-            */
-          }
-
-          
-
-          div.tbl-rk {
-            display: table;
-          }
-
-          div.row-rk {
-            display: table-row;
-            padding: 5px;
-          }
-
-          div.row-rk:nth-child(odd) {
-            background-color: rgba(200, 200, 200, .5);
-          }
-
-          div.head-rk {
-            display: table-header-group;
-            font-weight: bold;
-          }
-
-          div.cell-rk {
-            display: table-cell;
-            text-align: left;
-            vertical-align: middle;
-            padding: 5px;
-          }
-
-          figure.rk {
-            margin: 5px;
-          }
-        </style>
-        
-        
-        
+        and there are 190 observations. So the expected and observed counts are:<br>
         <div class='outer-container-rk'>
           <div class='centering-rk'>
             <div class='tbl-rk'>
@@ -2437,20 +3751,20 @@
               </div>
               <div class='row-rk'>
                 <div class='cell-rk head-rk'>Expected Counts</div>
-                <div class='cell-rk'>29.4</div>
-                <div class='cell-rk'>25.2</div>
-                <div class='cell-rk'>16.8</div>
-                <div class='cell-rk'>8.4</div>
-                <div class='cell-rk'>3.36</div>
-                <div class='cell-rk'>0.84</div>
+                <div class='cell-rk'>66.5</div>
+                <div class='cell-rk'>57</div>
+                <div class='cell-rk'>38</div>
+                <div class='cell-rk'>19</div>
+                <div class='cell-rk'>7.6</div>
+                <div class='cell-rk'>1.9</div>
               </div>
               <div class='row-rk'>
                 <div class='cell-rk head-rk'>Observed Counts</div>
-                <div class='cell-rk'>36</div>
-                <div class='cell-rk'>25</div>
-                <div class='cell-rk'>15</div>
-                <div class='cell-rk'>2</div>
-                <div class='cell-rk'>4</div>
+                <div class='cell-rk'>55</div>
+                <div class='cell-rk'>64</div>
+                <div class='cell-rk'>41</div>
+                <div class='cell-rk'>22</div>
+                <div class='cell-rk'>6</div>
                 <div class='cell-rk'>2</div>
               </div>
 
@@ -2458,27 +3772,47 @@
           </div>
         </div>
         <br>
-
-        <div class='outer-container-rk'>
-          <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/12398_sol.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
-            </div>
+      </div><div class='par'>The degrees of freedom are $_df = 6 - 1 =         5$_ and the $_\chi^2$_-statistic is:$$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 3.9$$</div>
+      The p-value for this data is:
+      $$\text{p-value} = P(\chi^2_{5} > 3.9) = 56.38%$$
+      <div class='outer-container-rk'>
+        <div class='centering-rk'>
+          <div class='container-rk'>
+            <figure>
+              
+              <div class='img'>
+                <img src='chi2gof/18058_sol.png' width=300px >
+              </div>
+              
+              <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.05$_ level.</figcaption>
+            </figure>
           </div>
         </div>
-      </div></div><br><div class = 'posts'><div>
-      To test if a die is fair you roll the die
-      102 times with the following outcomes:
+      </div>
+      
+      <div class='par'>The lightly shaded histogram represents a sampling distribution
+        of 5000 sample $_\chi^2$_-statistics where the  samples are 
+        of the same size as the given observed data (190 observations).
+        This indicate how well the $_\chi^2$_-distributions is capturing
+        the actual sampling distribution for this experiment.</div>
+        
+        <div class='par'>The p-value is greater than the $_\alpha$_-level so
+          the null hypothesis:
+          <br>
+          <strong>H<sub>0</sub>: The die is fair with each outcome                 being equally likly.</strong>
+        </br>
+        cannot be rejected. There is a 56.38% probability due to 
+        random chance in sampling that
+        the difference in the expected and observed data is at 
+        least this large.</div>
+      </div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+      Teachers want to know which night each week their students are 
+      doing most of their homework. Most teachers think that students 
+      do homework equally throughout the week. Suppose a random sample 
+      of 90 students were asked on which night of the week they 
+      did the most homework. The results were distributed as in  
     </div>
-    
-    
+
     <style type="text/css">
 
       div.outer-container-rk {
@@ -2486,6 +3820,12 @@
         overflow-x: auto; 
       }
 
+
+      div.par {
+        margin: 10px;
+        padding: 5px;
+      }
+      
       div.centering-rk {
         display: table;
         margin: auto;
@@ -2545,24 +3885,40 @@
         
         <div class='outer-container-rk'>
           <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/2110.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Sunday</div>
+                <div class='cell-rk'>Monday</div>
+                <div class='cell-rk'>Tuesday</div>
+                <div class='cell-rk'>Wednesday</div>
+                <div class='cell-rk'>Thursday</div>
+                <div class='cell-rk'>Friday</div>
+                <div class='cell-rk'>Saturday</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>15</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>14</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>14</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>17</div>
+              </div>
+
             </div>
           </div>
         </div>
-        The $_\chi^2$_ statistic is $$\chi^2_{df}=\sum_{i=1}^{5}\frac{(O_i-E_i)^2}{E_i}                = 13.2.$$ 
+        <br>
+        The degrees of freedom are $_df = 7 - 1 = 
+        6$_ and the $_\chi^2$_ statistic is $$\chi^2_{6}=\sum_{i=1}^{7}\frac{(O_i-E_i)^2}{E_i}                = 4.27$$ 
         
-        Use this information to find the $_p$_-value and 
-        degrees of freedom.
-        <div><br><br><strong>The explanation is in progress not done,        but here is part of what they get:</strong>    
-          
+        Use this information to conduct a hypothesis test with 
+        $_\alpha = 0.01$_. Choose the answer that best captures
+        the null hypothesis and conclusion.
+        <div class='par'>
           <style type="text/css">
 
             div.outer-container-rk {
@@ -2570,6 +3926,12 @@
               overflow-x: auto; 
             }
 
+
+            div.par {
+              margin: 10px;
+              padding: 5px;
+            }
+            
             div.centering-rk {
               display: table;
               margin: auto;
@@ -2626,65 +3988,114 @@
           }
         </style>
         
-        
-        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
         <div class='outer-container-rk'>
           <div class='centering-rk'>
             <div class='tbl-rk'>
               
               <div class='row-rk head-rk'>
                 <div class='cell-rk'>Die</div>
-                <div class='cell-rk'>1</div>
-                <div class='cell-rk'>2</div>
-                <div class='cell-rk'>3</div>
-                <div class='cell-rk'>4</div>
-                <div class='cell-rk'>5</div>
-                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>Sunday</div>
+                <div class='cell-rk'>Monday</div>
+                <div class='cell-rk'>Tuesday</div>
+                <div class='cell-rk'>Wednesday</div>
+                <div class='cell-rk'>Thursday</div>
+                <div class='cell-rk'>Friday</div>
+                <div class='cell-rk'>Saturday</div>
               </div>
               <div class='row-rk'>
-                <div class='cell-rk head-rk'>Expected Counts</div>
-                <div class='cell-rk'>17</div>
-                <div class='cell-rk'>17</div>
-                <div class='cell-rk'>17</div>
-                <div class='cell-rk'>17</div>
-                <div class='cell-rk'>17</div>
-                <div class='cell-rk'>17</div>
-              </div>
-              <div class='row-rk'>
-                <div class='cell-rk head-rk'>Observed Counts</div>
-                <div class='cell-rk'>12</div>
-                <div class='cell-rk'>30</div>
-                <div class='cell-rk'>15</div>
-                <div class='cell-rk'>17</div>
-                <div class='cell-rk'>12</div>
-                <div class='cell-rk'>16</div>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
               </div>
 
             </div>
           </div>
         </div>
         <br>
-
+        and there are 90 observations. So the expected and observed counts are:<br>
         <div class='outer-container-rk'>
           <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/2110_sol.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Sunday</div>
+                <div class='cell-rk'>Monday</div>
+                <div class='cell-rk'>Tuesday</div>
+                <div class='cell-rk'>Wednesday</div>
+                <div class='cell-rk'>Thursday</div>
+                <div class='cell-rk'>Friday</div>
+                <div class='cell-rk'>Saturday</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Expected Counts</div>
+                <div class='cell-rk'>12.9</div>
+                <div class='cell-rk'>12.9</div>
+                <div class='cell-rk'>12.9</div>
+                <div class='cell-rk'>12.9</div>
+                <div class='cell-rk'>12.9</div>
+                <div class='cell-rk'>12.9</div>
+                <div class='cell-rk'>12.9</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>15</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>14</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>14</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>17</div>
+              </div>
+
             </div>
           </div>
         </div>
-      </div></div><br><div class = 'posts'><div>
+        <br>
+      </div><div class='par'>The degrees of freedom are $_df = 7 - 1 =         6$_ and the $_\chi^2$_-statistic is:$$\chi^2_{6}=\sum_{i=1}^{7}\frac{(O_i-E_i)^2}{E_i}                = 4.27$$</div>
+      The p-value for this data is:
+      $$\text{p-value} = P(\chi^2_{6} > 4.27) = 64.06%$$
+      <div class='outer-container-rk'>
+        <div class='centering-rk'>
+          <div class='container-rk'>
+            <figure>
+              
+              <div class='img'>
+                <img src='chi2gof/2060_sol.png' width=300px >
+              </div>
+              
+              <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.01$_ level.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      
+      <div class='par'>The lightly shaded histogram represents a sampling distribution
+        of 5000 sample $_\chi^2$_-statistics where the  samples are 
+        of the same size as the given observed data (90 observations).
+        This indicate how well the $_\chi^2$_-distributions is capturing
+        the actual sampling distribution for this experiment.</div>
+        
+        <div class='par'>The p-value is greater than the $_\alpha$_-level so
+          the null hypothesis:
+          <br>
+          <strong>H<sub>0</sub>: Students are equally likely to do the majority of their             homework on any of the seven nights of the week.</strong>
+        </br>
+        cannot be rejected. There is a 64.06% probability due to 
+        random chance in sampling that
+        the difference in the expected and observed data is at 
+        least this large.</div>
+      </div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
       To test if a die is fair you roll the die
       36 times with the following outcomes:
     </div>
-    
-    
+
     <style type="text/css">
 
       div.outer-container-rk {
@@ -2692,6 +4103,12 @@
         overflow-x: auto; 
       }
 
+
+      div.par {
+        margin: 10px;
+        padding: 5px;
+      }
+      
       div.centering-rk {
         display: table;
         margin: auto;
@@ -2751,24 +4168,38 @@
         
         <div class='outer-container-rk'>
           <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/11469.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>1</div>
+                <div class='cell-rk'>2</div>
+                <div class='cell-rk'>3</div>
+                <div class='cell-rk'>4</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>6</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>7</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>8</div>
+              </div>
+
             </div>
           </div>
         </div>
-        The $_\chi^2$_ statistic is $$\chi^2_{df}=\sum_{i=1}^{5}\frac{(O_i-E_i)^2}{E_i}                = 4.67.$$ 
+        <br>
+        The degrees of freedom are $_df = 6 - 1 = 
+        5$_ and the $_\chi^2$_ statistic is $$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 1.33$$ 
         
-        Use this information to find the $_p$_-value and 
-        degrees of freedom.
-        <div><br><br><strong>The explanation is in progress not done,        but here is part of what they get:</strong>    
-          
+        Use this information to conduct a hypothesis test with 
+        $_\alpha = 0.01$_. Choose the answer that best captures
+        the null hypothesis and conclusion.
+        <div class='par'>
           <style type="text/css">
 
             div.outer-container-rk {
@@ -2776,6 +4207,12 @@
               overflow-x: auto; 
             }
 
+
+            div.par {
+              margin: 10px;
+              padding: 5px;
+            }
+            
             div.centering-rk {
               display: table;
               margin: auto;
@@ -2832,8 +4269,35 @@
           }
         </style>
         
-        
-        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>1</div>
+                <div class='cell-rk'>2</div>
+                <div class='cell-rk'>3</div>
+                <div class='cell-rk'>4</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>6</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+                <div class='cell-rk'>0.167</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        and there are 36 observations. So the expected and observed counts are:<br>
         <div class='outer-container-rk'>
           <div class='centering-rk'>
             <div class='tbl-rk'>
@@ -2858,36 +4322,439 @@
               </div>
               <div class='row-rk'>
                 <div class='cell-rk head-rk'>Observed Counts</div>
-                <div class='cell-rk'>9</div>
-                <div class='cell-rk'>7</div>
-                <div class='cell-rk'>8</div>
                 <div class='cell-rk'>5</div>
-                <div class='cell-rk'>4</div>
-                <div class='cell-rk'>3</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>7</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>8</div>
               </div>
 
             </div>
           </div>
         </div>
         <br>
+      </div><div class='par'>The degrees of freedom are $_df = 6 - 1 =         5$_ and the $_\chi^2$_-statistic is:$$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 1.33$$</div>
+      The p-value for this data is:
+      $$\text{p-value} = P(\chi^2_{5} > 1.33) = 93.15%$$
+      <div class='outer-container-rk'>
+        <div class='centering-rk'>
+          <div class='container-rk'>
+            <figure>
+              
+              <div class='img'>
+                <img src='chi2gof/19462_sol.png' width=300px >
+              </div>
+              
+              <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.01$_ level.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      
+      <div class='par'>The lightly shaded histogram represents a sampling distribution
+        of 5000 sample $_\chi^2$_-statistics where the  samples are 
+        of the same size as the given observed data (36 observations).
+        This indicate how well the $_\chi^2$_-distributions is capturing
+        the actual sampling distribution for this experiment.</div>
+        
+        <div class='par'>The p-value is greater than the $_\alpha$_-level so
+          the null hypothesis:
+          <br>
+          <strong>H<sub>0</sub>: The die is fair with each outcome                 being equally likly.</strong>
+        </br>
+        cannot be rejected. There is a 93.15% probability due to 
+        random chance in sampling that
+        the difference in the expected and observed data is at 
+        least this large.</div>
+      </div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
+      essentially a dice game except that instead of dice players toss
+      small plastic pigs that can land in any of 6 positions. For example, 
+      you roll a trotter if the pig falls standing on all 4 legs. 
+      It is claimed that the distribution for the 6 positions are:
+      
+      
+      <style type="text/css">
 
+        div.outer-container-rk {
+          display: block;
+          overflow-x: auto; 
+        }
+
+
+        div.par {
+          margin: 10px;
+          padding: 5px;
+        }
+        
+        div.centering-rk {
+          display: table;
+          margin: auto;
+          text-align: center;
+          border-width: 2pt;
+          border-style: solid;
+          border-color: rgba(200,100,200,.5);
+          border-radius: 10px;
+          padding: 5px;
+
+        }
+
+        div.container-rk {
+          /*float: left;*/
+          display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        
+        
         <div class='outer-container-rk'>
           <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/11469_sol.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Position</div>
+                <div class='cell-rk'>Pink</div>
+                <div class='cell-rk'>Dot</div>
+                <div class='cell-rk'>Razorback</div>
+                <div class='cell-rk'>Trotter</div>
+                <div class='cell-rk'>Snouter</div>
+                <div class='cell-rk'>Leaning Jowler</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Expected Frequency</div>
+                <div class='cell-rk'>0.35</div>
+                <div class='cell-rk'>0.3</div>
+                <div class='cell-rk'>0.2</div>
+                <div class='cell-rk'>0.1</div>
+                <div class='cell-rk'>0.04</div>
+                <div class='cell-rk'>0.01</div>
+              </div>
+
             </div>
           </div>
         </div>
-      </div></div><br><div class = 'posts'><div>
-      To test if a die is fair you roll the die
-      48 times with the following outcomes:
+        <br>
+        
+        
+        To test this you toss a pig 130 times and get the observed 
+        frequencies below:
+      </div>
+
+      <style type="text/css">
+
+        div.outer-container-rk {
+          display: block;
+          overflow-x: auto; 
+        }
+
+
+        div.par {
+          margin: 10px;
+          padding: 5px;
+        }
+        
+        div.centering-rk {
+          display: table;
+          margin: auto;
+          text-align: center;
+          border-width: 2pt;
+          border-style: solid;
+          border-color: rgba(200,100,200,.5);
+          border-radius: 10px;
+          padding: 5px;
+
+        }
+
+        div.container-rk {
+          /*float: left;*/
+          display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Pink</div>
+                <div class='cell-rk'>Dot</div>
+                <div class='cell-rk'>Razorback</div>
+                <div class='cell-rk'>Trotter</div>
+                <div class='cell-rk'>Snouter</div>
+                <div class='cell-rk'>Leaning Jowler</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>39</div>
+                <div class='cell-rk'>42</div>
+                <div class='cell-rk'>25</div>
+                <div class='cell-rk'>16</div>
+                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>2</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        The degrees of freedom are $_df = 6 - 1 = 
+        5$_ and the $_\chi^2$_ statistic is $$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 2.39$$ 
+        
+        Use this information to conduct a hypothesis test with 
+        $_\alpha = 0.1$_. Choose the answer that best captures
+        the null hypothesis and conclusion.
+        <div class='par'>
+          <style type="text/css">
+
+            div.outer-container-rk {
+              display: block;
+              overflow-x: auto; 
+            }
+
+
+            div.par {
+              margin: 10px;
+              padding: 5px;
+            }
+            
+            div.centering-rk {
+              display: table;
+              margin: auto;
+              text-align: center;
+              border-width: 2pt;
+              border-style: solid;
+              border-color: rgba(200,100,200,.5);
+              border-radius: 10px;
+              padding: 5px;
+
+            }
+
+            div.container-rk {
+              /*float: left;*/
+              display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Pink</div>
+                <div class='cell-rk'>Dot</div>
+                <div class='cell-rk'>Razorback</div>
+                <div class='cell-rk'>Trotter</div>
+                <div class='cell-rk'>Snouter</div>
+                <div class='cell-rk'>Leaning Jowler</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.35</div>
+                <div class='cell-rk'>0.3</div>
+                <div class='cell-rk'>0.2</div>
+                <div class='cell-rk'>0.1</div>
+                <div class='cell-rk'>0.04</div>
+                <div class='cell-rk'>0.01</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        and there are 130 observations. So the expected and observed counts are:<br>
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Pink</div>
+                <div class='cell-rk'>Dot</div>
+                <div class='cell-rk'>Razorback</div>
+                <div class='cell-rk'>Trotter</div>
+                <div class='cell-rk'>Snouter</div>
+                <div class='cell-rk'>Leaning Jowler</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Expected Counts</div>
+                <div class='cell-rk'>45.5</div>
+                <div class='cell-rk'>39</div>
+                <div class='cell-rk'>26</div>
+                <div class='cell-rk'>13</div>
+                <div class='cell-rk'>5.2</div>
+                <div class='cell-rk'>1.3</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>39</div>
+                <div class='cell-rk'>42</div>
+                <div class='cell-rk'>25</div>
+                <div class='cell-rk'>16</div>
+                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>2</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+      </div><div class='par'>The degrees of freedom are $_df = 6 - 1 =         5$_ and the $_\chi^2$_-statistic is:$$\chi^2_{5}=\sum_{i=1}^{6}\frac{(O_i-E_i)^2}{E_i}                = 2.39$$</div>
+      The p-value for this data is:
+      $$\text{p-value} = P(\chi^2_{5} > 2.39) = 79.29%$$
+      <div class='outer-container-rk'>
+        <div class='centering-rk'>
+          <div class='container-rk'>
+            <figure>
+              
+              <div class='img'>
+                <img src='chi2gof/18714_sol.png' width=300px >
+              </div>
+              
+              <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.1$_ level.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      
+      <div class='par'>The lightly shaded histogram represents a sampling distribution
+        of 5000 sample $_\chi^2$_-statistics where the  samples are 
+        of the same size as the given observed data (130 observations).
+        This indicate how well the $_\chi^2$_-distributions is capturing
+        the actual sampling distribution for this experiment.</div>
+        
+        <div class='par'>The p-value is greater than the $_\alpha$_-level so
+          the null hypothesis:
+          <br>
+          <strong>H<sub>0</sub>: The observed value of the positionons of the pigs agrees with             the expected distribution.</strong>
+        </br>
+        cannot be rejected. There is a 79.29% probability due to 
+        random chance in sampling that
+        the difference in the expected and observed data is at 
+        least this large.</div>
+      </div></div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+      Teachers want to know which night each week their students are 
+      doing most of their homework. Most teachers think that students 
+      do homework equally throughout the week. Suppose a random sample 
+      of 100 students were asked on which night of the week they 
+      did the most homework. The results were distributed as in  
     </div>
 
     <style type="text/css">
@@ -2897,6 +4764,12 @@
         overflow-x: auto; 
       }
 
+
+      div.par {
+        margin: 10px;
+        padding: 5px;
+      }
+      
       div.centering-rk {
         display: table;
         margin: auto;
@@ -2960,33 +4833,36 @@
               
               <div class='row-rk head-rk'>
                 <div class='cell-rk'>Die</div>
-                <div class='cell-rk'>1</div>
-                <div class='cell-rk'>2</div>
-                <div class='cell-rk'>3</div>
-                <div class='cell-rk'>4</div>
-                <div class='cell-rk'>5</div>
-                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>Sunday</div>
+                <div class='cell-rk'>Monday</div>
+                <div class='cell-rk'>Tuesday</div>
+                <div class='cell-rk'>Wednesday</div>
+                <div class='cell-rk'>Thursday</div>
+                <div class='cell-rk'>Friday</div>
+                <div class='cell-rk'>Saturday</div>
               </div>
               <div class='row-rk'>
                 <div class='cell-rk head-rk'>Observed Counts</div>
-                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>22</div>
+                <div class='cell-rk'>14</div>
                 <div class='cell-rk'>11</div>
-                <div class='cell-rk'>6</div>
-                <div class='cell-rk'>8</div>
-                <div class='cell-rk'>8</div>
-                <div class='cell-rk'>7</div>
+                <div class='cell-rk'>22</div>
+                <div class='cell-rk'>12</div>
+                <div class='cell-rk'>15</div>
+                <div class='cell-rk'>4</div>
               </div>
 
             </div>
           </div>
         </div>
         <br>
-        The $_\chi^2$_ statistic is $$\chi^2_{df}=\sum_{i=1}^{5}\frac{(O_i-E_i)^2}{E_i}                = 1.75.$$ 
+        The degrees of freedom are $_df = 7 - 1 = 
+        6$_ and the $_\chi^2$_ statistic is $$\chi^2_{6}=\sum_{i=1}^{7}\frac{(O_i-E_i)^2}{E_i}                = 16.9$$ 
         
-        Use this information to find the $_p$_-value and 
-        degrees of freedom.
-        <div><br><br><strong>The explanation is in progress not done,        but here is part of what they get:</strong>    
-          
+        Use this information to conduct a hypothesis test with 
+        $_\alpha = 0.05$_. Choose the answer that best captures
+        the null hypothesis and conclusion.
+        <div class='par'>
           <style type="text/css">
 
             div.outer-container-rk {
@@ -2994,6 +4870,12 @@
               overflow-x: auto; 
             }
 
+
+            div.par {
+              margin: 10px;
+              padding: 5px;
+            }
+            
             div.centering-rk {
               display: table;
               margin: auto;
@@ -3050,59 +4932,110 @@
           }
         </style>
         
-        
-        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply the total            number of observations by the expected probability for an outcome.             The probabilities for the expected outcomes are summarized in the             following table:
         <div class='outer-container-rk'>
           <div class='centering-rk'>
             <div class='tbl-rk'>
               
               <div class='row-rk head-rk'>
                 <div class='cell-rk'>Die</div>
-                <div class='cell-rk'>1</div>
-                <div class='cell-rk'>2</div>
-                <div class='cell-rk'>3</div>
-                <div class='cell-rk'>4</div>
-                <div class='cell-rk'>5</div>
-                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>Sunday</div>
+                <div class='cell-rk'>Monday</div>
+                <div class='cell-rk'>Tuesday</div>
+                <div class='cell-rk'>Wednesday</div>
+                <div class='cell-rk'>Thursday</div>
+                <div class='cell-rk'>Friday</div>
+                <div class='cell-rk'>Saturday</div>
               </div>
               <div class='row-rk'>
-                <div class='cell-rk head-rk'>Expected Counts</div>
-                <div class='cell-rk'>8</div>
-                <div class='cell-rk'>8</div>
-                <div class='cell-rk'>8</div>
-                <div class='cell-rk'>8</div>
-                <div class='cell-rk'>8</div>
-                <div class='cell-rk'>8</div>
-              </div>
-              <div class='row-rk'>
-                <div class='cell-rk head-rk'>Observed Counts</div>
-                <div class='cell-rk'>8</div>
-                <div class='cell-rk'>11</div>
-                <div class='cell-rk'>6</div>
-                <div class='cell-rk'>8</div>
-                <div class='cell-rk'>8</div>
-                <div class='cell-rk'>7</div>
+                <div class='cell-rk head-rk'>Probabilities</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
+                <div class='cell-rk'>0.143</div>
               </div>
 
             </div>
           </div>
         </div>
         <br>
-
+        and there are 100 observations. So the expected and observed counts are:<br>
         <div class='outer-container-rk'>
           <div class='centering-rk'>
-            <div class='container-rk'>
-              <figure>
-                
-                <div class='img'>
-                  <img src='chi2gof/6004_sol.png' width=300px >
-                </div>
-                
-                <figcaption>Observed Frequencies</figcaption>
-              </figure>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'>Die</div>
+                <div class='cell-rk'>Sunday</div>
+                <div class='cell-rk'>Monday</div>
+                <div class='cell-rk'>Tuesday</div>
+                <div class='cell-rk'>Wednesday</div>
+                <div class='cell-rk'>Thursday</div>
+                <div class='cell-rk'>Friday</div>
+                <div class='cell-rk'>Saturday</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Expected Counts</div>
+                <div class='cell-rk'>14.3</div>
+                <div class='cell-rk'>14.3</div>
+                <div class='cell-rk'>14.3</div>
+                <div class='cell-rk'>14.3</div>
+                <div class='cell-rk'>14.3</div>
+                <div class='cell-rk'>14.3</div>
+                <div class='cell-rk'>14.3</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Observed Counts</div>
+                <div class='cell-rk'>22</div>
+                <div class='cell-rk'>14</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>22</div>
+                <div class='cell-rk'>12</div>
+                <div class='cell-rk'>15</div>
+                <div class='cell-rk'>4</div>
+              </div>
+
             </div>
           </div>
         </div>
+        <br>
+      </div><div class='par'>The degrees of freedom are $_df = 7 - 1 =         6$_ and the $_\chi^2$_-statistic is:$$\chi^2_{6}=\sum_{i=1}^{7}\frac{(O_i-E_i)^2}{E_i}                = 16.9$$</div>
+      The p-value for this data is:
+      $$\text{p-value} = P(\chi^2_{6} > 16.9) = 0.9658%$$
+      <div class='outer-container-rk'>
+        <div class='centering-rk'>
+          <div class='container-rk'>
+            <figure>
+              
+              <div class='img'>
+                <img src='chi2gof/8858_sol.png' width=300px >
+              </div>
+              
+              <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.05$_ level.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      
+      <div class='par'>The lightly shaded histogram represents a sampling distribution
+        of 5000 sample $_\chi^2$_-statistics where the  samples are 
+        of the same size as the given observed data (100 observations).
+        This indicate how well the $_\chi^2$_-distributions is capturing
+        the actual sampling distribution for this experiment.</div>
+        
+        <div class='par'>The p-value is less than the $_\alpha$_-level so
+          the null hypothesis:
+          <br>
+          <strong>H<sub>0</sub>: Students are equally likely to do the majority of their             homework on any of the seven nights of the week. </strong>
+        </br>
+        is rejected. There is only a 0.97% probability due to 
+        random chance in sampling that
+        the difference in the expected and observed data is 
+        least this large. There is evidence that the expected distribution 
+        is incorrect.</div>
       </div></div><br>
 
 
