@@ -92,16 +92,19 @@ def make_table(col_headers = None, row_headers = None,
             data = [list(entries)]
 
         if len(entries) == 1:
-            if type(entries[0]) is type(np.array([])):
+            if type(entries[0]) is type(np.array([])) and\
+               type(entries[0][0]) in [list, type(np.array([]))]:
                 data = list(entries[0])
+            elif type(entries[0]) is type(np.array([])):
+                data = entries
             elif all(map(lambda x: type(x) is list, entries[0])) and \
                         all(map(lambda x: len(x) == len(entries[0][0]), entries[0])):
                 data = entries[0]
             elif type(entries[0]) is list:
-                data = list(entries)
+                data = entries
             else:
                 raise VaueError("The data is ill formed.")
-
+        
         return data
         
     style = """
@@ -112,6 +115,12 @@ def make_table(col_headers = None, row_headers = None,
             overflow-x: auto; 
         }
 
+
+        div.par {
+            margin: 10px;
+            padding: 5px;
+        }
+        
         div.centering-rk {
             display: table;
             margin: auto;
@@ -225,5 +234,7 @@ if __name__ == "__main__":
     tbl2, _ = make_table(cl, rl, True, e, o)
     tbl3, _ = make_table(cl_alt, rl, True, e, o)
     tbl4, _ = make_table(cl, rl_alt, True, e, o)
-    ex = style + tbl1 + tbl2 + tbl3 + tbl4
+    tbl5, _ = make_table(cl, rl_alt, True, np.array([e, o]))
+    tbl6, _ = make_table(cl, None, True, np.array(e))
+    ex = style + tbl1 + tbl2 + tbl3 + tbl4 + tbl5 + tbl6
     print(ex)
