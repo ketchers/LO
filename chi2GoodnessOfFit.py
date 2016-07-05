@@ -16,7 +16,7 @@ x, y, z = sym.symbols('x,y,z')
 from html_tools import make_table, html_image
 from chi2GoodnessOfFitData import Chi2GoodnessOfFitData
 
-class Chi2GoodnessOfFit():
+class Chi2GoodnessOfFit(object):
     
     def __init__(self, seed = None, path = "chi2gof"):
         self.cache = set() #Just for names this time.
@@ -136,11 +136,11 @@ class Chi2GoodnessOfFit():
            
             question_stem += """The $_\\chi^2$_ statistic is 
                 {chi2eq}
-                with degrees of freedom $_df = {N} - 1 = {df}$_.                 
+                                 
                 
-            Use this information to find the $_p$_-value, 
-            $_P(\chi^2_{{{df}}} > {chi2:.3g})$_.
-            """.format(chi2eq=chi2eq, N=N, df = df, chi2=context.chi2_stat)
+            Use this information to find the degrees of freedom (df) and the 
+            $_p\text{{-value}} = P(\chi^2_{{{df}}} > {chi2:.3g})$_.
+            """.format(chi2eq=chi2eq, N=N, df = 'df', chi2=context.chi2_stat)
                        
         elif q_type == 'HT':
             
@@ -253,8 +253,17 @@ class Chi2GoodnessOfFit():
                     the difference in the expected and observed data is at 
                     least this large.</div>
                     """.format(null=context.null, p_val=p_val)
+        
+        
+        errors = self.gen_errors(q_type, context)
+        
+        if preview:
+            errs = [[er] for er in errors]
+            choices = "<br><h2>Choices</h2><br>"
+            tbl, _ = make_table(None, ['Answer'] + ['Distractor']*4, True, *errs)  
+            choices += tbl                             
             
-        return question_stem + "<div class='par'>" + explanation +"</div>"
+        return question_stem + choices +  explanation 
         
         
     def gen_solution_plot(self, chi2_stat, outcomes, t_dist, s_size, a_level = 0.05):
@@ -337,6 +346,76 @@ class Chi2GoodnessOfFit():
         tools.make_folder_if_necessary(".", self.path)        
         plt.savefig(self.hist)    
         plt.close()
+        
+    def gen_errors(self, q_type, context):
+        N = len(context.outcomes)
+        df = N - 1
+        rvN = stats.chi2(N)
+        rvDf = stats.chi2(df)
+        errors = []
+        if q_type == 'STAT':
+        
+            ans = '(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
+                       % (df, context.chi2_stat)
+            
+            # A few potential errors
+            # df = N instead of N - 1
+            errors += ['(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
+                       % (N, context.chi2_stat)]
+            # use |O_i  - E_i|/E_i instead of (O_i - E_i)^2
+            errors += ['(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
+                       % (df, np.sum(np.abs(context.t_counts - context.o_counts) / context.t_counts))]
+            # use |O_i  - E_i|/E_i instead of (O_i - E_i)^2 and df = N
+            errors += ['(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
+                       % (N, np.sum(np.abs(context.t_counts - context.o_counts) / context.t_counts))]
+            # use (O_i - E_i)/O_i
+            errors += ['(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
+                       % (df, np.sum((context.t_counts - context.o_counts)**2 / context.o_counts))]
+            # use (O_i - E_i)/O_i and df = N
+            errors += ['(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
+                       % (N, np.sum((context.t_counts - context.o_counts)**2 / context.o_counts))]
+            # take sqrt of chi^2-stat
+            errors += ['(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
+                       % (df, context.chi2_stat ** .5)]
+           
+            
+            
+            
+        if q_type in ['PVAL', 'HT']:
+            ans = '(degrees of freedom) df = %s and the p-value = %.3g'\
+                       % (df, rvDf.cdf(context.chi2_stat))
+            
+            # A few potential errors
+            # df = N instead of N - 1
+            errors += ['(degrees of freedom) df = %s and the p-value = %.3g'\
+                       % (N, 1 - rvN.cdf(context.chi2_stat))]
+            # use |O_i  - E_i|/E_i instead of (O_i - E_i)^2
+            errors += ['(degrees of freedom) df = %s and the p-value = %.3g'\
+                       % (df, 1 - rvDf.cdf(np.sum(np.abs(context.t_counts - context.o_counts) / context.t_counts)))]
+            # use |O_i  - E_i|/E_i instead of (O_i - E_i)^2 and df = N
+            errors += ['(degrees of freedom) df = %s and the p-value = %.3g'\
+                       % (N, 1 - rvN.cdf(np.sum(np.abs(context.t_counts - context.o_counts) / context.t_counts)))]
+            # use (O_i - E_i)/O_i
+            errors += ['(degrees of freedom) df = %s and the p-value = %.3g'\
+                       % (df, 1 - rvDf.cdf(np.sum((context.t_counts - context.o_counts)**2 / context.o_counts)))]
+            # use (O_i - E_i)/O_i and df = N
+            errors += ['(degrees of freedom) df = %s and the p-value= %.3g'\
+                       % (N, 1 - rvN.cdf(np.sum((context.t_counts - context.o_counts)**2 / context.o_counts)))]
+            # take sqrt of chi^2-stat
+            errors += ['(degrees of freedom) df = %s and the p-value = %.3g'\
+                       % (df, 1 - rvDf.cdf(context.chi2_stat ** .5))]
+        
+        if q_type == 'HT':
+            pass
+        
+        random.shuffle(errors)
+        errors = [ans] + errors[0:4]
+        
+        return errors
+    
+
+        
+    
         
 if __name__ == "__main__":
     

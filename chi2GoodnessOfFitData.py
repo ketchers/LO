@@ -71,7 +71,8 @@ class Chi2GoodnessOfFitData(object):
         self.o_counts = np.array([sum(self.sample == i) for i in self.outcomes])
         # Sample distribution
         
-        self.is_valid = sum(self.o_counts - 4 > 0)/len(self.o_counts) >= .8
+        self.is_valid = sum(self.o_counts - 4 > 0)/len(self.o_counts) >= .8 \
+            and all(self.o_counts > 0)
         if not self.is_valid:
             warnings.warn("The cell counts are too small!")
         
