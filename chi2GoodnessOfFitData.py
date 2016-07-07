@@ -82,10 +82,16 @@ class Chi2GoodnessOfFitData(object):
         self.a_level = getattr(context, 'a_level', random.choice([.1,.05,.01]))
         # The actual description of the problem
         self.chi2_stat = np.sum((self.o_counts - self.t_counts)**2/self.t_counts)
+        self.df = len(self.o_counts)  - 1        
         self.null = getattr(context, 'null', "The die is fair with each outcome \
                 being equally likly.")
-        self.alternate =  getattr(context, 'null', "The die is not fair some\
+        self.alternative =  getattr(context, 'alternative', "The die is not fair some\
             outcomes are more likely than others.")
+        self.note = getattr(context,'note',"""
+            The sample here was taken from the given expected distribution.
+            If you rejected the null, then this is a <strong>false 
+            positive</strong> (Type I error). 
+            """)
         
 
         default_story = """

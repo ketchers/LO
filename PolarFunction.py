@@ -247,7 +247,7 @@ class PolarFunction():
         elif f_type == 'lemniscate':
             n = 2
             a = 0
-            b = pm * random.choice([a ** 2 for a in range(2, 7)])
+            b = pm * random.choice([w ** 2 for w in range(2, 7)])
             f = random.choice(['sin', 'cos'])
         elif f_type == 'line':
             n = 1
@@ -272,7 +272,7 @@ class PolarFunction():
         else:
             #add more
             pass           
-        
+
         return (a, b, n, f, f_type)
         
     def get_f_type(self, f_type=None):
@@ -1432,11 +1432,12 @@ if __name__ == "__main__":
 #    PolarFunction(f_type = 'line through the origin')
 #    
 #    
-#    # Generate a bunc of random graphs of specific types
-#    for ftype in PolarFunction.TYPES:
-#        for i in range(6):
-#            f = PolarFunction(f_type = ftype)
-#            
+    # Generate a bunch of random graphs of specific types
+    for ftype in PolarFunction.TYPES:
+        for i in range(6):
+            f = PolarFunction(f_type = ftype)
+            print(f.f_name)
+            
 #    # Now generate a bunch of random graphs (non-specific type)
 #    for i in range(10):
 #        PolarFunction()

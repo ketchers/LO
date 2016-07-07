@@ -10,9 +10,9 @@ import distutils.spawn
 x = symbols('x')
 
 
-if distutils.spawn.find_executable('itex2mml') != '/usr/local/bin/itex2mml':
-    print('ERROR: brew install itex2mml')
-    sys.exit(-1)
+#if distutils.spawn.find_executable('itex2mml') != '/usr/local/bin/itex2mml':
+#    print('ERROR: brew install itex2mml')
+#    sys.exit(-1)
 
 NAMES_TUPLES = [("Jamie", "her", "she", "her"),
                 ("John", "his", "he", "him"),

@@ -139,7 +139,7 @@ class Chi2GoodnessOfFit(object):
                                  
                 
             Use this information to find the degrees of freedom (df) and the 
-            $_p\text{{-value}} = P(\chi^2_{{{df}}} > {chi2:.3g})$_.
+            $_p\\text{{-value}} = P(\\chi^2_{{{df}}} > {chi2:.3g})$_.
             """.format(chi2eq=chi2eq, N=N, df = 'df', chi2=context.chi2_stat)
                        
         elif q_type == 'HT':
@@ -215,7 +215,7 @@ class Chi2GoodnessOfFit(object):
                     </div>
                 </div>
             </div>
-            """ % (df, context.chi2_stat, p_val * 100, '%', img, caption)
+            """ % (df, context.chi2_stat, p_val * 100, '\\%', img, caption)
             explanation += """
                 <div class='par'>The lightly shaded histogram represents a sampling distribution
                 of 5000 sample $_\chi^2$_-statistics where the  samples are 
@@ -253,6 +253,10 @@ class Chi2GoodnessOfFit(object):
                     the difference in the expected and observed data is at 
                     least this large.</div>
                     """.format(null=context.null, p_val=p_val)
+                    
+            explanation += """
+                <div class='par'>Note: {note}</div>                
+                """.format(note=context.note)
         
         
         errors = self.gen_errors(q_type, context)
@@ -350,87 +354,80 @@ class Chi2GoodnessOfFit(object):
     def gen_errors(self, q_type, context):
         N = len(context.outcomes)
         df = N - 1
-        rvN = stats.chi2(N)
-        rvDf = stats.chi2(df)
-        errors = []
+        # A few potential errors
+        # df = N instead of N - 1
+        # use |O_i  - E_i|/E_i instead of (O_i - E_i)^2
+        # use |O_i  - E_i|/E_i instead of (O_i - E_i)^2 and df = N
+        # use (O_i - E_i)/O_i
+        # use (O_i - E_i)/O_i and df = N
+        # take sqrt of chi^2-stat
+           
+        errors = [(N, context.chi2_stat),
+                  (df, np.sum(np.abs(context.t_counts - 
+                      context.o_counts) / context.t_counts)),
+                  (N, np.sum(np.abs(context.t_counts - 
+                      context.o_counts) / context.t_counts)),
+                  (df, np.sum((context.t_counts - 
+                       context.o_counts)**2 / context.o_counts)),
+                  (N, np.sum((context.t_counts - 
+                      context.o_counts)**2 / context.o_counts)),
+                  (df, context.chi2_stat ** .5)]
+                  
         if q_type == 'STAT':
         
-            ans = '(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
-                       % (df, context.chi2_stat)
+            def error_string0(df, chi2):
+                ans = '(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
+                       % (df, chi2)
+                return ans
+                
+            ans = error_string0(df, context.chi2_stat)
+            errors = map(lambda x: error_string0(*x), errors)
             
-            # A few potential errors
-            # df = N instead of N - 1
-            errors += ['(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
-                       % (N, context.chi2_stat)]
-            # use |O_i  - E_i|/E_i instead of (O_i - E_i)^2
-            errors += ['(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
-                       % (df, np.sum(np.abs(context.t_counts - context.o_counts) / context.t_counts))]
-            # use |O_i  - E_i|/E_i instead of (O_i - E_i)^2 and df = N
-            errors += ['(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
-                       % (N, np.sum(np.abs(context.t_counts - context.o_counts) / context.t_counts))]
-            # use (O_i - E_i)/O_i
-            errors += ['(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
-                       % (df, np.sum((context.t_counts - context.o_counts)**2 / context.o_counts))]
-            # use (O_i - E_i)/O_i and df = N
-            errors += ['(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
-                       % (N, np.sum((context.t_counts - context.o_counts)**2 / context.o_counts))]
-            # take sqrt of chi^2-stat
-            errors += ['(degrees of freedom) df = %s and the $_\\chi^2$_-test statistic = %.3g'\
-                       % (df, context.chi2_stat ** .5)]
+            
+            
+            
+        if q_type in ['PVAL']:
+            
+            def error_string1(df, chi2):
+                rv = stats.chi2(df)
+                p_val = 1 - rv.cdf(chi2)
+                
+                ans = '(degrees of freedom) df = %s and the p-value = %.3g'\
+                       % (df, 1 - p_val)
+                return ans
+            
+            ans = error_string1(context.df, context.chi2_stat)
+            errors = map(lambda x: error_string1(*x), errors)
            
-            
-            
-            
-        if q_type in ['PVAL', 'HT']:
-            ans = '(degrees of freedom) df = %s and the p-value = %.3g'\
-                       % (df, 1 - rvDf.cdf(context.chi2_stat))
-            
-            # A few potential errors
-            # df = N instead of N - 1
-            errors += ['(degrees of freedom) df = %s and the p-value = %.3g'\
-                       % (N, 1 - rvN.cdf(context.chi2_stat))]
-            # use |O_i  - E_i|/E_i instead of (O_i - E_i)^2
-            errors += ['(degrees of freedom) df = %s and the p-value = %.3g'\
-                       % (df, 1 - rvDf.cdf(np.sum(np.abs(context.t_counts - context.o_counts) / context.t_counts)))]
-            # use |O_i  - E_i|/E_i instead of (O_i - E_i)^2 and df = N
-            errors += ['(degrees of freedom) df = %s and the p-value = %.3g'\
-                       % (N, 1 - rvN.cdf(np.sum(np.abs(context.t_counts - context.o_counts) / context.t_counts)))]
-            # use (O_i - E_i)/O_i
-            errors += ['(degrees of freedom) df = %s and the p-value = %.3g'\
-                       % (df, 1 - rvDf.cdf(np.sum((context.t_counts - context.o_counts)**2 / context.o_counts)))]
-            # use (O_i - E_i)/O_i and df = N
-            errors += ['(degrees of freedom) df = %s and the p-value= %.3g'\
-                       % (N, 1 - rvN.cdf(np.sum((context.t_counts - context.o_counts)**2 / context.o_counts)))]
-            # take sqrt of chi^2-stat
-            errors += ['(degrees of freedom) df = %s and the p-value = %.3g'\
-                       % (df, 1 - rvDf.cdf(context.chi2_stat ** .5))]
-        
         if q_type == 'HT':
             
-            def error_string(p_val, a_level)            
-            
-            p_val = 1-rvDF.cdf(context.chi2_stat)
-            a_level = context.a_level
-            if p_val < a_level:
-                ans = """
-                    The p-value is {p_val} and this is less than the 
-                    $_\\alpha$_-level of {a_level}. Therefore we reject the
-                    null hypothesis and find evidence in favor of the 
-                    alternative hypothesis:<br>
-                    <strong>{alt}</strong>
-                    """.format(p_val = p_val, context.a_level, 
-                               context.alternative)
-            else:
-                 ans = """
-                    The p-value is {p_val} and this is greater than the 
-                    $_\\alpha$_-level of {a_level}. Therefore we fail to 
-                    reject the null hypothesis thus supporting the 
-                    hypothesis:<br>
-                    <strong>{null}</strong>
-                    """.format(p_val = p_val, a_level = a_level, 
-                               context.null)
+            def error_string2(a_level, df, chi2):            
+                rv = stats.chi2(df)
+                p_val = 1 - rv.cdf(chi2)
+                
+                if p_val < a_level:
+                    ans = """
+                        The p-value is {p_val:.2%} and this is less than the 
+                        $_\\alpha$_-level of {a_level}. Therefore we reject the
+                        null hypothesis and find evidence in favor of the 
+                        alternative hypothesis:<br>
+                        <strong>&nbsp;H<sub>1</sub>: {alt}</strong>
+                        """.format(p_val = p_val, a_level = a_level, 
+                                   alt = context.alternative)
+                else:
+                     ans = """
+                        The p-value is {p_val:.2%} and this is greater than the 
+                        $_\\alpha$_-level of {a_level}. Therefore we fail to 
+                        reject the null hypothesis thus supporting the 
+                        hypothesis:<br>
+                        <strong>&nbsp;H<sub>0</sub>: {null}</strong>
+                        """.format(p_val = p_val, a_level = a_level, 
+                                   null = context.null)
+                
+                return ans
                                
-            
+            ans = error_string2(context.a_level, context.df, context.chi2_stat)
+            errors = map(lambda x: error_string2(context.a_level, *x), errors)    
         
         random.shuffle(errors)
         errors = [ans] + errors[0:4]
@@ -448,9 +445,18 @@ if __name__ == "__main__":
     def gen_ctx():
         ctx = Chi2GoodnessOfFitData()
     
-        # Use unicode dice
-        ctx1 = Chi2GoodnessOfFitData(outcomes = \
-               [u'\u2680', u'\u2681', u'\u2682', u'\u2683', u'\u2684', u'\u2685'])
+        #Here we sample from a non-uniform distribution for the die!
+        o_dist=[1/5, 1/5, 1/5, 1/5, 1/10, 1/10]
+        alternative="The die is not fair."
+        note="""
+            For this problem the truth is tha the die is not fair. \
+            If you accepted H<sub>0</sub>, then this is a <strong>miss</strong>
+            (Type II error).
+            """
+        ctx1 = Chi2GoodnessOfFitData(o_dist=o_dist,
+                                     alternative=alternative,
+                                     note=note)
+        
                 
         ######################################
         # Pass the pigs game
@@ -472,15 +478,21 @@ if __name__ == "__main__":
                 To test this you toss a pig {s_size} times and get the observed 
                 frequencies below:
                 """.format(styles = styles, tbl = tbl, s_size = s_size)
-        null = "The observed value of the positionons of the pigs agrees with \
+        null = "The observed values of the positions of the pigs agrees with \
             the expected distribution."
+        alternative = "The observed values of the positions of the pigs \
+            differs from what should be the case if the expected distribution\
+            was correct."
+        
         ctx2 = Chi2GoodnessOfFitData(
             outcomes = outcomes,
             t_dist = t_dist,
             s_size = s_size,
             a_level = random.choice([0.1,0.01,0.05]),
             story = story,
-            null = null)
+            null = null,
+            alternative=alternative,
+            note=note)
         
         while not ctx2.is_valid:
             ctx2 = Chi2GoodnessOfFitData(
@@ -506,6 +518,8 @@ if __name__ == "__main__":
         """ % s_size
         null = "Students are equally likely to do the majority of their \
             homework on any of the seven nights of the week."
+        alternative = "Students are more likely to do the majority of their \
+            homework on certain nights rather than others."
             
         ctx3 = Chi2GoodnessOfFitData(
             outcomes = outcomes,
@@ -513,9 +527,10 @@ if __name__ == "__main__":
             s_size = s_size,
             a_level = random.choice([0.1,0.01,0.05]),
             story = story,
-            null = null)
+            null = null,
+            alternative=alternative)
             
-        return [ctx, ctx2, ctx3]
+        return [ctx, ctx1, ctx2, ctx3]
             
     
     
