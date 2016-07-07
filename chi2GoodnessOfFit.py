@@ -485,6 +485,7 @@ if __name__ == "__main__":
             was correct."
         
         ctx2 = Chi2GoodnessOfFitData(
+            outcome_type = 'Position',
             outcomes = outcomes,
             t_dist = t_dist,
             s_size = s_size,
@@ -522,6 +523,7 @@ if __name__ == "__main__":
             homework on certain nights rather than others."
             
         ctx3 = Chi2GoodnessOfFitData(
+            outcome_type='Day of Week',
             outcomes = outcomes,
             t_dist = t_dist,
             s_size = s_size,
