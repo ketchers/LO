@@ -383,7 +383,7 @@ class Chi2GoodnessOfFit(object):
             
         if q_type in ['PVAL', 'HT']:
             ans = '(degrees of freedom) df = %s and the p-value = %.3g'\
-                       % (df, rvDf.cdf(context.chi2_stat))
+                       % (df, 1 - rvDf.cdf(context.chi2_stat))
             
             # A few potential errors
             # df = N instead of N - 1
@@ -406,7 +406,31 @@ class Chi2GoodnessOfFit(object):
                        % (df, 1 - rvDf.cdf(context.chi2_stat ** .5))]
         
         if q_type == 'HT':
-            pass
+            
+            def error_string(p_val, a_level)            
+            
+            p_val = 1-rvDF.cdf(context.chi2_stat)
+            a_level = context.a_level
+            if p_val < a_level:
+                ans = """
+                    The p-value is {p_val} and this is less than the 
+                    $_\\alpha$_-level of {a_level}. Therefore we reject the
+                    null hypothesis and find evidence in favor of the 
+                    alternative hypothesis:<br>
+                    <strong>{alt}</strong>
+                    """.format(p_val = p_val, context.a_level, 
+                               context.alternative)
+            else:
+                 ans = """
+                    The p-value is {p_val} and this is greater than the 
+                    $_\\alpha$_-level of {a_level}. Therefore we fail to 
+                    reject the null hypothesis thus supporting the 
+                    hypothesis:<br>
+                    <strong>{null}</strong>
+                    """.format(p_val = p_val, a_level = a_level, 
+                               context.null)
+                               
+            
         
         random.shuffle(errors)
         errors = [ans] + errors[0:4]
