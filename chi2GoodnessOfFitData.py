@@ -53,7 +53,7 @@ class Chi2GoodnessOfFitData(object):
                         
         # We will have a default contex of testing for a fair die. The theoretical
         # distribution (t_dist) is [1/6,1/6,1/6,..]
-        self.outcome_type = 'Die'
+        self.outcome_type = getattr(context,'outcome_type','Die')
         self.outcomes = getattr(context, 'outcomes', range(1,7))
         self.t_dist = np.array(getattr(context, 't_dist', 1/6.0*np.ones(6)))
         # We have a default sample size (s_size) divisible by 6 so that all 
