@@ -22,13 +22,14 @@ class Chi2GoodnessOfFit(object):
         self.cache = set() #Just for names this time.
         if seed is not None:
             random.seed(seed) # Get predictable random behavior:)
+            np.random.seed(seed)
         self.hist = ""
         self.solution_plot = ""
         self.path = path
         
         
-    def stem(self, context = None, table = None, q_type = 'statistic',
-             preview = False, count = 0):
+    def stem(self, context = None, table = None, q_type = None,
+             a_type = 'preview', force = False):
         """
         This will generate a problem for $\chi^2$ goodness of fit.
         
@@ -44,6 +45,8 @@ class Chi2GoodnessOfFit(object):
             and the degrees of freedom. If 'HT, compute the p-value for the  
             data and determine whether or not reject the null hypothesis. If 
             'CI' compute the confidence interval.
+        a_type  : string
+            This is eithe "MC" or "preview" for now
         
         Notes:
         -----
@@ -75,17 +78,15 @@ class Chi2GoodnessOfFit(object):
             return       
         
         # Generate unique name
-        q_name = random.randint(1, 20000)
-        while q_name in self.cache:
-            q_name = random.randint(1, 20,000)
+        q_name = hash(context)
         self.cache.add(q_name)
-        self.hist = self.path + "/" + str(q_name) + ".png"
-        self.solution_plot = self.path + "/" + str(q_name) + "_sol.png"
+        self.hist = str(q_name) + "_hist.png"
+        self.solution_plot = str(q_name) + "_plot.png"
         
         style = None
             
         
-        if preview:
+        if a_type == 'preview':
             question_stem = "<h2>Question</h2><br>"
         else:
             question_stem = ""
@@ -99,10 +100,11 @@ class Chi2GoodnessOfFit(object):
             question_stem += style + tbl
             
         elif table == 'hist':
-            self.gen_observed_hist(context.outcomes, context.t_dist, 
-                              context.s_size, context.sample)
+            
+            fname = context.hist(path = self.path, force = force)
                                   
-            img = html_image(self.hist, width = '300px', preview = preview)
+            img = html_image(fname, width = '300px', 
+                             preview = (a_type == 'preview'))
             
             
             if style is None:
@@ -156,7 +158,7 @@ class Chi2GoodnessOfFit(object):
         
         explanation = style
         
-        if preview:
+        if a_type == 'preview':
             explanation += "<br><h2>Explanation</h2><br>"
                     
         tbl1, _ = make_table(context.outcomes,
@@ -188,17 +190,11 @@ class Chi2GoodnessOfFit(object):
             rv = stats.chi2(df)
             p_val = 1 - rv.cdf(context.chi2_stat)
             
-            img = html_image(self.solution_plot, width = '300px', 
-                             preview = preview)
+            fname = context.show(path = self.path, force = force)
+                    
+            img = html_image(fname, width = '300px', 
+                             preview = (a_type == 'preview'))
             
-        
-            
-            self.gen_solution_plot(context.chi2_stat, context.outcomes, 
-                                   context.t_dist, context.s_size, 
-                                   a_level = context.a_level)
-                              
-            
-        
             caption = "Lightshading indicates the p-value.<br>\
                 The darker shading indicate the $_\\alpha = %.2g$_ level."\
                 % context.a_level
@@ -235,12 +231,17 @@ class Chi2GoodnessOfFit(object):
                     <br>
                     <strong>H<sub>0</sub>: {null} </strong>
                     </br>
-                    is rejected. There is only a {p_val:.2%} probability due to 
+                    is rejected. That is, we accept the alternative hypothesis:
+                     <br>
+                    <strong>H<sub>a</sub>: {alt} </strong>
+                    </br>
+                    Precisely, assuming the null hypothesis, there
+                    is only a {p_val:.2%} probability due to 
                     random chance in sampling that
                     the difference in the expected and observed data is 
-                    least this large. There is evidence that the expected distribution 
-                    is incorrect.</div>
-                    """.format(null=context.null, p_val=p_val)
+                    least this large.</div>
+                    """.format(null=context.null, alt=context.alternative,
+                               p_val=p_val)
             else:
                 explanation += """
                     <div class='par'>The p-value is greater than the $_\\alpha$_-level so
@@ -248,7 +249,8 @@ class Chi2GoodnessOfFit(object):
                     <br>
                     <strong>H<sub>0</sub>: {null}</strong>
                     </br>
-                    cannot be rejected. There is a {p_val:.2%} probability due to 
+                    is not rejected. Precisely, assuming the null hypothesis
+                    there is a {p_val:.2%} probability due to 
                     random chance in sampling that
                     the difference in the expected and observed data is at 
                     least this large.</div>
@@ -261,95 +263,25 @@ class Chi2GoodnessOfFit(object):
         
         errors = self.gen_errors(q_type, context)
         
-        if preview:
+        if a_type == 'preview':
             errs = [[er] for er in errors]
             choices = "<br><h2>Choices</h2><br>"
-            tbl, _ = make_table(None, ['Answer'] + ['Distractor']*4, True, *errs)  
+            tbl, _ = make_table(None, ['Answer'] + ['Distractor']*4, True, 
+                                *errs)  
             choices += tbl                             
             
-        return question_stem + choices +  explanation 
-        
-        
-    def gen_solution_plot(self, chi2_stat, outcomes, t_dist, s_size, a_level = 0.05):
-
-        rv = stats.chi2(len(t_dist) - 1)
-        x_data = np.linspace(max([0,rv.mean()- 3*rv.std()]), rv.mean( )+ 4*rv.std(), 200)
-        y_data = rv.pdf(x_data)
-        t = rv.ppf(1 - a_level)
-        x_above_crit = x_data > t
-        x_above_statistic = x_data > chi2_stat
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        ax.plot(x_data,y_data)
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        ax.spines['left'].set_visible(False)
-        ax.set_yticks([])
-        ax.xaxis.set_ticks_position('bottom')
-        ax.text((min(x_data) + max(x_data)) / 2 , (min(y_data) + max(y_data)) / 2,
-                "p-value = %.4g%s" % ((1-rv.cdf(chi2_stat)) * 100, '%'), fontsize = 14)
-        
-        ax.plot([chi2_stat,chi2_stat], [0,max(.005,rv.pdf(chi2_stat))], 'r-', lw = 2)
-        ax.fill_between(x_data[x_above_crit ], 0, y_data[x_above_crit],
-                        color = (.7,.2,.7,.5))
-        ax.fill_between(x_data[x_above_statistic], 0, y_data[x_above_statistic],
-                        color = (.7,.2,.7,.3))
-    
-    
-        s = np.random.choice(outcomes, (5000, s_size), p = t_dist)
-        q = tuple(np.transpose([np.sum(s == i, axis = 1)]) for i in outcomes)
-        q = np.sum((np.hstack(q) - 
-                    s_size*np.ones((5000, len(t_dist)))*np.array(t_dist)) **2 / (s_size * np.array(t_dist))
-                   , axis=1)
-        q = q[q < rv.mean( )+ 4*rv.std()]
-        ax.hist(q, bins=15, normed=True, color = (.8,.8,1,.2), histtype='stepfilled', lw=1, ls=":")
-        tools.make_folder_if_necessary(".", self.path)        
-        plt.savefig(self.solution_plot) 
-        plt.close()
-    
-        
-    def gen_observed_hist(self, outcomes, dist, s_size, observed = None, 
-                          rotation = None):
-
-        outcome_dict = dict([(b, a) for a,b in enumerate(outcomes)])
-        if observed is None:
-            observed = np.random.choice(range(len(outcomes)), s_size, p = dist)
+            return question_stem + choices +  explanation 
+        elif a_type == 'MC':
+            question_stem = ' '.join(question_stem.split())
+            distractors = [' '.join(err.split()) for err in errors]
+            explanation = ' '.join(explanation.split())
+            return tools.fully_formatted_question(question_stem, explanation, 
+                                                  answer_choices=distractors)
+        elif a_type == 'Match':
+            pass
         else:
-            observed = [outcome_dict[a] for a in observed]
-    
-        fig = plt.figure(frameon=False)
-        ax = fig.add_subplot(111)
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        #ax.spines['bottom'].set_visible(False)
-        ax.spines['left'].set_visible(False)
-        ax.set_xticks(range(len(dist)))
+            pass        
         
-        if rotation is None:
-            try:
-                if any(map(lambda x: len(x) > 7, outcomes)):
-                    rotation = -45
-                elif any(map(lambda x: len(x) > 4, outcomes)):
-                    rotation = -30
-                else:
-                    rotation = 0
-            except:
-                rotation = 0
-        
-        ax.set_xticklabels(outcomes, rotation = rotation, size=16)
-        ax.set_yticks([])
-        ax.xaxis.set_ticks_position('bottom')
-       
-    
-        freq = ax.hist(observed, bins = np.arange(-.5,len(dist) + .5, 1), 
-                       color = (.7,.3,.7,.5))[0]
-        #ax.set_title("Observed Frequencies", y = .1)
-        [ax.text(i, freq[i], "%0.4g" % freq[i],ha = 'center', va = 'bottom') 
-            for i in range(len(dist))] 
-
-        tools.make_folder_if_necessary(".", self.path)        
-        plt.savefig(self.hist)    
-        plt.close()
         
     def gen_errors(self, q_type, context):
         N = len(context.outcomes)
@@ -401,11 +333,11 @@ class Chi2GoodnessOfFit(object):
            
         if q_type == 'HT':
             
-            def error_string2(a_level, df, chi2):            
+            def error_string2(a_level, correct, df, chi2):            
                 rv = stats.chi2(df)
                 p_val = 1 - rv.cdf(chi2)
                 
-                if p_val < a_level:
+                if p_val < a_level and correct:
                     ans = """
                         The p-value is {p_val:.2%} and this is less than the 
                         $_\\alpha$_-level of {a_level}. Therefore we reject the
@@ -414,7 +346,7 @@ class Chi2GoodnessOfFit(object):
                         <strong>&nbsp;H<sub>1</sub>: {alt}</strong>
                         """.format(p_val = p_val, a_level = a_level, 
                                    alt = context.alternative)
-                else:
+                elif p_val >= a_level and correct:
                      ans = """
                         The p-value is {p_val:.2%} and this is greater than the 
                         $_\\alpha$_-level of {a_level}. Therefore we fail to 
@@ -423,12 +355,32 @@ class Chi2GoodnessOfFit(object):
                         <strong>&nbsp;H<sub>0</sub>: {null}</strong>
                         """.format(p_val = p_val, a_level = a_level, 
                                    null = context.null)
-                
+                                   
+                elif p_val < a_level and not correct:
+                    ans = """
+                        The p-value is {p_val:.2%} and this is less than the 
+                        $_\\alpha$_-level of {a_level}. Therefore we fail to 
+                        reject the null hypothesis thus supporting the 
+                        hypothesis:<br>
+                        <strong>&nbsp;H<sub>0</sub>: {null}</strong>
+                        """.format(p_val = p_val, a_level = a_level, 
+                                   null = context.null)
+                else:
+                     ans = """
+                        The p-value is {p_val:.2%} and this is greater than the 
+                        $_\\alpha$_-level of {a_level}. Therefore we reject the
+                        null hypothesis and find evidence in favor of the 
+                        alternative hypothesis:<br>
+                        <strong>&nbsp;H<sub>1</sub>: {alt}</strong>
+                        """.format(p_val = p_val, a_level = a_level, 
+                                   alt = context.alternative)
+                    
                 return ans
                                
-            ans = error_string2(context.a_level, context.df, context.chi2_stat)
-            errors = map(lambda x: error_string2(context.a_level, *x), errors)    
-        
+            ans = error_string2(context.a_level, True, context.df, context.chi2_stat)
+            errors = map(lambda x: error_string2(context.a_level, 
+                            random.choice([True, False]), *x), errors)    
+                            
         random.shuffle(errors)
         errors = [ans] + errors[0:4]
         
@@ -440,7 +392,8 @@ class Chi2GoodnessOfFit(object):
         
 if __name__ == "__main__":
     
-    preview = True
+    a_type = 'MC'
+    force = False
       
     def gen_ctx():
         ctx = Chi2GoodnessOfFitData()
@@ -465,7 +418,7 @@ if __name__ == "__main__":
         t_dist = [.35, .30, .20, .10, .04, .01]
         tbl, styles = make_table(outcomes, ['Position', 'Expected Frequency'],
                                  True, t_dist)
-        s_size = random.randint(10, 20) * 10
+        s_size = random.randint(20, 30) * 10
         story = """Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
                 essentially a dice game except that instead of dice players toss
                 small plastic pigs that can land in any of 6 positions. For example, 
@@ -536,12 +489,13 @@ if __name__ == "__main__":
             
     
     
-    prob = Chi2GoodnessOfFit()
+    prob = Chi2GoodnessOfFit(seed = 42)
     pb = ""
     for q_type in ['STAT','PVAL','HT']:
         for table in ['hist', 'table']:
             for c in gen_ctx():
-                result = prob.stem(context = c, preview=preview, q_type = q_type)
+                result = prob.stem(context = c, table=table, a_type = a_type, 
+                                   q_type = q_type, force = force)
                 if result is not None:
                     pb += '<div class = \'posts\'>'
                     pb += result

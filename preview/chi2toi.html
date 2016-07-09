@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Home</title>
+
+  <script src = "js/main.js" defer></script>
+  <script src = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>        
+</head>
+<body>
+  <h1>Post some  math here.</h1>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$_','$_'], ['\\(','\\)']]}});
+  </script>
+  <textarea id = "entry" wrap = 'hard' rows="8" cols="80" 
+  placeholder = "Enter your question / comment here."></textarea>
+  <br>
+  <button id = "btn" type = "button">Submit</button>
+  <br>
+  <div id = "posts">
+    
+  </div>
+  <div class = 'posts'><h2>Question</h2><br><div class='par'>
+    An online survey company puts out a poll asking people two questions. 
+    First, it asks if they buy physical CDs. Second, it asks whether they 
+    own a smartphone. The company wants to determine if buying physical 
+    CDs depends on owning a smartphone.
+  </div>
+  <div class = 'posts'><h2>Question</h2><br><div class='par'>
+    An online survey company puts out a poll asking people two questions. 
+    First, it asks if they buy physical CDs. Second, it asks whether they 
+    own a smartphone. The company wants to determine if buying physical 
+    CDs depends on owning a smartphone.
+  </div>
+
+  <style type="text/css">
+
+    div.outer-container-rk {
+      display: block;
+      overflow-x: auto; 
+    }
+
+
+    div.par {
+      margin: 10px;
+      padding: 5px;
+    }
+    
+    div.centering-rk {
+      display: table;
+      margin: auto;
+      text-align: center;
+      border-width: 2pt;
+      border-style: solid;
+      border-color: rgba(200,100,200,.5);
+      border-radius: 10px;
+      padding: 5px;
+
+    }
+
+    div.container-rk {
+      /*float: left;*/
+      display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'></div>
+                <div class='cell-rk'>CD</div>
+                <div class='cell-rk'>No CD</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Smartphone</div>
+                <div class='cell-rk'>21</div>
+                <div class='cell-rk'>33</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>No smartphone</div>
+                <div class='cell-rk'>7</div>
+                <div class='cell-rk'>22</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observations.
+        <style type="text/css">
+
+          div.outer-container-rk {
+            display: block;
+            overflow-x: auto; 
+          }
+
+
+          div.par {
+            margin: 10px;
+            padding: 5px;
+          }
+          
+          div.centering-rk {
+            display: table;
+            margin: auto;
+            text-align: center;
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+
+          }
+
+          div.container-rk {
+            /*float: left;*/
+            display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+        the total number of observations by the expected probability 
+        for an outcome assuming independence. This is given by
+        $$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+        (\text{sum of column }j)}{N}.$$
+        The expected counts are shown in the following table:<br><br>
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'></div>
+                <div class='cell-rk'>CD</div>
+                <div class='cell-rk'>No CD</div>
+                <div class='cell-rk'>Total</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Smartphone</div>
+                <div class='cell-rk'>18.2</div>
+                <div class='cell-rk'>35.8</div>
+                <div class='cell-rk'>54</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>No smartphone</div>
+                <div class='cell-rk'>9.78</div>
+                <div class='cell-rk'>19.2</div>
+                <div class='cell-rk'>29</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Total</div>
+                <div class='cell-rk'>28</div>
+                <div class='cell-rk'>55</div>
+                <div class='cell-rk'>83</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        Recall that the observed counts are:<br><br>
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'></div>
+                <div class='cell-rk'>CD</div>
+                <div class='cell-rk'>No CD</div>
+                <div class='cell-rk'>Total</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Smartphone</div>
+                <div class='cell-rk'>21</div>
+                <div class='cell-rk'>33</div>
+                <div class='cell-rk'>54</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>No smartphone</div>
+                <div class='cell-rk'>7</div>
+                <div class='cell-rk'>22</div>
+                <div class='cell-rk'>29</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Total</div>
+                <div class='cell-rk'>28</div>
+                <div class='cell-rk'>55</div>
+                <div class='cell-rk'>83</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+      </div>
+      <div class='par'>The degrees of freedom are $_df = 
+        (2 - 1)(2 - 1) =             1$_ and the $_\chi^2$_-statistic is:$$\chi^2_{1}=\sum_{i=1}^{2}\sum_{j=1}^{2}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 1.84$$</div>
+      </div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+      A group of adults was asked about their preference in foods. The
+      participants were put into categories by age. Test at the level
+      $_\alpha = 0.05$_ whether foods and age are independent.
+    </div>
+
+    <style type="text/css">
+
+      div.outer-container-rk {
+        display: block;
+        overflow-x: auto; 
+      }
+
+
+      div.par {
+        margin: 10px;
+        padding: 5px;
+      }
+      
+      div.centering-rk {
+        display: table;
+        margin: auto;
+        text-align: center;
+        border-width: 2pt;
+        border-style: solid;
+        border-color: rgba(200,100,200,.5);
+        border-radius: 10px;
+        padding: 5px;
+
+      }
+
+      div.container-rk {
+        /*float: left;*/
+        display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'></div>
+                <div class='cell-rk'>pizza</div>
+                <div class='cell-rk'>burger</div>
+                <div class='cell-rk'>hotdog</div>
+                <div class='cell-rk'>sushi</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>25 - 31</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>19</div>
+                <div class='cell-rk'>7</div>
+                <div class='cell-rk'>18</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>32 - 38</div>
+                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>9</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>9</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>38 - 44</div>
+                <div class='cell-rk'>19</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>5</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        The degrees of freedom are $_df = 
+        (4 -1)(3 -1) = 
+        6$_ and the $_\chi^2$_ statistic is $$\chi^2_{6}=\sum_{i=1}^{3}\sum_{j=1}^{4}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 15.3$$ 
+        
+        Use this information to conduct a hypothesis test with 
+        $_\alpha = 0.05$_. Choose the answer that best captures
+        the null hypothesis and conclusion.
+        
+        <style type="text/css">
+
+          div.outer-container-rk {
+            display: block;
+            overflow-x: auto; 
+          }
+
+
+          div.par {
+            margin: 10px;
+            padding: 5px;
+          }
+          
+          div.centering-rk {
+            display: table;
+            margin: auto;
+            text-align: center;
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+
+          }
+
+          div.container-rk {
+            /*float: left;*/
+            display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+        the total number of observations by the expected probability 
+        for an outcome assuming independence. This is given by
+        $$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+        (\text{sum of column }j)}{N}.$$
+        The expected counts are shown in the following table:<br><br>
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'></div>
+                <div class='cell-rk'>pizza</div>
+                <div class='cell-rk'>burger</div>
+                <div class='cell-rk'>hotdog</div>
+                <div class='cell-rk'>sushi</div>
+                <div class='cell-rk'>Total</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>25 - 31</div>
+                <div class='cell-rk'>15.8</div>
+                <div class='cell-rk'>15.8</div>
+                <div class='cell-rk'>9.24</div>
+                <div class='cell-rk'>14.1</div>
+                <div class='cell-rk'>55</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>32 - 38</div>
+                <div class='cell-rk'>9.22</div>
+                <div class='cell-rk'>9.22</div>
+                <div class='cell-rk'>5.38</div>
+                <div class='cell-rk'>8.19</div>
+                <div class='cell-rk'>32</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>38 - 44</div>
+                <div class='cell-rk'>10.9</div>
+                <div class='cell-rk'>10.9</div>
+                <div class='cell-rk'>6.38</div>
+                <div class='cell-rk'>9.73</div>
+                <div class='cell-rk'>38</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Total</div>
+                <div class='cell-rk'>36</div>
+                <div class='cell-rk'>36</div>
+                <div class='cell-rk'>21</div>
+                <div class='cell-rk'>32</div>
+                <div class='cell-rk'>125</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        Recall that the observed counts are:<br><br>
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'></div>
+                <div class='cell-rk'>pizza</div>
+                <div class='cell-rk'>burger</div>
+                <div class='cell-rk'>hotdog</div>
+                <div class='cell-rk'>sushi</div>
+                <div class='cell-rk'>Total</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>25 - 31</div>
+                <div class='cell-rk'>11</div>
+                <div class='cell-rk'>19</div>
+                <div class='cell-rk'>7</div>
+                <div class='cell-rk'>18</div>
+                <div class='cell-rk'>55</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>32 - 38</div>
+                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>9</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>9</div>
+                <div class='cell-rk'>32</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>38 - 44</div>
+                <div class='cell-rk'>19</div>
+                <div class='cell-rk'>8</div>
+                <div class='cell-rk'>6</div>
+                <div class='cell-rk'>5</div>
+                <div class='cell-rk'>38</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Total</div>
+                <div class='cell-rk'>36</div>
+                <div class='cell-rk'>36</div>
+                <div class='cell-rk'>21</div>
+                <div class='cell-rk'>32</div>
+                <div class='cell-rk'>125</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+      </div>
+      <div class='par'>The degrees of freedom are $_df = 
+        (4 - 1)(3 - 1) =             6$_ and the $_\chi^2$_-statistic is:$$\chi^2_{6}=\sum_{i=1}^{3}\sum_{j=1}^{4}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 15.3$$</div>
+        
+        The p-value for this data is:
+        $$\text{p-value} = P(\chi^2_{6} > 15.3) = 1.823\%$$
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='container-rk'>
+              <figure>
+                
+                <div class='img'>
+                  <img src='chi2toi/853251841420127864_plot.png' width=300px >
+                </div>
+                
+                <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.05$_ level.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        
+        <div class='par'>The lightly shaded histogram represents a sampling distribution
+          of 5000 sample $_\chi^2$_-statistics where the  samples are 
+          of the same size as the given observed data (125 observations).
+          This indicate how well the $_\chi^2$_-distributions is capturing
+          the actual sampling distribution for this experiment.</div>
+          
+          <div class='par'>The p-value is less than the $_\alpha$_-level so
+            the null hypothesis:
+            <br>
+            <strong>H<sub>0</sub>: foods and age are independent. </strong>
+          </br>
+          is rejected. That is, we accept the alternative hypothesis:
+          <br>
+          <strong>H<sub>a</sub>: foods and age are dependent. </strong>
+        </br>
+        Precisely, assuming the null hypothesis, there
+        is only a 1.82% probability due to 
+        random chance in sampling that
+        the difference in the expected and observed data is 
+        least this large.</div>
+        
+        <div class='par'>Note: </div>                
+      </div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+      An online survey company puts out a poll asking people two questions. 
+      First, it asks if they buy physical CDs. Second, it asks whether they 
+      own a smartphone. The company wants to determine if buying physical 
+      CDs depends on owning a smartphone.
+    </div>
+
+    <style type="text/css">
+
+      div.outer-container-rk {
+        display: block;
+        overflow-x: auto; 
+      }
+
+
+      div.par {
+        margin: 10px;
+        padding: 5px;
+      }
+      
+      div.centering-rk {
+        display: table;
+        margin: auto;
+        text-align: center;
+        border-width: 2pt;
+        border-style: solid;
+        border-color: rgba(200,100,200,.5);
+        border-radius: 10px;
+        padding: 5px;
+
+      }
+
+      div.container-rk {
+        /*float: left;*/
+        display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'></div>
+                <div class='cell-rk'>CD</div>
+                <div class='cell-rk'>No CD</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Smartphone</div>
+                <div class='cell-rk'>30</div>
+                <div class='cell-rk'>68</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>No smartphone</div>
+                <div class='cell-rk'>20</div>
+                <div class='cell-rk'>21</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        The degrees of freedom are $_df = 
+        (2 -1)(2 -1) = 
+        1$_ and the $_\chi^2$_ statistic is $$\chi^2_{1}=\sum_{i=1}^{2}\sum_{j=1}^{2}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 4.14$$ 
+        
+        Use this information to conduct a hypothesis test with 
+        $_\alpha = 0.1$_. Choose the answer that best captures
+        the null hypothesis and conclusion.
+        
+        <style type="text/css">
+
+          div.outer-container-rk {
+            display: block;
+            overflow-x: auto; 
+          }
+
+
+          div.par {
+            margin: 10px;
+            padding: 5px;
+          }
+          
+          div.centering-rk {
+            display: table;
+            margin: auto;
+            text-align: center;
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+
+          }
+
+          div.container-rk {
+            /*float: left;*/
+            display: inline-block;
+            /*            
+            border-width: 2pt;
+            border-style: solid;
+            border-color: rgba(200,100,200,.5);
+            border-radius: 10px;
+            padding: 5px;
+            */
+          }
+
+          
+
+          div.tbl-rk {
+            display: table;
+          }
+
+          div.row-rk {
+            display: table-row;
+            padding: 5px;
+          }
+
+          div.row-rk:nth-child(odd) {
+            background-color: rgba(200, 200, 200, .5);
+          }
+
+          div.head-rk {
+            display: table-header-group;
+            font-weight: bold;
+          }
+
+          div.cell-rk {
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            padding: 5px;
+          }
+
+          figure.rk {
+            margin: 5px;
+          }
+        </style>
+        
+        <br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+        the total number of observations by the expected probability 
+        for an outcome assuming independence. This is given by
+        $$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+        (\text{sum of column }j)}{N}.$$
+        The expected counts are shown in the following table:<br><br>
+        
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'></div>
+                <div class='cell-rk'>CD</div>
+                <div class='cell-rk'>No CD</div>
+                <div class='cell-rk'>Total</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Smartphone</div>
+                <div class='cell-rk'>35.3</div>
+                <div class='cell-rk'>62.7</div>
+                <div class='cell-rk'>98</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>No smartphone</div>
+                <div class='cell-rk'>14.7</div>
+                <div class='cell-rk'>26.3</div>
+                <div class='cell-rk'>41</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Total</div>
+                <div class='cell-rk'>50</div>
+                <div class='cell-rk'>89</div>
+                <div class='cell-rk'>139</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+        Recall that the observed counts are:<br><br>
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='tbl-rk'>
+              
+              <div class='row-rk head-rk'>
+                <div class='cell-rk'></div>
+                <div class='cell-rk'>CD</div>
+                <div class='cell-rk'>No CD</div>
+                <div class='cell-rk'>Total</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Smartphone</div>
+                <div class='cell-rk'>30</div>
+                <div class='cell-rk'>68</div>
+                <div class='cell-rk'>98</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>No smartphone</div>
+                <div class='cell-rk'>20</div>
+                <div class='cell-rk'>21</div>
+                <div class='cell-rk'>41</div>
+              </div>
+              <div class='row-rk'>
+                <div class='cell-rk head-rk'>Total</div>
+                <div class='cell-rk'>50</div>
+                <div class='cell-rk'>89</div>
+                <div class='cell-rk'>139</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br>
+      </div>
+      <div class='par'>The degrees of freedom are $_df = 
+        (2 - 1)(2 - 1) =             1$_ and the $_\chi^2$_-statistic is:$$\chi^2_{1}=\sum_{i=1}^{2}\sum_{j=1}^{2}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 4.14$$</div>
+        
+        The p-value for this data is:
+        $$\text{p-value} = P(\chi^2_{1} > 4.14) = 4.181\%$$
+        <div class='outer-container-rk'>
+          <div class='centering-rk'>
+            <div class='container-rk'>
+              <figure>
+                
+                <div class='img'>
+                  <img src='chi2toi/386154586534714654_plot.png' width=300px >
+                </div>
+                
+                <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.1$_ level.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        
+        <div class='par'>The lightly shaded histogram represents a sampling distribution
+          of 5000 sample $_\chi^2$_-statistics where the  samples are 
+          of the same size as the given observed data (139 observations).
+          This indicate how well the $_\chi^2$_-distributions is capturing
+          the actual sampling distribution for this experiment.</div>
+          
+          <div class='par'>The p-value is less than the $_\alpha$_-level so
+            the null hypothesis:
+            <br>
+            <strong>H<sub>0</sub>: colors and weight are independent. </strong>
+          </br>
+          is rejected. That is, we accept the alternative hypothesis:
+          <br>
+          <strong>H<sub>a</sub>: colors and weight are dependent. </strong>
+        </br>
+        Precisely, assuming the null hypothesis, there
+        is only a 4.18% probability due to 
+        random chance in sampling that
+        the difference in the expected and observed data is 
+        least this large.</div>
+        
+        <div class='par'>Note: </div>                
+      </div><br>
+
+    </body>
+    </html>
