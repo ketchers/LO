@@ -274,7 +274,7 @@ class Chi2GoodnessOfFit(object):
         elif a_type == 'MC':
             question_stem = ' '.join(question_stem.split())
             distractors = [' '.join(err.split()) for err in errors]
-            explanation = ' '.join(explanation.split())
+            explanation = ' '.join(explanation.split()) + "\n"
             return tools.fully_formatted_question(question_stem, explanation, 
                                                   answer_choices=distractors)
         elif a_type == 'Match':
