@@ -1,7 +1,14 @@
 from __future__  import division
 from __future__ import print_function
 import random
+import os 
+import sys
 import numpy as np
+import matplotlib as mpl
+import scipy as sp
+import scipy.stats as stats
+import pylab as plt
+import tools
 import warnings
 
 class DictObj(object):
@@ -24,6 +31,7 @@ class Chi2GoodnessOfFitData(object):
     # Pass the pigs game
     outcomes =  ['Pink', 'Dot', 'Razorback', 'Trotter', 'Snouter', 'Leaning Jowler']
     t_dist = [.35, .30, .20, .10, .04, .01]
+    
     tbl, styles = make_table(outcomes, ['Position', 'Expected Frequency'],True, 
                             t_dist)
     
@@ -105,11 +113,10 @@ class Chi2GoodnessOfFitData(object):
         
     def __hash__(self):
         if self.hash == 17:
-            hlist = map(lambda x: tuple(x) if type(x) in [list, np.ndarray] else x, 
-                        [self.__dict__[i] for i in sorted(self.__dict__)])
-            for i in hlist:
-                self.hash = hash(hash(hlist[i]) + 31 * self.hash)
-            return self.hash
+            ls = list(self.__dict__)
+            ls.sort()
+            ls = [(it, self.__dict__[it]) for it in ls]
+            self.hash = np.abs(hash(repr(ls)))
         return self.hash
         
     def __eq__ (self, other):
@@ -119,5 +126,121 @@ class Chi2GoodnessOfFitData(object):
         
     def __neq__ (self, other):
         return not self.__eq__(other)
+        
+    def show(self, path = "", fname = None, force = False):
+        
+        if fname != 'show':
+            fname = path + "/" + str(hash(self)) + "_plot.png"
+        
+        if fname is not 'show' and os.path.isfile(fname) and not force:
+            print("The file \'" + fname + "\' exists, \
+            not regenerating. Delete file to force regeneration.", file=sys.stderr)
+            return fname
             
+        chi2_stat = self.chi2_stat
+        outcomes = self.outcomes
+        t_dist = self.t_dist
+        s_size = self.s_size
+        a_level = self.a_level
+        rv = stats.chi2(len(t_dist) - 1)
+        x_data = np.linspace(max([0,rv.mean()- 3*rv.std()]), rv.mean( )+ 4*rv.std(), 200)
+        y_data = rv.pdf(x_data)
+        t = rv.ppf(1 - a_level)
+        x_above_crit = x_data > t
+        x_above_statistic = x_data > chi2_stat
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        ax.plot(x_data,y_data)
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+        ax.set_yticks([])
+        ax.xaxis.set_ticks_position('bottom')
+        ax.text((min(x_data) + max(x_data)) / 2 , (min(y_data) + max(y_data)) / 2,
+                "p-value = %.4g%s" % ((1-rv.cdf(chi2_stat)) * 100, '%'), fontsize = 14)
+        
+        ax.plot([chi2_stat,chi2_stat], [0,max(.005,rv.pdf(chi2_stat))], 'r-', lw = 2)
+        ax.fill_between(x_data[x_above_crit ], 0, y_data[x_above_crit],
+                        color = (.7,.2,.7,.5))
+        ax.fill_between(x_data[x_above_statistic], 0, y_data[x_above_statistic],
+                        color = (.7,.2,.7,.3))
+    
+    
+        s = np.random.choice(outcomes, (5000, s_size), p = t_dist)
+        q = tuple(np.transpose([np.sum(s == i, axis = 1)]) for i in outcomes)
+        q = np.sum((np.hstack(q) - 
+                    s_size*np.ones((5000, len(t_dist)))*np.array(t_dist)) **2 / (s_size * np.array(t_dist))
+                   , axis=1)
+        q = q[q < rv.mean( )+ 4*rv.std()]
+        ax.hist(q, bins=15, normed=True, color = (.8,.8,1,.2), histtype='stepfilled', lw=1, ls=":")
+        
+        if path == 'show':
+            plt.show()            
+        else:
+            tools.make_folder_if_necessary(".", path)        
+            plt.savefig(fname) 
+        plt.close()
+        return fname
+    
+        
+    def hist(self, rotation = None, path = "", fname = None, force = False):
+        
+        if fname != 'show':
+            fname = path + "/" + str(hash(self)) + "_hist.png"
+        
+        if fname is not 'show' and os.path.isfile(fname) and not force:
+            print("The file \'" + fname + "\' exists, \
+            not regenerating. Delete file to force regeneration.", file=sys.stderr)
+            return fname
+        
+        outcomes = self.outcomes
+        outcome_dict = dict([(b, a) for a,b in enumerate(outcomes)])
+        observed = [outcome_dict[a] for a in self.sample]
+        
+        s_size = self.s_size
+        dist = self.o_dist
+        
+        fig = plt.figure(frameon=False)
+        ax = fig.add_subplot(111)
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        #ax.spines['bottom'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+        ax.set_xticks(range(len(dist)))
+        
+        if rotation is None:
+            try:
+                if any(map(lambda x: len(x) > 7, outcomes)):
+                    rotation = -45
+                elif any(map(lambda x: len(x) > 4, outcomes)):
+                    rotation = -30
+                else:
+                    rotation = 0
+            except:
+                rotation = 0
+        
+        ax.set_xticklabels(outcomes, rotation = rotation, size=16)
+        ax.set_yticks([])
+        ax.xaxis.set_ticks_position('bottom')
+       
+    
+        freq = ax.hist(observed, bins = np.arange(-.5,len(dist) + .5, 1), 
+                       color = (.7,.3,.7,.5))[0]
+        #ax.set_title("Observed Frequencies", y = .1)
+        [ax.text(i, freq[i], "%0.4g" % freq[i],ha = 'center', va = 'bottom') 
+            for i in range(len(dist))] 
+
+        tools.make_folder_if_necessary(".", path)        
+        if fname == 'show':
+            plt.show()            
+        else:
+            tools.make_folder_if_necessary(".", path)        
+            plt.savefig(fname)
+        plt.close()
+        return fname
+        
+if __name__ == "__main__":
+    ctx = Chi2GoodnessOfFitData()
+    ctx.show()
+    ctx.hist()
        

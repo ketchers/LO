@@ -34,7 +34,8 @@ def make_table(col_headers = None, row_headers = None,
     """
     
     
-    def build_rows(data, row_headers = None, col_headers = None):
+    def build_rows(data, row_headers = None, col_headers = None, 
+                   latex = False):
         """
         data: list[list]
             It is assumed that the data is in this format
