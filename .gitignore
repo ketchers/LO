@@ -5,3 +5,4 @@ preview/test/
 *.ipynb*
 .project
 .pydevproject
+out*
