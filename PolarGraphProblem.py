@@ -167,7 +167,7 @@ class PolarGraphProblem():
         prob = PolarFunction(f_type=q_type)
         
         if prob in self.done:
-            self.stem(**kwargs)
+            return self.stem(**kwargs)
         else:
             self.done.add(prob)
             self.count += 1

@@ -35,27 +35,18 @@ class Chi2TestOIndependence(object):
         
         Parameters:
         ----------
-        context : context object
+        context : Ch12TestOfIndependenceData object
             This describes the problem. A default context is used if this is 
             none.
-        table   : string ['hist', 'table'] 
-            Display t_dist as a table or as a histogram.
         q_type  : string [None, 'STAT', 'HT', 'CI'] 
             If None randomly choose. If 'STAT' just compute the chi2 statistic 
             and the degrees of freedom. If 'HT, compute the p-value for the  
             data and determine whether or not reject the null hypothesis. If 
             'CI' compute the confidence interval.
-        forrce  : Boolean
+        force  : Boolean
             If true force egineration of images.
         a_type  : string
             This is eithe "MC" or "preview" for now
-        
-        Notes:
-        -----
-        The default here is to simulate a roll of a die 30 times and record the
-        frequency of values. The :math`\chi^2` test should test whether the die
-        is fair at an :math:`alpha` 
-        level of 5%.
         """
         
         kwargs = {
@@ -71,7 +62,7 @@ class Chi2TestOIndependence(object):
           
 
         if context == None:
-            context = Chi2TestOfIndependence()
+            context = Chi2TestOfIndependenceData()
             
         if not context.is_valid:
             warnings.warn("Context had invalid cell counts.")
@@ -385,7 +376,7 @@ class Chi2TestOIndependence(object):
         
 if __name__ == "__main__":
     
-    a_type = 'preview'
+    a_type = 'MC'
       
     def gen_ctx():
         

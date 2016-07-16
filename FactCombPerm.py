@@ -93,7 +93,7 @@ class FactCombPerm():
         ## I wish I had a better wa to get current values???
         def check():
             if answer > THREASH:
-                self.stem(**kwargs)
+                return self.stem(**kwargs)
             else: 
                 pass
         

@@ -73,7 +73,7 @@ class HyperbolaGraphProblem(object):
         prob = Hyperbola()
         
         if prob in self.done:
-            self.stem(**kwargs)
+            return self.stem(**kwargs)
         else:
             self.done.add(prob)
             self.count += 1
