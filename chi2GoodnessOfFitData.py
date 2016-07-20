@@ -9,6 +9,7 @@ import scipy as sp
 import scipy.stats as stats
 import pylab as plt
 import tools
+from table import Table
 import warnings
 
 class DictObj(object):
@@ -55,7 +56,11 @@ class Chi2GoodnessOfFitData(object):
     """
    
     
-    def __init__(self, **kwargs):
+    def __init__(self, seed = None, **kwargs):
+        
+        if seed is not None:
+            random.seed(seed) # Get predictable random behavior:)
+            np.random.seed(seed)
         
         context = dict_to_obj(kwargs)
                         
@@ -71,6 +76,8 @@ class Chi2GoodnessOfFitData(object):
         self.t_counts = getattr(context, 't_counts', self.t_dist * self.s_size)
         # An additional observed distribution may be given, otherwise this 
         # defaults to the theoretical distribution.
+       
+        
         self.o_dist = getattr(context, 'o_dist', self.t_dist)
         # Generate the actual sample.
         self.sample = np.random.choice(self.outcomes, self.s_size, 
@@ -78,6 +85,18 @@ class Chi2GoodnessOfFitData(object):
         # Generate counts
         self.o_counts = np.array([sum(self.sample == i) for i in self.outcomes])
         # Sample distribution
+        self.expected = Table(self.t_counts, col_headers = self.outcomes,
+                              row_headers = [self.outcome_type, 'Expected'])
+        
+        self.observed = Table(self.o_counts, col_headers = self.outcomes,
+                              row_headers = [self.outcome_type, 'Observed'])
+                              
+        self.oe = Table(self.t_counts, self.o_counts, col_headers = self.outcomes,
+                        row_headers = [self.outcome_type, 'Expected', 'Observed'])
+                
+        
+        
+        
         
         self.is_valid = sum(self.o_counts - 4 > 0)/len(self.o_counts) >= .8 \
             and all(self.o_counts > 0)
@@ -174,7 +193,7 @@ class Chi2GoodnessOfFitData(object):
         q = q[q < rv.mean( )+ 4*rv.std()]
         ax.hist(q, bins=15, normed=True, color = (.8,.8,1,.2), histtype='stepfilled', lw=1, ls=":")
         
-        if path == 'show':
+        if fname == 'show':
             plt.show()            
         else:
             tools.make_folder_if_necessary(".", path)        
@@ -239,8 +258,26 @@ class Chi2GoodnessOfFitData(object):
         plt.close()
         return fname
         
+  
+        
+        
 if __name__ == "__main__":
+    
+    
+    
+    
     ctx = Chi2GoodnessOfFitData()
-    ctx.show()
-    ctx.hist()
-       
+    ctx.show(fname='show')
+    ctx.hist(fname='show')
+   
+    print(ctx.expected.latex())
+    tbl, sty = ctx.expected.html()
+    print(sty + tbl)
+
+    print(ctx.observed.latex())
+    tbl, sty = ctx.observed.html()
+    print(sty + tbl)    
+    
+    print(ctx.oe.latex())
+    tbl, sty = ctx.oe.html()
+    print(sty + tbl)
