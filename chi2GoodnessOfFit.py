@@ -13,7 +13,8 @@ import scipy.stats as stats
 import pylab as plt
 plt.rc('font', family='DejaVu Sans')
 x, y, z = sym.symbols('x,y,z')
-from html_tools import make_table, html_image
+from html_tools import html_image
+from table import Table
 from chi2GoodnessOfFitData import Chi2GoodnessOfFitData
 
 class Chi2GoodnessOfFit(object):
@@ -29,7 +30,7 @@ class Chi2GoodnessOfFit(object):
         
         
     def stem(self, context = None, table = None, q_type = None,
-             a_type = 'preview', force = False):
+             a_type = 'preview', force = False, fmt = 'html'):
         """
         This will generate a problem for $\chi^2$ goodness of fit.
         
@@ -39,7 +40,7 @@ class Chi2GoodnessOfFit(object):
             This describes the problem. A default context is used if this is 
             none.
         table   : string ['hist', 'table'] 
-            Display t_dist as a table or as a histogram.
+            Display t_dist as a table (html/latex) or as a histogram.
         q_type  : string [None, 'STAT', 'HT', 'CI'] 
             If None randomly choose. If 'STAT' just compute the chi2 statistic 
             and the degrees of freedom. If 'HT, compute the p-value for the  
@@ -47,6 +48,8 @@ class Chi2GoodnessOfFit(object):
             'CI' compute the confidence interval.
         a_type  : string
             This is eithe "MC" or "preview" for now
+        fmt   : String ['html', 'latex']
+            Use nice CSS/HTML (responsive) or plain LaTeX (static)
         
         Notes:
         -----
@@ -60,7 +63,7 @@ class Chi2GoodnessOfFit(object):
             'context': context,
             'table': table,
             'q_type': q_type,
-            
+            'fmt': fmt
         }
         
         if q_type is None:
@@ -87,17 +90,21 @@ class Chi2GoodnessOfFit(object):
             
         
         if a_type == 'preview':
-            question_stem = "<h2>Question</h2><br>"
+                question_stem = "<h2>Question</h2><br>"
         else:
             question_stem = ""
+
+        if fmt == 'html':
+            question_stem += Table.get_style()
         
         question_stem += "<div class='par'>" + context.story + "</div>\n" 
         if table == 'table':
-            tbl, style = make_table(context.outcomes,
-                                [context.outcome_type, 
-                                'Observed Counts'],
-                                True,  context.o_counts)
-            question_stem += style + tbl
+            if fmt == 'html':
+                tbl = context.observed.html()
+                question_stem += tbl
+            else:
+                tbl = context.observed.latex()
+                question_stem +=  tbl
             
         elif table == 'hist':
             
@@ -108,7 +115,7 @@ class Chi2GoodnessOfFit(object):
             
             
             if style is None:
-                _, style = make_table(None,None,True,[1])
+                style = Table.get_style()
                 question_stem += style
             
             question_stem +="""      
@@ -155,21 +162,24 @@ class Chi2GoodnessOfFit(object):
             """.format(N = N, df = df, chi2eq = chi2eq,
                        a_level = context.a_level)
        
-        
-        explanation = style
+        if fmt == 'html':
+            explanation = Table.get_style()
+        else:
+            explanation = ""
         
         if a_type == 'preview':
             explanation += "<br><h2>Explanation</h2><br>"
+            
+        tb1 = Table(context.t_dist, col_headers = context.outcomes,
+                    row_headers = ['Probabilities'])
                     
-        tbl1, _ = make_table(context.outcomes,
-                                [context.outcome_type, 'Probabilities'],
-                                True,  context.t_dist) 
-        
-        tbl2, _ = make_table(context.outcomes,
-                                [context.outcome_type, 'Expected Counts', 
-                                'Observed Counts'],
-                                True,  context.t_counts, context.o_counts)        
-        
+        if fmt == 'html':                    
+                        
+            tbl1 = tb1.html()
+            tbl2 = context.oe.html()       
+        else:
+            tbl1 = tb1.latex()
+            tbl2 = context.oe.latex()   
         
         explanation += "<div class='par'>To find the expected counts multiply the total\
             number of observations by the expected probability for an outcome. \
@@ -266,15 +276,32 @@ class Chi2GoodnessOfFit(object):
         if a_type == 'preview':
             errs = [[er] for er in errors]
             choices = "<br><h2>Choices</h2><br>"
-            tbl, _ = make_table(None, ['Answer'] + ['Distractor']*4, True, 
-                                *errs)  
+            tb = Table(errs, row_headers = ['Answer'] + ['Distractor']*4)
+            if fmt == 'html':
+                tbl = tb.html()
+            else:
+                tbl = tb.latex()
+                
             choices += tbl                             
-            
-            return question_stem + choices +  explanation 
+            if fmt == 'html':
+                return question_stem + choices +  explanation
+            else:
+                return (question_stem + choices +  explanation)\
+                        .replace("<div ","<p ")\
+                        .replace("</div>","</p>")
         elif a_type == 'MC':
+            if fmt == 'latex':
+                question_stem = question_stem.replace("<div ","<p ")\
+                        .replace("</div>","</p>")
+                explanation = explanation.replace("<div ","<p ")\
+                        .replace("</div>","</p>")
+                distractors = [err.replace("<div ","<p ")\
+                        .replace("</div>","</p>") for err in errors]
+                        
             question_stem = ' '.join(question_stem.split())
             distractors = [' '.join(err.split()) for err in errors]
             explanation = ' '.join(explanation.split()) + "\n"
+
             return tools.fully_formatted_question(question_stem, explanation, 
                                                   answer_choices=distractors)
         elif a_type == 'Match':
@@ -392,11 +419,13 @@ class Chi2GoodnessOfFit(object):
         
 if __name__ == "__main__":
     
-    a_type = 'MC'
+    a_type = 'preview'
     force = False
+    fmt = 'latex'
+    seed = 42
       
     def gen_ctx():
-        ctx = Chi2GoodnessOfFitData()
+        ctx = Chi2GoodnessOfFitData(seed = 42)
     
         #Here we sample from a non-uniform distribution for the die!
         o_dist=[1/5, 1/5, 1/5, 1/5, 1/10, 1/10]
@@ -406,7 +435,7 @@ if __name__ == "__main__":
             If you accepted H<sub>0</sub>, then this is a <strong>miss</strong>
             (Type II error).
             """
-        ctx1 = Chi2GoodnessOfFitData(o_dist=o_dist,
+        ctx1 = Chi2GoodnessOfFitData(seed = seed, o_dist=o_dist,
                                      alternative=alternative,
                                      note=note)
         
@@ -416,8 +445,15 @@ if __name__ == "__main__":
         outcomes =  ['Pink', 'Dot', 'Razorback', 'Trotter', 
                      'Snouter', 'Leaning Jowler']
         t_dist = [.35, .30, .20, .10, .04, .01]
-        tbl, styles = make_table(outcomes, ['Position', 'Expected Frequency'],
-                                 True, t_dist)
+        tb = Table(t_dist, col_headers = outcomes, 
+                   row_headers = ['Position', 'Expected Frequency'])
+        if fmt == 'html':
+            styles = Table.get_style()
+            tbl = tb.html()
+        else:
+            styles = ""
+            tbl = tb.latex()
+        
         s_size = random.randint(20, 30) * 10
         story = """Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
                 essentially a dice game except that instead of dice players toss
@@ -437,7 +473,7 @@ if __name__ == "__main__":
             differs from what should be the case if the expected distribution\
             was correct."
         
-        ctx2 = Chi2GoodnessOfFitData(
+        ctx2 = Chi2GoodnessOfFitData(seed = seed,
             outcome_type = 'Position',
             outcomes = outcomes,
             t_dist = t_dist,
@@ -475,7 +511,7 @@ if __name__ == "__main__":
         alternative = "Students are more likely to do the majority of their \
             homework on certain nights rather than others."
             
-        ctx3 = Chi2GoodnessOfFitData(
+        ctx3 = Chi2GoodnessOfFitData(seed = seed,
             outcome_type='Day of Week',
             outcomes = outcomes,
             t_dist = t_dist,
@@ -489,13 +525,13 @@ if __name__ == "__main__":
             
     
     
-    prob = Chi2GoodnessOfFit(seed = 42)
+    prob = Chi2GoodnessOfFit(seed = seed)
     pb = ""
     for q_type in ['STAT','PVAL','HT']:
         for table in ['hist', 'table']:
             for c in gen_ctx():
                 result = prob.stem(context = c, table=table, a_type = a_type, 
-                                   q_type = q_type, force = force)
+                                   q_type = q_type, force = force, fmt = fmt)
                 if result is not None:
                     pb += '<div class = \'posts\'>'
                     pb += result
