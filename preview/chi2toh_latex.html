@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Home</title>
+
+  <script src = "js/main.js" defer></script>
+  <script src = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>        
+</head>
+<body>
+  <h1>Post some  math here.</h1>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$_','$_'], ['\\(','\\)']]}});
+  </script>
+  <textarea id = "entry" wrap = 'hard' rows="8" cols="80" 
+  placeholder = "Enter your question / comment here."></textarea>
+  <br>
+  <button id = "btn" type = "button">Submit</button>
+  <br>
+  <div id = "posts">
+    
+  </div>
+  <div class = 'posts'><h2>Question</h2><br><div class='par'>
+    A group of adults was asked about their preference in foods. The
+    participants were put into categories by weight. Test at the level
+    $_\alpha = 0.01$_ whether foods and weight are independent.
+  </div>
+
+  \begin{array}{|c|c|c|c|}\hline
+  \textbf{}&\textbf{pizza}&\textbf{burger}&\textbf{hotdog}&\textbf{sushi}\\ \hline 
+  \textbf{140 - 160} & \text{12}&\text{11}&\text{12}&\text{8}\\ \hline 
+  \textbf{160 - 180} & \text{7}&\text{8}&\text{8}&\text{17}\\ \hline 
+  \textbf{180 - 200} & \text{14}&\text{12}&\text{15}&\text{13}\\ \hline 
+  \end{array}
+  Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observations.<br><h2>Choices</h2><br>\begin{array}{|c|c|c|c|c|c|}\hline
+  \textbf{Answer}&\textbf{Distractor}&\textbf{Distractor}&\textbf{Distractor}&\textbf{Distractor}\\ \hline 
+  \textbf{C} & \text{(degrees of freedom) df = 6 and the $_\chi^2$_-test                     statistic = 6.73}\\ \hline 
+  \textbf{h} & \text{(degrees of freedom) df = 6 and the $_\chi^2$_-test                     statistic = 2.59}\\ \hline 
+  \textbf{o} & \text{(degrees of freedom) df = 12 and the $_\chi^2$_-test                     statistic = 2.16}\\ \hline 
+  \textbf{i} & \text{(degrees of freedom) df = 6 and the $_\chi^2$_-test                     statistic = 2.16}\\ \hline 
+  \textbf{c} & \text{(degrees of freedom) df = 12 and the $_\chi^2$_-test                     statistic = 6.65}\\ \hline 
+  \end{array}<br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+  the total number of observations by the expected probability 
+  for an outcome assuming independence. This is given by
+  $$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+  (\text{sum of column }j)}{N}.$$
+  The expected counts are shown in the following table:<br><br>
+  \begin{array}{|c|c|c|c|c|}\hline
+  \textbf{}&\textbf{pizza}&\textbf{burger}&\textbf{hotdog}&\textbf{sushi}&\textbf{Total}\\ \hline 
+  \textbf{140 - 160} & 10.4&9.73&11&11.9&43\\ \hline 
+  \textbf{160 - 180} & 9.64&9.05&10.2&11.1&40\\ \hline 
+  \textbf{180 - 200} & 13&12.2&13.8&15&54\\ \hline 
+  \textbf{Total} & 33&31&35&38&137\\ \hline 
+  \end{array}Recall that the observed counts are:<br><br>\begin{array}{|c|c|c|c|c|}\hline
+  \textbf{}&\textbf{pizza}&\textbf{burger}&\textbf{hotdog}&\textbf{sushi}&\textbf{Total}\\ \hline 
+  \textbf{140 - 160} & \text{12}&\text{11}&\text{12}&\text{8}&\text{43}\\ \hline 
+  \textbf{160 - 180} & \text{7}&\text{8}&\text{8}&\text{17}&\text{40}\\ \hline 
+  \textbf{180 - 200} & \text{14}&\text{12}&\text{15}&\text{13}&\text{54}\\ \hline 
+  \textbf{Total} & \text{33}&\text{31}&\text{35}&\text{38}&\text{137}\\ \hline 
+  \end{array}</div>
+  <div class='par'>The degrees of freedom are $_df = 
+    (4 - 1)(3 - 1) =             6$_ and the $_\chi^2$_-statistic is:$$\chi^2_{6}=\sum_{i=1}^{3}\sum_{j=1}^{4}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 6.73$$</div>
+  </div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+  An online survey company puts out a poll asking people two questions. 
+  First, it asks if they buy physical CDs. Second, it asks whether they 
+  own a smartphone. The company wants to determine if buying physical 
+  CDs depends on owning a smartphone.
+</div>
+
+\begin{array}{|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}\\ \hline 
+\textbf{Smartphone} & \text{6}&\text{43}\\ \hline 
+\textbf{No smartphone} & \text{21}&\text{28}\\ \hline 
+\end{array}
+Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observations.<br><h2>Choices</h2><br>\begin{array}{|c|c|c|c|c|c|}\hline
+\textbf{Answer}&\textbf{Distractor}&\textbf{Distractor}&\textbf{Distractor}&\textbf{Distractor}\\ \hline 
+\textbf{C} & \text{(degrees of freedom) df = 1 and the $_\chi^2$_-test                     statistic = 11.5}\\ \hline 
+\textbf{h} & \text{(degrees of freedom) df = 4 and the $_\chi^2$_-test                     statistic = 15.4}\\ \hline 
+\textbf{o} & \text{(degrees of freedom) df = 1 and the $_\chi^2$_-test                     statistic = 3.39}\\ \hline 
+\textbf{i} & \text{(degrees of freedom) df = 4 and the $_\chi^2$_-test                     statistic = 11.5}\\ \hline 
+\textbf{c} & \text{(degrees of freedom) df = 1 and the $_\chi^2$_-test                     statistic = 15.4}\\ \hline 
+\end{array}<br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+the total number of observations by the expected probability 
+for an outcome assuming independence. This is given by
+$$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+(\text{sum of column }j)}{N}.$$
+The expected counts are shown in the following table:<br><br>
+\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}&\textbf{Total}\\ \hline 
+\textbf{Smartphone} & 13.5&35.5&49\\ \hline 
+\textbf{No smartphone} & 13.5&35.5&49\\ \hline 
+\textbf{Total} & 27&71&98\\ \hline 
+\end{array}Recall that the observed counts are:<br><br>\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}&\textbf{Total}\\ \hline 
+\textbf{Smartphone} & \text{6}&\text{43}&\text{49}\\ \hline 
+\textbf{No smartphone} & \text{21}&\text{28}&\text{49}\\ \hline 
+\textbf{Total} & \text{27}&\text{71}&\text{98}\\ \hline 
+\end{array}</div>
+<div class='par'>The degrees of freedom are $_df = 
+  (2 - 1)(2 - 1) =             1$_ and the $_\chi^2$_-statistic is:$$\chi^2_{1}=\sum_{i=1}^{2}\sum_{j=1}^{2}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 11.5$$</div>
+</div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+A group of adults was asked about their preference in foods. The
+participants were put into categories by weight. Test at the level
+$_\alpha = 0.01$_ whether foods and weight are independent.
+</div>
+
+\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{pizza}&\textbf{burger}&\textbf{hotdog}&\textbf{sushi}\\ \hline 
+\textbf{140 - 160} & \text{12}&\text{11}&\text{12}&\text{8}\\ \hline 
+\textbf{160 - 180} & \text{7}&\text{8}&\text{8}&\text{17}\\ \hline 
+\textbf{180 - 200} & \text{14}&\text{12}&\text{15}&\text{13}\\ \hline 
+\end{array}
+The $_\chi^2$_ statistic is 
+$$\chi^2_{6}=\sum_{i=1}^{3}\sum_{j=1}^{4}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 6.73$$
+
+
+Use this information to find the degrees of freedom (df) and the 
+$_p\text{-value} = P(\chi^2_{df} > 6.73)$_.
+<br><h2>Choices</h2><br>\begin{array}{|c|c|c|c|c|c|}\hline
+\textbf{Answer}&\textbf{Distractor}&\textbf{Distractor}&\textbf{Distractor}&\textbf{Distractor}\\ \hline 
+\textbf{C} & \text{(degrees of freedom) df = 6 and the p-value = 0.347}\\ \hline 
+\textbf{h} & \text{(degrees of freedom) df = 6 and the p-value = 0.858}\\ \hline 
+\textbf{o} & \text{(degrees of freedom) df = 12 and the p-value = 0.999}\\ \hline 
+\textbf{i} & \text{(degrees of freedom) df = 6 and the p-value = 0.904}\\ \hline 
+\textbf{c} & \text{(degrees of freedom) df = 12 and the p-value = 0.88}\\ \hline 
+\end{array}<br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+the total number of observations by the expected probability 
+for an outcome assuming independence. This is given by
+$$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+(\text{sum of column }j)}{N}.$$
+The expected counts are shown in the following table:<br><br>
+\begin{array}{|c|c|c|c|c|}\hline
+\textbf{}&\textbf{pizza}&\textbf{burger}&\textbf{hotdog}&\textbf{sushi}&\textbf{Total}\\ \hline 
+\textbf{140 - 160} & 10.4&9.73&11&11.9&43\\ \hline 
+\textbf{160 - 180} & 9.64&9.05&10.2&11.1&40\\ \hline 
+\textbf{180 - 200} & 13&12.2&13.8&15&54\\ \hline 
+\textbf{Total} & 33&31&35&38&137\\ \hline 
+\end{array}Recall that the observed counts are:<br><br>\begin{array}{|c|c|c|c|c|}\hline
+\textbf{}&\textbf{pizza}&\textbf{burger}&\textbf{hotdog}&\textbf{sushi}&\textbf{Total}\\ \hline 
+\textbf{140 - 160} & \text{12}&\text{11}&\text{12}&\text{8}&\text{43}\\ \hline 
+\textbf{160 - 180} & \text{7}&\text{8}&\text{8}&\text{17}&\text{40}\\ \hline 
+\textbf{180 - 200} & \text{14}&\text{12}&\text{15}&\text{13}&\text{54}\\ \hline 
+\textbf{Total} & \text{33}&\text{31}&\text{35}&\text{38}&\text{137}\\ \hline 
+\end{array}</div>
+<div class='par'>The degrees of freedom are $_df = 
+  (4 - 1)(3 - 1) =             6$_ and the $_\chi^2$_-statistic is:$$\chi^2_{6}=\sum_{i=1}^{3}\sum_{j=1}^{4}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 6.73$$</div>
+  
+  The p-value for this data is:
+  $$\text{p-value} = P(\chi^2_{6} > 6.73) = 34.69\%$$
+  <div class='outer-container-rk'>
+    <div class='centering-rk'>
+      <div class='container-rk'>
+        <figure>
+          
+          <div class='img'>
+            <img src='chi2toi/6670670788448690258_plot.png' width=300px >
+          </div>
+          
+          <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.01$_ level.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+  
+  <div class='par'>The lightly shaded histogram represents a sampling distribution
+    of 5000 sample $_\chi^2$_-statistics where the  samples are 
+    of the same size as the given observed data (137 observations).
+    This indicate how well the $_\chi^2$_-distributions is capturing
+    the actual sampling distribution for this experiment.</div>
+  </div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+  An online survey company puts out a poll asking people two questions. 
+  First, it asks if they buy physical CDs. Second, it asks whether they 
+  own a smartphone. The company wants to determine if buying physical 
+  CDs depends on owning a smartphone.
+</div>
+
+\begin{array}{|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}\\ \hline 
+\textbf{Smartphone} & \text{6}&\text{43}\\ \hline 
+\textbf{No smartphone} & \text{21}&\text{28}\\ \hline 
+\end{array}
+The $_\chi^2$_ statistic is 
+$$\chi^2_{1}=\sum_{i=1}^{2}\sum_{j=1}^{2}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 11.5$$
+
+
+Use this information to find the degrees of freedom (df) and the 
+$_p\text{-value} = P(\chi^2_{df} > 11.5)$_.
+<br><h2>Choices</h2><br>\begin{array}{|c|c|c|c|c|c|}\hline
+\textbf{Answer}&\textbf{Distractor}&\textbf{Distractor}&\textbf{Distractor}&\textbf{Distractor}\\ \hline 
+\textbf{C} & \text{(degrees of freedom) df = 1 and the p-value = 0.000695}\\ \hline 
+\textbf{h} & \text{(degrees of freedom) df = 4 and the p-value = 0.00399}\\ \hline 
+\textbf{o} & \text{(degrees of freedom) df = 1 and the p-value = 0.0655}\\ \hline 
+\textbf{i} & \text{(degrees of freedom) df = 4 and the p-value = 0.0215}\\ \hline 
+\textbf{c} & \text{(degrees of freedom) df = 1 and the p-value = 8.84e-05}\\ \hline 
+\end{array}<br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+the total number of observations by the expected probability 
+for an outcome assuming independence. This is given by
+$$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+(\text{sum of column }j)}{N}.$$
+The expected counts are shown in the following table:<br><br>
+\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}&\textbf{Total}\\ \hline 
+\textbf{Smartphone} & 13.5&35.5&49\\ \hline 
+\textbf{No smartphone} & 13.5&35.5&49\\ \hline 
+\textbf{Total} & 27&71&98\\ \hline 
+\end{array}Recall that the observed counts are:<br><br>\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}&\textbf{Total}\\ \hline 
+\textbf{Smartphone} & \text{6}&\text{43}&\text{49}\\ \hline 
+\textbf{No smartphone} & \text{21}&\text{28}&\text{49}\\ \hline 
+\textbf{Total} & \text{27}&\text{71}&\text{98}\\ \hline 
+\end{array}</div>
+<div class='par'>The degrees of freedom are $_df = 
+  (2 - 1)(2 - 1) =             1$_ and the $_\chi^2$_-statistic is:$$\chi^2_{1}=\sum_{i=1}^{2}\sum_{j=1}^{2}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 11.5$$</div>
+  
+  The p-value for this data is:
+  $$\text{p-value} = P(\chi^2_{1} > 11.5) = 0.06951\%$$
+  <div class='outer-container-rk'>
+    <div class='centering-rk'>
+      <div class='container-rk'>
+        <figure>
+          
+          <div class='img'>
+            <img src='chi2toi/4982473500755232816_plot.png' width=300px >
+          </div>
+          
+          <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.01$_ level.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+  
+  <div class='par'>The lightly shaded histogram represents a sampling distribution
+    of 5000 sample $_\chi^2$_-statistics where the  samples are 
+    of the same size as the given observed data (98 observations).
+    This indicate how well the $_\chi^2$_-distributions is capturing
+    the actual sampling distribution for this experiment.</div>
+  </div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+  A group of adults was asked about their preference in foods. The
+  participants were put into categories by weight. Test at the level
+  $_\alpha = 0.01$_ whether foods and weight are independent.
+</div>
+
+\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{pizza}&\textbf{burger}&\textbf{hotdog}&\textbf{sushi}\\ \hline 
+\textbf{140 - 160} & \text{12}&\text{11}&\text{12}&\text{8}\\ \hline 
+\textbf{160 - 180} & \text{7}&\text{8}&\text{8}&\text{17}\\ \hline 
+\textbf{180 - 200} & \text{14}&\text{12}&\text{15}&\text{13}\\ \hline 
+\end{array}
+The degrees of freedom are $_df = 
+(4 -1)(3 -1) = 
+6$_ and the $_\chi^2$_ statistic is $$\chi^2_{6}=\sum_{i=1}^{3}\sum_{j=1}^{4}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 6.73$$ 
+
+Use this information to conduct a hypothesis test with 
+$_\alpha = 0.01$_. Choose the answer that best captures
+the null hypothesis and conclusion.
+<br><h2>Choices</h2><br>\begin{array}{|c|c|c|c|c|c|}\hline
+\textbf{Answer}&\textbf{Distractor}&\textbf{Distractor}&\textbf{Distractor}&\textbf{Distractor}\\ \hline 
+\textbf{C} & \text{
+The p-value is 34.69% and this is greater than the 
+$_\alpha$_-level of 0.01. Therefore we fail to 
+reject the null hypothesis thus supporting the 
+hypothesis:<br>
+<strong>&nbsp;H<sub>0</sub>: foods and weight are independent.</strong>
+}\\ \hline 
+\textbf{h} & \text{
+The p-value is 85.79% and this is greater than the 
+$_\alpha$_-level of 0.01. Therefore we fail to 
+reject the null hypothesis thus supporting the 
+hypothesis:<br>
+<strong>&nbsp;H<sub>0</sub>: foods and weight are independent.</strong>
+}\\ \hline 
+\textbf{o} & \text{
+The p-value is 90.41% and this is greater than the 
+$_\alpha$_-level of 0.01. Therefore we fail to 
+reject the null hypothesis thus supporting the 
+hypothesis:<br>
+<strong>&nbsp;H<sub>0</sub>: foods and weight are independent.</strong>
+}\\ \hline 
+\textbf{i} & \text{
+The p-value is 99.91% and this is greater than the 
+$_\alpha$_-level of 0.01. Therefore we fail to 
+reject the null hypothesis thus supporting the 
+hypothesis:<br>
+<strong>&nbsp;H<sub>0</sub>: foods and weight are independent.</strong>
+}\\ \hline 
+\textbf{c} & \text{
+The p-value is 87.52% and this is greater than the 
+$_\alpha$_-level of 0.01. Therefore we reject the
+null hypothesis and find evidence in favor of the 
+alternative hypothesis:<br>
+<strong>&nbsp;H<sub>1</sub>: foods and weight are dependent.</strong>
+}\\ \hline 
+\end{array}<br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+the total number of observations by the expected probability 
+for an outcome assuming independence. This is given by
+$$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+(\text{sum of column }j)}{N}.$$
+The expected counts are shown in the following table:<br><br>
+\begin{array}{|c|c|c|c|c|}\hline
+\textbf{}&\textbf{pizza}&\textbf{burger}&\textbf{hotdog}&\textbf{sushi}&\textbf{Total}\\ \hline 
+\textbf{140 - 160} & 10.4&9.73&11&11.9&43\\ \hline 
+\textbf{160 - 180} & 9.64&9.05&10.2&11.1&40\\ \hline 
+\textbf{180 - 200} & 13&12.2&13.8&15&54\\ \hline 
+\textbf{Total} & 33&31&35&38&137\\ \hline 
+\end{array}Recall that the observed counts are:<br><br>\begin{array}{|c|c|c|c|c|}\hline
+\textbf{}&\textbf{pizza}&\textbf{burger}&\textbf{hotdog}&\textbf{sushi}&\textbf{Total}\\ \hline 
+\textbf{140 - 160} & \text{12}&\text{11}&\text{12}&\text{8}&\text{43}\\ \hline 
+\textbf{160 - 180} & \text{7}&\text{8}&\text{8}&\text{17}&\text{40}\\ \hline 
+\textbf{180 - 200} & \text{14}&\text{12}&\text{15}&\text{13}&\text{54}\\ \hline 
+\textbf{Total} & \text{33}&\text{31}&\text{35}&\text{38}&\text{137}\\ \hline 
+\end{array}</div>
+<div class='par'>The degrees of freedom are $_df = 
+  (4 - 1)(3 - 1) =             6$_ and the $_\chi^2$_-statistic is:$$\chi^2_{6}=\sum_{i=1}^{3}\sum_{j=1}^{4}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 6.73$$</div>
+  
+  The p-value for this data is:
+  $$\text{p-value} = P(\chi^2_{6} > 6.73) = 34.69\%$$
+  <div class='outer-container-rk'>
+    <div class='centering-rk'>
+      <div class='container-rk'>
+        <figure>
+          
+          <div class='img'>
+            <img src='chi2toi/8009853400643212850_plot.png' width=300px >
+          </div>
+          
+          <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.01$_ level.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+  
+  <div class='par'>The lightly shaded histogram represents a sampling distribution
+    of 5000 sample $_\chi^2$_-statistics where the  samples are 
+    of the same size as the given observed data (137 observations).
+    This indicate how well the $_\chi^2$_-distributions is capturing
+    the actual sampling distribution for this experiment.</div>
+    
+    <div class='par'>The p-value is greater than the $_\alpha$_-level so
+      the null hypothesis:
+      <br>
+      <strong>H<sub>0</sub>: foods and weight are independent.</strong>
+    </br>
+    is not rejected. Precisely, assuming the null hypothesis
+    there is a 34.69% probability due to 
+    random chance in sampling that
+    the difference in the expected and observed data is at 
+    least this large.</div>
+    
+    <div class='par'>Note: </div>                
+  </div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+  An online survey company puts out a poll asking people two questions. 
+  First, it asks if they buy physical CDs. Second, it asks whether they 
+  own a smartphone. The company wants to determine if buying physical 
+  CDs depends on owning a smartphone.
+</div>
+
+\begin{array}{|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}\\ \hline 
+\textbf{Smartphone} & \text{6}&\text{43}\\ \hline 
+\textbf{No smartphone} & \text{21}&\text{28}\\ \hline 
+\end{array}
+The degrees of freedom are $_df = 
+(2 -1)(2 -1) = 
+1$_ and the $_\chi^2$_ statistic is $$\chi^2_{1}=\sum_{i=1}^{2}\sum_{j=1}^{2}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 11.5$$ 
+
+Use this information to conduct a hypothesis test with 
+$_\alpha = 0.01$_. Choose the answer that best captures
+the null hypothesis and conclusion.
+<br><h2>Choices</h2><br>\begin{array}{|c|c|c|c|c|c|}\hline
+\textbf{Answer}&\textbf{Distractor}&\textbf{Distractor}&\textbf{Distractor}&\textbf{Distractor}\\ \hline 
+\textbf{C} & \text{
+The p-value is 0.07% and this is less than the 
+$_\alpha$_-level of 0.01. Therefore we reject the
+null hypothesis and find evidence in favor of the 
+alternative hypothesis:<br>
+<strong>&nbsp;H<sub>1</sub>: foods and age are dependent.</strong>
+}\\ \hline 
+\textbf{h} & \text{
+The p-value is 2.15% and this is greater than the 
+$_\alpha$_-level of 0.01. Therefore we fail to 
+reject the null hypothesis thus supporting the 
+hypothesis:<br>
+<strong>&nbsp;H<sub>0</sub>: foods and age are independent.</strong>
+}\\ \hline 
+\textbf{o} & \text{
+The p-value is 21.56% and this is greater than the 
+$_\alpha$_-level of 0.01. Therefore we fail to 
+reject the null hypothesis thus supporting the 
+hypothesis:<br>
+<strong>&nbsp;H<sub>0</sub>: foods and age are independent.</strong>
+}\\ \hline 
+\textbf{i} & \text{
+The p-value is 82.07% and this is greater than the 
+$_\alpha$_-level of 0.01. Therefore we reject the
+null hypothesis and find evidence in favor of the 
+alternative hypothesis:<br>
+<strong>&nbsp;H<sub>1</sub>: foods and age are dependent.</strong>
+}\\ \hline 
+\textbf{c} & \text{
+The p-value is 0.40% and this is less than the 
+$_\alpha$_-level of 0.01. Therefore we reject the
+null hypothesis and find evidence in favor of the 
+alternative hypothesis:<br>
+<strong>&nbsp;H<sub>1</sub>: foods and age are dependent.</strong>
+}\\ \hline 
+\end{array}<br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+the total number of observations by the expected probability 
+for an outcome assuming independence. This is given by
+$$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+(\text{sum of column }j)}{N}.$$
+The expected counts are shown in the following table:<br><br>
+\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}&\textbf{Total}\\ \hline 
+\textbf{Smartphone} & 13.5&35.5&49\\ \hline 
+\textbf{No smartphone} & 13.5&35.5&49\\ \hline 
+\textbf{Total} & 27&71&98\\ \hline 
+\end{array}Recall that the observed counts are:<br><br>\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}&\textbf{Total}\\ \hline 
+\textbf{Smartphone} & \text{6}&\text{43}&\text{49}\\ \hline 
+\textbf{No smartphone} & \text{21}&\text{28}&\text{49}\\ \hline 
+\textbf{Total} & \text{27}&\text{71}&\text{98}\\ \hline 
+\end{array}</div>
+<div class='par'>The degrees of freedom are $_df = 
+  (2 - 1)(2 - 1) =             1$_ and the $_\chi^2$_-statistic is:$$\chi^2_{1}=\sum_{i=1}^{2}\sum_{j=1}^{2}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 11.5$$</div>
+  
+  The p-value for this data is:
+  $$\text{p-value} = P(\chi^2_{1} > 11.5) = 0.06951\%$$
+  <div class='outer-container-rk'>
+    <div class='centering-rk'>
+      <div class='container-rk'>
+        <figure>
+          
+          <div class='img'>
+            <img src='chi2toi/8499410023248198010_plot.png' width=300px >
+          </div>
+          
+          <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.01$_ level.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+  
+  <div class='par'>The lightly shaded histogram represents a sampling distribution
+    of 5000 sample $_\chi^2$_-statistics where the  samples are 
+    of the same size as the given observed data (98 observations).
+    This indicate how well the $_\chi^2$_-distributions is capturing
+    the actual sampling distribution for this experiment.</div>
+    
+    <div class='par'>The p-value is less than the $_\alpha$_-level so
+      the null hypothesis:
+      <br>
+      <strong>H<sub>0</sub>: foods and age are independent. </strong>
+    </br>
+    is rejected. That is, we accept the alternative hypothesis:
+    <br>
+    <strong>H<sub>a</sub>: foods and age are dependent. </strong>
+  </br>
+  Precisely, assuming the null hypothesis, there
+  is only a 0.07% probability due to 
+  random chance in sampling that
+  the difference in the expected and observed data is 
+  least this large.</div>
+  
+  <div class='par'>Note: </div>                
+</div><br>
+
+
+</body>
+</html>

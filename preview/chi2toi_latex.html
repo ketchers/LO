@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Home</title>
+
+  <script src = "js/main.js" defer></script>
+  <script src = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>        
+</head>
+<body>
+  <h1>Post some  math here.</h1>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$_','$_'], ['\\(','\\)']]}});
+  </script>
+  <textarea id = "entry" wrap = 'hard' rows="8" cols="80" 
+  placeholder = "Enter your question / comment here."></textarea>
+  <br>
+  <button id = "btn" type = "button">Submit</button>
+  <br>
+  <div id = "posts">
+    
+  </div>
+  <div class = 'posts'><h2>Question</h2><br><div class='par'>
+    A group of adults was asked about their preference in colors. The
+    participants were put into categories by weight. Test at the level
+    $_\alpha = 0.01$_ whether colors and weight are independent.
+  </div>
+
+  \begin{array}{|c|c|c|c|}\hline
+  \textbf{}&\textbf{red}&\textbf{blue}&\textbf{green}&\textbf{orange}\\ \hline 
+  \textbf{140 - 160} & \text{9}&\text{10}&\text{7}&\text{11}\\ \hline 
+  \textbf{160 - 180} & \text{8}&\text{10}&\text{12}&\text{5}\\ \hline 
+  \textbf{180 - 200} & \text{18}&\text{6}&\text{5}&\text{25}\\ \hline 
+  \end{array}
+  Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observations.<br><h2>Choices</h2><br>\begin{array}{|c|c|c|c|c|c|}\hline
+  \textbf{}&\textbf{Choices}\\ \hline 
+  \textbf{Answer} & \text{(degrees of freedom) df = 6 and the $_\chi^2$_-test                     statistic = 19}\\ \hline 
+  \textbf{Distractor} & \text{(degrees of freedom) df = 12 and the $_\chi^2$_-test                     statistic = 25.2}\\ \hline 
+  \textbf{Distractor} & \text{(degrees of freedom) df = 12 and the $_\chi^2$_-test                     statistic = 19}\\ \hline 
+  \textbf{Distractor} & \text{(degrees of freedom) df = 6 and the $_\chi^2$_-test                     statistic = 4.05}\\ \hline 
+  \textbf{Distractor} & \text{(degrees of freedom) df = 6 and the $_\chi^2$_-test                     statistic = 25.2}\\ \hline 
+  \end{array}<br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+  the total number of observations by the expected probability 
+  for an outcome assuming independence. This is given by
+  $$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+  (\text{sum of column }j)}{N}.$$
+  The expected counts are shown in the following table:<br><br>
+  \begin{array}{|c|c|c|c|c|}\hline
+  \textbf{}&\textbf{red}&\textbf{blue}&\textbf{green}&\textbf{orange}&\textbf{Total}\\ \hline 
+  \textbf{140 - 160} & 10.3&7.63&7.05&12&37\\ \hline 
+  \textbf{160 - 180} & 9.72&7.22&6.67&11.4&35\\ \hline 
+  \textbf{180 - 200} & 15&11.1&10.3&17.6&54\\ \hline 
+  \textbf{Total} & 35&26&24&41&126\\ \hline 
+  \end{array}Recall that the observed counts are:<br><br>\begin{array}{|c|c|c|c|c|}\hline
+  \textbf{}&\textbf{red}&\textbf{blue}&\textbf{green}&\textbf{orange}&\textbf{Total}\\ \hline 
+  \textbf{140 - 160} & \text{9}&\text{10}&\text{7}&\text{11}&\text{37}\\ \hline 
+  \textbf{160 - 180} & \text{8}&\text{10}&\text{12}&\text{5}&\text{35}\\ \hline 
+  \textbf{180 - 200} & \text{18}&\text{6}&\text{5}&\text{25}&\text{54}\\ \hline 
+  \textbf{Total} & \text{35}&\text{26}&\text{24}&\text{41}&\text{126}\\ \hline 
+  \end{array}</div>
+  <div class='par'>The degrees of freedom are $_df = 
+    (4 - 1)(3 - 1) =             6$_ and the $_\chi^2$_-statistic is:$$\chi^2_{6}=\sum_{i=1}^{3}\sum_{j=1}^{4}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 19$$</div>
+  </div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+  An online survey company puts out a poll asking people two questions. 
+  First, it asks if they buy physical CDs. Second, it asks whether they 
+  own a smartphone. The company wants to determine if buying physical 
+  CDs depends on owning a smartphone.
+</div>
+
+\begin{array}{|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}\\ \hline 
+\textbf{Smartphone} & \text{5}&\text{68}\\ \hline 
+\textbf{No smartphone} & \text{12}&\text{28}\\ \hline 
+\end{array}
+Compute the $_\chi^2$_-statistic and degrees                 of freedom for the given observations.<br><h2>Choices</h2><br>\begin{array}{|c|c|c|c|c|c|}\hline
+\textbf{}&\textbf{Choices}\\ \hline 
+\textbf{Answer} & \text{(degrees of freedom) df = 1 and the $_\chi^2$_-test                     statistic = 10.8}\\ \hline 
+\textbf{Distractor} & \text{(degrees of freedom) df = 4 and the $_\chi^2$_-test                     statistic = 1.81}\\ \hline 
+\textbf{Distractor} & \text{(degrees of freedom) df = 1 and the $_\chi^2$_-test                     statistic = 11.9}\\ \hline 
+\textbf{Distractor} & \text{(degrees of freedom) df = 4 and the $_\chi^2$_-test                     statistic = 10.8}\\ \hline 
+\textbf{Distractor} & \text{(degrees of freedom) df = 1 and the $_\chi^2$_-test                     statistic = 1.81}\\ \hline 
+\end{array}<br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+the total number of observations by the expected probability 
+for an outcome assuming independence. This is given by
+$$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+(\text{sum of column }j)}{N}.$$
+The expected counts are shown in the following table:<br><br>
+\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}&\textbf{Total}\\ \hline 
+\textbf{Smartphone} & 11&62&73\\ \hline 
+\textbf{No smartphone} & 6.02&34&40\\ \hline 
+\textbf{Total} & 17&96&113\\ \hline 
+\end{array}Recall that the observed counts are:<br><br>\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}&\textbf{Total}\\ \hline 
+\textbf{Smartphone} & \text{5}&\text{68}&\text{73}\\ \hline 
+\textbf{No smartphone} & \text{12}&\text{28}&\text{40}\\ \hline 
+\textbf{Total} & \text{17}&\text{96}&\text{113}\\ \hline 
+\end{array}</div>
+<div class='par'>The degrees of freedom are $_df = 
+  (2 - 1)(2 - 1) =             1$_ and the $_\chi^2$_-statistic is:$$\chi^2_{1}=\sum_{i=1}^{2}\sum_{j=1}^{2}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 10.8$$</div>
+</div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+A group of adults was asked about their preference in colors. The
+participants were put into categories by weight. Test at the level
+$_\alpha = 0.01$_ whether colors and weight are independent.
+</div>
+
+\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{red}&\textbf{blue}&\textbf{green}&\textbf{orange}\\ \hline 
+\textbf{140 - 160} & \text{9}&\text{10}&\text{7}&\text{11}\\ \hline 
+\textbf{160 - 180} & \text{8}&\text{10}&\text{12}&\text{5}\\ \hline 
+\textbf{180 - 200} & \text{18}&\text{6}&\text{5}&\text{25}\\ \hline 
+\end{array}
+The $_\chi^2$_ statistic is 
+$$\chi^2_{6}=\sum_{i=1}^{3}\sum_{j=1}^{4}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 19$$
+
+
+Use this information to find the degrees of freedom (df) and the 
+$_p\text{-value} = P(\chi^2_{df} > 19)$_.
+<br><h2>Choices</h2><br>\begin{array}{|c|c|c|c|c|c|}\hline
+\textbf{}&\textbf{Choices}\\ \hline 
+\textbf{Answer} & \text{(degrees of freedom) df = 6 and the p-value = 0.0041}\\ \hline 
+\textbf{Distractor} & \text{(degrees of freedom) df = 12 and the p-value = 0.0138}\\ \hline 
+\textbf{Distractor} & \text{(degrees of freedom) df = 12 and the p-value = 0.0877}\\ \hline 
+\textbf{Distractor} & \text{(degrees of freedom) df = 6 and the p-value = 0.67}\\ \hline 
+\textbf{Distractor} & \text{(degrees of freedom) df = 6 and the p-value = 0.000311}\\ \hline 
+\end{array}<br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+the total number of observations by the expected probability 
+for an outcome assuming independence. This is given by
+$$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+(\text{sum of column }j)}{N}.$$
+The expected counts are shown in the following table:<br><br>
+\begin{array}{|c|c|c|c|c|}\hline
+\textbf{}&\textbf{red}&\textbf{blue}&\textbf{green}&\textbf{orange}&\textbf{Total}\\ \hline 
+\textbf{140 - 160} & 10.3&7.63&7.05&12&37\\ \hline 
+\textbf{160 - 180} & 9.72&7.22&6.67&11.4&35\\ \hline 
+\textbf{180 - 200} & 15&11.1&10.3&17.6&54\\ \hline 
+\textbf{Total} & 35&26&24&41&126\\ \hline 
+\end{array}Recall that the observed counts are:<br><br>\begin{array}{|c|c|c|c|c|}\hline
+\textbf{}&\textbf{red}&\textbf{blue}&\textbf{green}&\textbf{orange}&\textbf{Total}\\ \hline 
+\textbf{140 - 160} & \text{9}&\text{10}&\text{7}&\text{11}&\text{37}\\ \hline 
+\textbf{160 - 180} & \text{8}&\text{10}&\text{12}&\text{5}&\text{35}\\ \hline 
+\textbf{180 - 200} & \text{18}&\text{6}&\text{5}&\text{25}&\text{54}\\ \hline 
+\textbf{Total} & \text{35}&\text{26}&\text{24}&\text{41}&\text{126}\\ \hline 
+\end{array}</div>
+<div class='par'>The degrees of freedom are $_df = 
+  (4 - 1)(3 - 1) =             6$_ and the $_\chi^2$_-statistic is:$$\chi^2_{6}=\sum_{i=1}^{3}\sum_{j=1}^{4}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 19$$</div>
+  
+  The p-value for this data is:
+  $$\text{p-value} = P(\chi^2_{6} > 19) = 0.4103\%$$
+  <div class='outer-container-rk'>
+    <div class='centering-rk'>
+      <div class='container-rk'>
+        <figure>
+          
+          <div class='img'>
+            <img src='chi2toi/5007573893442281578_plot.png' width=300px >
+          </div>
+          
+          <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.01$_ level.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+  
+  <div class='par'>The lightly shaded histogram represents a sampling distribution
+    of 5000 sample $_\chi^2$_-statistics where the  samples are 
+    of the same size as the given observed data (126 observations).
+    This indicate how well the $_\chi^2$_-distributions is capturing
+    the actual sampling distribution for this experiment.</div>
+  </div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+  An online survey company puts out a poll asking people two questions. 
+  First, it asks if they buy physical CDs. Second, it asks whether they 
+  own a smartphone. The company wants to determine if buying physical 
+  CDs depends on owning a smartphone.
+</div>
+
+\begin{array}{|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}\\ \hline 
+\textbf{Smartphone} & \text{5}&\text{68}\\ \hline 
+\textbf{No smartphone} & \text{12}&\text{28}\\ \hline 
+\end{array}
+The $_\chi^2$_ statistic is 
+$$\chi^2_{1}=\sum_{i=1}^{2}\sum_{j=1}^{2}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 10.8$$
+
+
+Use this information to find the degrees of freedom (df) and the 
+$_p\text{-value} = P(\chi^2_{df} > 10.8)$_.
+<br><h2>Choices</h2><br>\begin{array}{|c|c|c|c|c|c|}\hline
+\textbf{}&\textbf{Choices}\\ \hline 
+\textbf{Answer} & \text{(degrees of freedom) df = 1 and the p-value = 0.000995}\\ \hline 
+\textbf{Distractor} & \text{(degrees of freedom) df = 4 and the p-value = 0.77}\\ \hline 
+\textbf{Distractor} & \text{(degrees of freedom) df = 1 and the p-value = 0.000548}\\ \hline 
+\textbf{Distractor} & \text{(degrees of freedom) df = 4 and the p-value = 0.0285}\\ \hline 
+\textbf{Distractor} & \text{(degrees of freedom) df = 1 and the p-value = 0.178}\\ \hline 
+\end{array}<br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+the total number of observations by the expected probability 
+for an outcome assuming independence. This is given by
+$$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+(\text{sum of column }j)}{N}.$$
+The expected counts are shown in the following table:<br><br>
+\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}&\textbf{Total}\\ \hline 
+\textbf{Smartphone} & 11&62&73\\ \hline 
+\textbf{No smartphone} & 6.02&34&40\\ \hline 
+\textbf{Total} & 17&96&113\\ \hline 
+\end{array}Recall that the observed counts are:<br><br>\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}&\textbf{Total}\\ \hline 
+\textbf{Smartphone} & \text{5}&\text{68}&\text{73}\\ \hline 
+\textbf{No smartphone} & \text{12}&\text{28}&\text{40}\\ \hline 
+\textbf{Total} & \text{17}&\text{96}&\text{113}\\ \hline 
+\end{array}</div>
+<div class='par'>The degrees of freedom are $_df = 
+  (2 - 1)(2 - 1) =             1$_ and the $_\chi^2$_-statistic is:$$\chi^2_{1}=\sum_{i=1}^{2}\sum_{j=1}^{2}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 10.8$$</div>
+  
+  The p-value for this data is:
+  $$\text{p-value} = P(\chi^2_{1} > 10.8) = 0.09955\%$$
+  <div class='outer-container-rk'>
+    <div class='centering-rk'>
+      <div class='container-rk'>
+        <figure>
+          
+          <div class='img'>
+            <img src='chi2toi/9182773902461413249_plot.png' width=300px >
+          </div>
+          
+          <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.01$_ level.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+  
+  <div class='par'>The lightly shaded histogram represents a sampling distribution
+    of 5000 sample $_\chi^2$_-statistics where the  samples are 
+    of the same size as the given observed data (113 observations).
+    This indicate how well the $_\chi^2$_-distributions is capturing
+    the actual sampling distribution for this experiment.</div>
+  </div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+  A group of adults was asked about their preference in colors. The
+  participants were put into categories by weight. Test at the level
+  $_\alpha = 0.01$_ whether colors and weight are independent.
+</div>
+
+\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{red}&\textbf{blue}&\textbf{green}&\textbf{orange}\\ \hline 
+\textbf{140 - 160} & \text{9}&\text{10}&\text{7}&\text{11}\\ \hline 
+\textbf{160 - 180} & \text{8}&\text{10}&\text{12}&\text{5}\\ \hline 
+\textbf{180 - 200} & \text{18}&\text{6}&\text{5}&\text{25}\\ \hline 
+\end{array}
+The degrees of freedom are $_df = 
+(4 -1)(3 -1) = 
+6$_ and the $_\chi^2$_ statistic is $$\chi^2_{6}=\sum_{i=1}^{3}\sum_{j=1}^{4}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 19$$ 
+
+Use this information to conduct a hypothesis test with 
+$_\alpha = 0.01$_. Choose the answer that best captures
+the null hypothesis and conclusion.
+<br><h2>Choices</h2><br>\begin{array}{|c|c|c|c|c|c|}\hline
+\textbf{}&\textbf{Choices}\\ \hline 
+\textbf{Answer} & \text{
+The p-value is 0.41% and this is less than the 
+$_\alpha$_-level of 0.01. Therefore we reject the
+null hypothesis and find evidence in favor of the 
+alternative hypothesis:<br>
+<strong>&nbsp;H<sub>1</sub>: colors and weight are dependent.</strong>
+}\\ \hline 
+\textbf{Distractor} & \text{
+The p-value is 98.26% and this is greater than the 
+$_\alpha$_-level of 0.01. Therefore we reject the
+null hypothesis and find evidence in favor of the 
+alternative hypothesis:<br>
+<strong>&nbsp;H<sub>1</sub>: colors and weight are dependent.</strong>
+}\\ \hline 
+\textbf{Distractor} & \text{
+The p-value is 0.03% and this is less than the 
+$_\alpha$_-level of 0.01. Therefore we reject the
+null hypothesis and find evidence in favor of the 
+alternative hypothesis:<br>
+<strong>&nbsp;H<sub>1</sub>: colors and weight are dependent.</strong>
+}\\ \hline 
+\textbf{Distractor} & \text{
+The p-value is 62.77% and this is greater than the 
+$_\alpha$_-level of 0.01. Therefore we reject the
+null hypothesis and find evidence in favor of the 
+alternative hypothesis:<br>
+<strong>&nbsp;H<sub>1</sub>: colors and weight are dependent.</strong>
+}\\ \hline 
+\textbf{Distractor} & \text{
+The p-value is 8.77% and this is greater than the 
+$_\alpha$_-level of 0.01. Therefore we reject the
+null hypothesis and find evidence in favor of the 
+alternative hypothesis:<br>
+<strong>&nbsp;H<sub>1</sub>: colors and weight are dependent.</strong>
+}\\ \hline 
+\end{array}<br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+the total number of observations by the expected probability 
+for an outcome assuming independence. This is given by
+$$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+(\text{sum of column }j)}{N}.$$
+The expected counts are shown in the following table:<br><br>
+\begin{array}{|c|c|c|c|c|}\hline
+\textbf{}&\textbf{red}&\textbf{blue}&\textbf{green}&\textbf{orange}&\textbf{Total}\\ \hline 
+\textbf{140 - 160} & 10.3&7.63&7.05&12&37\\ \hline 
+\textbf{160 - 180} & 9.72&7.22&6.67&11.4&35\\ \hline 
+\textbf{180 - 200} & 15&11.1&10.3&17.6&54\\ \hline 
+\textbf{Total} & 35&26&24&41&126\\ \hline 
+\end{array}Recall that the observed counts are:<br><br>\begin{array}{|c|c|c|c|c|}\hline
+\textbf{}&\textbf{red}&\textbf{blue}&\textbf{green}&\textbf{orange}&\textbf{Total}\\ \hline 
+\textbf{140 - 160} & \text{9}&\text{10}&\text{7}&\text{11}&\text{37}\\ \hline 
+\textbf{160 - 180} & \text{8}&\text{10}&\text{12}&\text{5}&\text{35}\\ \hline 
+\textbf{180 - 200} & \text{18}&\text{6}&\text{5}&\text{25}&\text{54}\\ \hline 
+\textbf{Total} & \text{35}&\text{26}&\text{24}&\text{41}&\text{126}\\ \hline 
+\end{array}</div>
+<div class='par'>The degrees of freedom are $_df = 
+  (4 - 1)(3 - 1) =             6$_ and the $_\chi^2$_-statistic is:$$\chi^2_{6}=\sum_{i=1}^{3}\sum_{j=1}^{4}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 19$$</div>
+  
+  The p-value for this data is:
+  $$\text{p-value} = P(\chi^2_{6} > 19) = 0.4103\%$$
+  <div class='outer-container-rk'>
+    <div class='centering-rk'>
+      <div class='container-rk'>
+        <figure>
+          
+          <div class='img'>
+            <img src='chi2toi/6761291347199953133_plot.png' width=300px >
+          </div>
+          
+          <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.01$_ level.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+  
+  <div class='par'>The lightly shaded histogram represents a sampling distribution
+    of 5000 sample $_\chi^2$_-statistics where the  samples are 
+    of the same size as the given observed data (126 observations).
+    This indicate how well the $_\chi^2$_-distributions is capturing
+    the actual sampling distribution for this experiment.</div>
+    
+    <div class='par'>The p-value is less than the $_\alpha$_-level so
+      the null hypothesis:
+      <br>
+      <strong>H<sub>0</sub>: colors and weight are independent. </strong>
+    </br>
+    is rejected. That is, we accept the alternative hypothesis:
+    <br>
+    <strong>H<sub>a</sub>: colors and weight are dependent. </strong>
+  </br>
+  Precisely, assuming the null hypothesis, there
+  is only a 0.41% probability due to 
+  random chance in sampling that
+  the difference in the expected and observed data is 
+  least this large.</div>
+  
+  <div class='par'>Note: </div>                
+</div><br><div class = 'posts'><h2>Question</h2><br><div class='par'>
+An online survey company puts out a poll asking people two questions. 
+First, it asks if they buy physical CDs. Second, it asks whether they 
+own a smartphone. The company wants to determine if buying physical 
+CDs depends on owning a smartphone.
+</div>
+
+\begin{array}{|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}\\ \hline 
+\textbf{Smartphone} & \text{5}&\text{68}\\ \hline 
+\textbf{No smartphone} & \text{12}&\text{28}\\ \hline 
+\end{array}
+The degrees of freedom are $_df = 
+(2 -1)(2 -1) = 
+1$_ and the $_\chi^2$_ statistic is $$\chi^2_{1}=\sum_{i=1}^{2}\sum_{j=1}^{2}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 10.8$$ 
+
+Use this information to conduct a hypothesis test with 
+$_\alpha = 0.01$_. Choose the answer that best captures
+the null hypothesis and conclusion.
+<br><h2>Choices</h2><br>\begin{array}{|c|c|c|c|c|c|}\hline
+\textbf{}&\textbf{Choices}\\ \hline 
+\textbf{Answer} & \text{
+The p-value is 0.10% and this is less than the 
+$_\alpha$_-level of 0.01. Therefore we reject the
+null hypothesis and find evidence in favor of the 
+alternative hypothesis:<br>
+<strong>&nbsp;H<sub>1</sub>: colors and weight are dependent.</strong>
+}\\ \hline 
+\textbf{Distractor} & \text{
+The p-value is 77.04% and this is greater than the 
+$_\alpha$_-level of 0.01. Therefore we reject the
+null hypothesis and find evidence in favor of the 
+alternative hypothesis:<br>
+<strong>&nbsp;H<sub>1</sub>: colors and weight are dependent.</strong>
+}\\ \hline 
+\textbf{Distractor} & \text{
+The p-value is 17.83% and this is greater than the 
+$_\alpha$_-level of 0.01. Therefore we reject the
+null hypothesis and find evidence in favor of the 
+alternative hypothesis:<br>
+<strong>&nbsp;H<sub>1</sub>: colors and weight are dependent.</strong>
+}\\ \hline 
+\textbf{Distractor} & \text{
+The p-value is 6.96% and this is greater than the 
+$_\alpha$_-level of 0.01. Therefore we fail to 
+reject the null hypothesis thus supporting the 
+hypothesis:<br>
+<strong>&nbsp;H<sub>0</sub>: colors and weight are independent.</strong>
+}\\ \hline 
+\textbf{Distractor} & \text{
+The p-value is 0.05% and this is less than the 
+$_\alpha$_-level of 0.01. Therefore we fail to 
+reject the null hypothesis thus supporting the 
+hypothesis:<br>
+<strong>&nbsp;H<sub>0</sub>: colors and weight are independent.</strong>
+}\\ \hline 
+\end{array}<br><h2>Explanation</h2><br><div class='par'>To find the expected counts multiply 
+the total number of observations by the expected probability 
+for an outcome assuming independence. This is given by
+$$E_{i,j} = \frac{(\text{sum of row }i)\cdot
+(\text{sum of column }j)}{N}.$$
+The expected counts are shown in the following table:<br><br>
+\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}&\textbf{Total}\\ \hline 
+\textbf{Smartphone} & 11&62&73\\ \hline 
+\textbf{No smartphone} & 6.02&34&40\\ \hline 
+\textbf{Total} & 17&96&113\\ \hline 
+\end{array}Recall that the observed counts are:<br><br>\begin{array}{|c|c|c|c|}\hline
+\textbf{}&\textbf{CD}&\textbf{No CD}&\textbf{Total}\\ \hline 
+\textbf{Smartphone} & \text{5}&\text{68}&\text{73}\\ \hline 
+\textbf{No smartphone} & \text{12}&\text{28}&\text{40}\\ \hline 
+\textbf{Total} & \text{17}&\text{96}&\text{113}\\ \hline 
+\end{array}</div>
+<div class='par'>The degrees of freedom are $_df = 
+  (2 - 1)(2 - 1) =             1$_ and the $_\chi^2$_-statistic is:$$\chi^2_{1}=\sum_{i=1}^{2}\sum_{j=1}^{2}            \frac{(O_{i,j}-E_{i,j})^2}{E_{i,j}}                = 10.8$$</div>
+  
+  The p-value for this data is:
+  $$\text{p-value} = P(\chi^2_{1} > 10.8) = 0.09955\%$$
+  <div class='outer-container-rk'>
+    <div class='centering-rk'>
+      <div class='container-rk'>
+        <figure>
+          
+          <div class='img'>
+            <img src='chi2toi/6744994888629533877_plot.png' width=300px >
+          </div>
+          
+          <figcaption>Lightshading indicates the p-value.<br>                The darker shading indicate the $_\alpha = 0.01$_ level.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+  
+  <div class='par'>The lightly shaded histogram represents a sampling distribution
+    of 5000 sample $_\chi^2$_-statistics where the  samples are 
+    of the same size as the given observed data (113 observations).
+    This indicate how well the $_\chi^2$_-distributions is capturing
+    the actual sampling distribution for this experiment.</div>
+    
+    <div class='par'>The p-value is less than the $_\alpha$_-level so
+      the null hypothesis:
+      <br>
+      <strong>H<sub>0</sub>: colors and weight are independent. </strong>
+    </br>
+    is rejected. That is, we accept the alternative hypothesis:
+    <br>
+    <strong>H<sub>a</sub>: colors and weight are dependent. </strong>
+  </br>
+  Precisely, assuming the null hypothesis, there
+  is only a 0.10% probability due to 
+  random chance in sampling that
+  the difference in the expected and observed data is 
+  least this large.</div>
+  
+  <div class='par'>Note: </div>                
+</div><br>
+
+
+</body>
+</html>

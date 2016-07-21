@@ -63,7 +63,8 @@ class Chi2GoodnessOfFit(object):
             'context': context,
             'table': table,
             'q_type': q_type,
-            'fmt': fmt
+            'fmt': fmt,
+            'a_type': a_type
         }
         
         if q_type is None:

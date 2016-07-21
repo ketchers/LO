@@ -13,7 +13,8 @@ import scipy.stats as stats
 import pylab as plt
 plt.rc('font', family='DejaVu Sans')
 x, y, z = sym.symbols('x,y,z')
-from html_tools import make_table, html_image
+from html_tools import html_image
+from table import Table
 from chi2TestOfIndependenceData import Chi2TestOfIndependenceData
 
 class Chi2TestOIndependence(object):
@@ -29,7 +30,7 @@ class Chi2TestOIndependence(object):
         
         
     def stem(self, context = None, q_type = None, a_type = 'preview', 
-             force = False):
+             force = False, fmt = 'html'):
         """
         This will generate a problem for $\chi^2$ goodness of fit.
         
@@ -47,6 +48,9 @@ class Chi2TestOIndependence(object):
             If true force egineration of images.
         a_type  : string
             This is eithe "MC" or "preview" for now
+        fmt     : String ['html', 'latex']
+            If "latex", then use just basic html/MathJax, else use
+            CSS3/HTML5 fomatting.
         """
         
         kwargs = {
@@ -77,17 +81,23 @@ class Chi2TestOIndependence(object):
         style = None
             
         
+        
         if a_type == 'preview':
             question_stem = "<h2>Question</h2><br>"
         else:
             question_stem = ""
         
+        if fmt == 'html':
+            question_stem += Table.get_style()        
+        
         question_stem += "<div class='par'>" + context.story + "</div>\n" 
+       
+        if fmt == 'html':
+            tbl = context.observed_table.html()
+        else:
+            tbl = context.observed_table.latex()
         
-        tbl, style = make_table(context.cols, context.rows,
-                            True,  context.observed)
-        
-        question_stem += style + tbl
+        question_stem += "\n" + tbl + "\n"
             
  
         num_rows = len(context.rows)
@@ -126,18 +136,21 @@ class Chi2TestOIndependence(object):
                        a_level = context.a_level)
        
         
-        explanation = style
+        if fmt == 'html':
+            explanation = Table.get_style()
+        else:
+            explanation = ""
         
         if a_type == 'preview':
             explanation += "<br><h2>Explanation</h2><br>"
                     
-        tbl1, _ = make_table(context.cols + ['Total'],
-                             context.rows + ['Total'],
-                                True,  context.obs_marg) 
+        if fmt == 'html':
+            tbl1 = context.obs_marg_table.html()
+            tbl2 = context.expected_table.html()
+        else:
+            tbl1 = context.obs_marg_table.latex()
+            tbl2 = context.expected_table.latex()
            
-        tbl2, _ = make_table(context.cols + ['Total'],
-                             context.rows + ['Total'],
-                                True,  context.expected) 
         
         explanation += """<div class='par'>To find the expected counts multiply 
             the total number of observations by the expected probability 
@@ -244,9 +257,17 @@ class Chi2TestOIndependence(object):
         if a_type == 'preview':
 
             errs = [[er] for er in errors]
+
             choices = "<br><h2>Choices</h2><br>"
-            tbl, _ = make_table(None, ['Answer'] + ['Distractor']*4, True, 
-                                *errs)  
+
+            tb = Table(errs, row_headers = ['Answer'] + ['Distractor']*4,
+                       col_headers = ['Choices'])
+                       
+            if fmt == 'html':
+                tbl = tb.html()
+            else:
+                tbl = tb.latex()
+                
             choices += tbl                             
             
             return question_stem + choices +  explanation 
@@ -376,14 +397,16 @@ class Chi2TestOIndependence(object):
         
 if __name__ == "__main__":
     
-    a_type = 'MC'
+    a_type = 'preview'
+    fmt = 'latex'
+    seed = 42
       
-    def gen_ctx():
+    def gen_ctx(seed = seed):
         
-        
-        ctx = Chi2TestOfIndependenceData()        
+        ctx = Chi2TestOfIndependenceData(seed = seed)        
         while not ctx.is_valid:
-            ctx = Chi2TestOfIndependenceData()   
+            seed += 1
+            ctx = Chi2TestOfIndependenceData(seed = seed)   
         
         story = """
             An online survey company puts out a poll asking people two questions. 
@@ -404,7 +427,8 @@ if __name__ == "__main__":
 
         row_dists = [random.choice([cd_phone1, cd_phone2]), random.choice([cd_no_phone1, cd_no_phone2])]        
         
-        ctx_phone_cd = Chi2TestOfIndependenceData(story = story, 
+        ctx_phone_cd = Chi2TestOfIndependenceData(seed = seed,
+                            story = story, 
                             rows = rows, 
                             cols = cols, 
                             s_sizes = s_sizes, 
@@ -413,13 +437,13 @@ if __name__ == "__main__":
         return [ctx, ctx_phone_cd] # , ctx_phone_cd]
 
     
-    prob = Chi2TestOIndependence(seed = 42)
+    prob = Chi2TestOIndependence(seed = seed)
     
     pb = ""
     for q_type in ['STAT', 'PVAL', 'HT']:
         for c in gen_ctx():
             result = prob.stem(context = c, q_type = q_type,
-                               a_type = a_type)
+                               a_type = a_type, fmt = fmt)
             if result is not None:
                 pb += '<div class = \'posts\'>'
                 pb += result
