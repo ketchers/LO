@@ -10,6 +10,7 @@ import scipy.stats as stats
 import pylab as plt
 import tools
 import warnings
+from table import Table
 
 class DictObj(object):
     def __init__(self, dic):
@@ -31,7 +32,13 @@ class Chi2TestOfIndependenceData(object):
     """
    
     
-    def __init__(self, **kwargs):
+    def __init__(self, seed = None, **kwargs):
+        
+        print(seed, file = sys.stderr)
+        
+        if seed is not None:
+            random.seed(seed) # Get predictable random behavior:)
+            np.random.seed(seed)        
         
         context = dict_to_obj(kwargs)
         
@@ -119,6 +126,18 @@ class Chi2TestOfIndependenceData(object):
         self.df = (data.shape[0] - 1) * (data.shape[1] - 1)        
                 
         self.note = getattr(context,'note',"") 
+        
+        self.observed_table = Table(self.observed, row_headers = self.rows,
+                                    col_headers = self.cols)
+       
+        self.obs_marg_table = Table(self.obs_marg, 
+                                    row_headers = self.rows + ['Total'],
+                                    col_headers = self.cols + ['Total'])
+
+        self.expected_table = Table(self.expected, 
+                                    row_headers = self.rows + ['Total'],
+                                    col_headers = self.cols + ['Total'])
+        
 
         self.hash = 17
         
@@ -247,7 +266,8 @@ if __name__ == "__main__":
     
     # Basically a default context with fixed row sizes and distribuions
     ctx = Chi2TestOfIndependenceData(s_sizes = [100,100,100],
-                                     row_dists=[np.ones(4)*.25]*3);
+                                     row_dists=[np.ones(4)*.25]*3,
+                                     seed = 42);
     
     
     
@@ -275,10 +295,21 @@ if __name__ == "__main__":
                     rows = rows, 
                     cols = cols, 
                     s_sizes = s_sizes, 
-                    row_dists = row_dists)
+                    row_dists = row_dists,
+                    seed = 42)
      
 
     ctx.show(fname = 'show')
-    print(ctx.story)               
+    print(ctx.story)   
+    
+    
+    print(Table.get_style())
+    print(ctx.obs_marg_table.html())
+    print(ctx.expected_table.html())
+    print(ctx.obs_marg_table.latex())
+    print(ctx.expected_table.latex())
+
+            
     ctx_phone_cd.show(fname = 'show')
     print(ctx_phone_cd.story)
+    
