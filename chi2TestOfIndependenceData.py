@@ -34,8 +34,6 @@ class Chi2TestOfIndependenceData(object):
     
     def __init__(self, seed = None, **kwargs):
         
-        print(seed, file = sys.stderr)
-        
         if seed is not None:
             random.seed(seed) # Get predictable random behavior:)
             np.random.seed(seed)        

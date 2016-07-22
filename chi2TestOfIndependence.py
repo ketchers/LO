@@ -130,7 +130,7 @@ class Chi2TestOIndependence(object):
             
             Use this information to conduct a hypothesis test with 
             $_\\alpha = {a_level}$_. Choose the answer that best captures
-            the null hypothesis and conclusion.
+            the conclusion of the test.
             """.format(num_cols = num_cols, num_rows = num_rows,  df = df, 
                        chi2eq = chi2eq,
                        a_level = context.a_level)
@@ -184,9 +184,9 @@ class Chi2TestOIndependence(object):
             img = html_image(fname, width = '300px',  
                              preview = (a_type == 'preview'))
             
-            caption = "Lightshading indicates the p-value.<br>\
-                The darker shading indicate the $_\\alpha = %.2g$_ level."\
-                % context.a_level
+            caption = "Lightshading (right of red line) indicates the p-value.<br>\
+                The darker shading indicate the $_\\alpha = $_ {a_level: .0%} level."\
+                .format(a_level = context.a_level)
                 
             explanation +="""
             The p-value for this data is:
@@ -216,16 +216,11 @@ class Chi2TestOIndependence(object):
             if p_val < context.a_level:
                 
                 explanation += """
-                    <div class='par'>The p-value is less than the $_\\alpha$_-level so
-                    the null hypothesis:
-                    <br>
-                    <strong>H<sub>0</sub>: {null} </strong>
-                    </br>
-                    is rejected. That is, we accept the alternative hypothesis:
-                     <br>
+                    <div class='par'>The p-value is less than the 
+                    $_\\alpha$_-level so the null hypothesis is rejected. 
+                    That is, we accept the alternative hypothesis:
                     <strong>H<sub>a</sub>: {alt} </strong>
-                    </br>
-                    Precisely, assuming the null hypothesis, there
+                    More precisely, assuming the null hypothesis, there
                     is only a {p_val:.2%} probability due to 
                     random chance in sampling that
                     the difference in the expected and observed data is 
@@ -234,12 +229,10 @@ class Chi2TestOIndependence(object):
                                p_val=p_val)
             else:
                 explanation += """
-                    <div class='par'>The p-value is greater than the $_\\alpha$_-level so
-                    the null hypothesis:
-                    <br>
-                    <strong>H<sub>0</sub>: {null}</strong>
-                    </br>
-                    is not rejected. Precisely, assuming the null hypothesis
+                    <div class='par'>The p-value is greater than the 
+                    $_\\alpha$_-level so the null hypothesis
+                    is not rejected. More precisely, assuming the null 
+                    hypothesis: <strong>H<sub>0</sub>: {null} </strong>
                     there is a {p_val:.2%} probability due to 
                     random chance in sampling that
                     the difference in the expected and observed data is at 
@@ -258,21 +251,35 @@ class Chi2TestOIndependence(object):
 
             errs = [[er] for er in errors]
 
-            choices = "<br><h2>Choices</h2><br>"
+            choices = "\n<br><h2>Choices</h2><br>\n"
 
-            tb = Table(errs, row_headers = ['Answer'] + ['Distractor']*4,
-                       col_headers = ['Choices'])
+            tb = Table(errs, row_headers = ['Answer'] + ['Distractor']*4)
                        
+           
+            tbl = tb.html()
+            
+            choices += Table.get_style() + "\n" + tbl  
+
             if fmt == 'html':
-                tbl = tb.html()
+                return question_stem + choices +  explanation
             else:
-                tbl = tb.latex()
-                
-            choices += tbl                             
+                return question_stem.replace("<div ","<p ")\
+                        .replace("</div>","</p>") + choices + \
+                      explanation.replace("<div ","<p ")\
+                        .replace("</div>","</p>")
             
             return question_stem + choices +  explanation 
             
         elif a_type == 'MC':
+            
+            if fmt == 'latex':
+                question_stem = question_stem.replace("<div ","<p ")\
+                        .replace("</div>","</p>")
+                explanation = explanation.replace("<div ","<p ")\
+                        .replace("</div>","</p>")
+                distractors = [err.replace("<div ","<p ")\
+                        .replace("</div>","</p>") for err in errors]
+            
             question_stem = ' '.join(question_stem.split())
             distractors = [' '.join(err.split()) for err in errors]
             explanation = ' '.join(explanation.split()) + "\n"
@@ -342,41 +349,40 @@ class Chi2TestOIndependence(object):
                 
                 if p_val < a_level and correct:
                     ans = """
-                        The p-value is {p_val:.2%} and this is less than the 
-                        $_\\alpha$_-level of {a_level}. Therefore we reject the
-                        null hypothesis and find evidence in favor of the 
-                        alternative hypothesis:<br>
-                        <strong>&nbsp;H<sub>1</sub>: {alt}</strong>
+                        The p-value is {p_val:.2%} and this is less than 
+                        the $_\\alpha$_-level of {a_level:.0%}. Therefore we
+                        reject the null hypothesis and find evidence in 
+                        favor of the alternative hypothesis: 
+                        <strong>H<sub>1</sub>: {alt}</strong>
                         """.format(p_val = p_val, a_level = a_level, 
                                    alt = context.alternative)
                                    
                 elif p_val >= a_level and correct:
                      ans = """
-                        The p-value is {p_val:.2%} and this is greater than the 
-                        $_\\alpha$_-level of {a_level}. Therefore we fail to 
-                        reject the null hypothesis thus supporting the 
-                        hypothesis:<br>
-                        <strong>&nbsp;H<sub>0</sub>: {null}</strong>
+                        The p-value is {p_val:.2%} and this is greater 
+                        than the $_\\alpha$_-level of {a_level:.0%}. Therefore 
+                        we fail to reject the null hypothesis thus supporting 
+                        the hypothesis: <strong>H<sub>0</sub>: {null}</strong>
                         """.format(p_val = p_val, a_level = a_level, 
                                    null = context.null)
                                    
                 elif p_val < a_level and not correct:
                     ans = """
-                        The p-value is {p_val:.2%} and this is less than the 
-                        $_\\alpha$_-level of {a_level}. Therefore we fail to 
-                        reject the null hypothesis thus supporting the 
-                        hypothesis:<br>
-                        <strong>&nbsp;H<sub>0</sub>: {null}</strong>
+                        The p-value is {p_val:.2%} and this is less than 
+                        the $_\\alpha$_-level of {a_level:.0%}. Therefore we fail
+                        to reject the null hypothesis thus supporting the 
+                        hypothesis:  
+                        <strong>H<sub>0</sub>: {null}</strong>
                         """.format(p_val = p_val, a_level = a_level, 
                                    null = context.null)
                 else:
                      ans = """
-                        The p-value is {p_val:.2%} and this is greater than the 
-                        $_\\alpha$_-level of {a_level}. Therefore we reject the
-                        null hypothesis and find evidence in favor of the 
-                        alternative hypothesis:<br>
-                        <strong>&nbsp;H<sub>1</sub>: {alt}</strong>
-                        """.format(p_val = p_val, a_level = a_level, 
+                         The p-value is {p_val:.2%} and this is greater 
+                         than the $_\\alpha$_-level of {a_level:.0%}. Therefore 
+                         we reject the null hypothesis and find evidence in 
+                         favor of the alternative hypothesis:  
+                         <strong>H<sub>1</sub>: {alt}</strong>
+                         """.format(p_val = p_val, a_level = a_level, 
                                    alt = context.alternative)
                     
                 
@@ -398,8 +404,8 @@ class Chi2TestOIndependence(object):
 if __name__ == "__main__":
     
     a_type = 'preview'
-    fmt = 'latex'
-    seed = 42
+    fmt = 'html'
+    seed = 44
       
     def gen_ctx(seed = seed):
         
@@ -445,7 +451,12 @@ if __name__ == "__main__":
             result = prob.stem(context = c, q_type = q_type,
                                a_type = a_type, fmt = fmt)
             if result is not None:
-                pb += '<div class = \'posts\'>'
+                
+                if a_type == 'preview':
+                    pb += '<div class = \'posts\'>'
+
                 pb += result
-                pb += '</div><br>'
+                
+                if a_type == 'preview':                    
+                    pb += '</div><br>'
     print(pb)

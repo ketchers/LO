@@ -111,7 +111,7 @@ class Chi2GoodnessOfFitData(object):
         self.chi2_stat = np.sum((self.o_counts - self.t_counts)**2/self.t_counts)
         self.df = len(self.o_counts)  - 1        
         self.null = getattr(context, 'null', "The die is fair with each outcome \
-                being equally likly.")
+                being equally likely.")
         self.alternative =  getattr(context, 'alternative', "The die is not fair some\
             outcomes are more likely than others.")
         self.note = getattr(context,'note',"""
