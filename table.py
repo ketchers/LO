@@ -267,9 +267,9 @@ class Table(object):
     def latex(self):
         
         if self.row_headers is not None:
-            n_cols = 1 + len(self.data)
+            n_cols = 1 + len(self.data[0])
         else:
-            n_cols = len(self.data)
+            n_cols = len(self.data[0])
             
         tbl = "\\begin{array}{|%s}\\hline\n" % ('c|' * n_cols)
         tbl += self.build_rows_latex()

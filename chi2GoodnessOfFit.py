@@ -206,9 +206,10 @@ class Chi2GoodnessOfFit(object):
             img = html_image(fname, width = '300px', 
                              preview = (a_type == 'preview'))
             
-            caption = "Lightshading indicates the p-value.<br>\
-                The darker shading indicate the $_\\alpha = %.2g$_ level."\
-                % context.a_level
+            caption = "Lightshading (right of the red line) indicates the \
+                p-value.<br>\
+                The darker shading indicate the $_\\alpha = $_ {a_level:.0%} \
+                level.".format(a_level = context.a_level)
             explanation +="""
             The p-value for this data is:
                 $$\\text{p-value} = P(\\chi^2_{%s} > %.3g) = %.4g%s$$
@@ -237,30 +238,23 @@ class Chi2GoodnessOfFit(object):
             if p_val < context.a_level:
                 
                 explanation += """
-                    <div class='par'>The p-value is less than the $_\\alpha$_-level so
-                    the null hypothesis:
-                    <br>
-                    <strong>H<sub>0</sub>: {null} </strong>
-                    </br>
-                    is rejected. That is, we accept the alternative hypothesis:
-                     <br>
+                    <div class='par'>The p-value is less than the 
+                    $_\\alpha$_-level so the null hypothesis is rejected. 
+                    That is, we accept the alternative hypothesis:
                     <strong>H<sub>a</sub>: {alt} </strong>
-                    </br>
-                    Precisely, assuming the null hypothesis, there
+                
+                    More precisely, assuming the null hypothesis, there
                     is only a {p_val:.2%} probability due to 
                     random chance in sampling that
                     the difference in the expected and observed data is 
                     least this large.</div>
-                    """.format(null=context.null, alt=context.alternative,
-                               p_val=p_val)
+                    """.format(alt=context.alternative, p_val=p_val)
             else:
                 explanation += """
                     <div class='par'>The p-value is greater than the $_\\alpha$_-level so
-                    the null hypothesis:
-                    <br>
-                    <strong>H<sub>0</sub>: {null}</strong>
-                    </br>
+                    the null hypothesis
                     is not rejected. Precisely, assuming the null hypothesis
+                    <strong>H<sub>0</sub>: {null}</strong>,
                     there is a {p_val:.2%} probability due to 
                     random chance in sampling that
                     the difference in the expected and observed data is at 
@@ -287,9 +281,11 @@ class Chi2GoodnessOfFit(object):
             if fmt == 'html':
                 return question_stem + choices +  explanation
             else:
-                return (question_stem + choices +  explanation)\
-                        .replace("<div ","<p ")\
+                return question_stem.replace("<div ","<p ")\
+                        .replace("</div>","</p>") + choices + \
+                        explanation.replace("<div ","<p ")\
                         .replace("</div>","</p>")
+                        
         elif a_type == 'MC':
             if fmt == 'latex':
                 question_stem = question_stem.replace("<div ","<p ")\
@@ -368,38 +364,38 @@ class Chi2GoodnessOfFit(object):
                 if p_val < a_level and correct:
                     ans = """
                         The p-value is {p_val:.2%} and this is less than the 
-                        $_\\alpha$_-level of {a_level}. Therefore we reject the
+                        $_\\alpha$_-level of {a_level:.0%}. Therefore we reject the
                         null hypothesis and find evidence in favor of the 
-                        alternative hypothesis:<br>
-                        <strong>&nbsp;H<sub>1</sub>: {alt}</strong>
+                        alternative hypothesis: 
+                        <strong>H<sub>1</sub>: {alt}</strong>
                         """.format(p_val = p_val, a_level = a_level, 
                                    alt = context.alternative)
                 elif p_val >= a_level and correct:
                      ans = """
                         The p-value is {p_val:.2%} and this is greater than the 
-                        $_\\alpha$_-level of {a_level}. Therefore we fail to 
+                        $_\\alpha$_-level of {a_level:.0%}. Therefore we fail to 
                         reject the null hypothesis thus supporting the 
-                        hypothesis:<br>
-                        <strong>&nbsp;H<sub>0</sub>: {null}</strong>
+                        hypothesis: 
+                        <strong>H<sub>0</sub>: {null}</strong>
                         """.format(p_val = p_val, a_level = a_level, 
                                    null = context.null)
                                    
                 elif p_val < a_level and not correct:
                     ans = """
                         The p-value is {p_val:.2%} and this is less than the 
-                        $_\\alpha$_-level of {a_level}. Therefore we fail to 
+                        $_\\alpha$_-level of {a_level:.0%}. Therefore we fail to 
                         reject the null hypothesis thus supporting the 
-                        hypothesis:<br>
-                        <strong>&nbsp;H<sub>0</sub>: {null}</strong>
+                        hypothesis: 
+                        <strong>H<sub>0</sub>: {null}</strong>
                         """.format(p_val = p_val, a_level = a_level, 
                                    null = context.null)
                 else:
                      ans = """
                         The p-value is {p_val:.2%} and this is greater than the 
-                        $_\\alpha$_-level of {a_level}. Therefore we reject the
+                        $_\\alpha$_-level of {a_level:.0%}. Therefore we reject the
                         null hypothesis and find evidence in favor of the 
-                        alternative hypothesis:<br>
-                        <strong>&nbsp;H<sub>1</sub>: {alt}</strong>
+                        alternative hypothesis: 
+                        <strong>H<sub>1</sub>: {alt}</strong>
                         """.format(p_val = p_val, a_level = a_level, 
                                    alt = context.alternative)
                     
@@ -422,11 +418,11 @@ if __name__ == "__main__":
     
     a_type = 'preview'
     force = False
-    fmt = 'latex'
+    fmt = 'html'
     seed = 42
       
     def gen_ctx():
-        ctx = Chi2GoodnessOfFitData(seed = 42)
+        ctx = Chi2GoodnessOfFitData(seed = seed) 
     
         #Here we sample from a non-uniform distribution for the die!
         o_dist=[1/5, 1/5, 1/5, 1/5, 1/10, 1/10]
@@ -533,8 +529,13 @@ if __name__ == "__main__":
             for c in gen_ctx():
                 result = prob.stem(context = c, table=table, a_type = a_type, 
                                    q_type = q_type, force = force, fmt = fmt)
+
                 if result is not None:
-                    pb += '<div class = \'posts\'>'
+                    if a_type == 'preview':
+                        pb += '<div class = \'posts\'>'
+
                     pb += result
-                    pb += '</div><br>'
+
+                    if a_type == 'preview':
+                        pb += '</div><br>'
     print(pb)
