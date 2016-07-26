@@ -436,7 +436,7 @@ if __name__ == "__main__":
                              random.choice([cd_no_phone1, cd_no_phone2])]
         }
         
-        ctx_phone_cd = Chi2TestOfIndependenceData(seed = 42, 
+        ctx_phone_cd = Chi2TestOfIndependenceData(seed = seed, 
                                                   **ctx_phone_cd_args)
             
         # A default context where an initial set of observations is given

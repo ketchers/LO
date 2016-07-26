@@ -13,7 +13,8 @@ import scipy.stats as stats
 import pylab as plt
 plt.rc('font', family='DejaVu Sans')
 x, y, z = sym.symbols('x,y,z')
-from html_tools import make_table, html_image
+from html_tools import html_image
+from table import Table
 from chi2TestOfHomogeneityData import Chi2TestOfHomogeneityData
 
 class Chi2TestOfHomogeneity(object):
@@ -82,13 +83,17 @@ class Chi2TestOfHomogeneity(object):
         else:
             question_stem = ""
         
+        if fmt == 'html':
+            question_stem += Table.get_style()        
+        
         question_stem += "<div class='par'>" + context.story + "</div>\n" 
+       
+        if fmt == 'html':
+            tbl = context.observed_table.html()
+        else:
+            tbl = context.observed_table.latex()
         
-        tbl, style = make_table(context.cols, context.rows,
-                            True,  context.observed)
-        
-        question_stem += style + tbl
-            
+        question_stem += "\n" + tbl + "\n"
  
         num_rows = len(context.rows)
         num_cols = len(context.cols)
@@ -126,25 +131,40 @@ class Chi2TestOfHomogeneity(object):
                        a_level = context.a_level)
        
         
-        explanation = style
+        if fmt == 'html':
+            explanation = Table.get_style()
+        else:
+            explanation = ""
         
         if a_type == 'preview':
             explanation += "<br><h2>Explanation</h2><br>"
                     
-        tbl1, _ = make_table(context.cols + ['Total'],
-                             context.rows + ['Total'],
-                                True,  context.obs_marg) 
-           
-        tbl2, _ = make_table(context.cols + ['Total'],
-                             context.rows + ['Total'],
-                                True,  context.expected) 
+        if fmt == 'html':
+            tbl1 = context.obs_marg_table.html()
+            tbl2 = context.expected_table.html()
+        else:
+            tbl1 = context.obs_marg_table.latex()
+            tbl2 = context.expected_table.latex()
         
-        explanation += """<div class='par'>To find the expected counts multiply 
-            the total number of observations by the expected probability 
-            for an outcome assuming independence. This is given by
+        explanation += """<div class='par'>To find the expected counts assuming
+            homogeneity of distributions, ffirst find the column totals and
+            divide by the size of the sample. This provides the overall 
+            distribution. Let $$p_j = \\frac{(\\text{sum of column }i)}{N},$$
+            where $_N$_ is the total size of the population.</div>
+            
+            <div class='par'>To compute the expected count for the 
+            $_(i,j)^{\\text{th}}$_&nbsp; cell, multiply the 
+            the sum of the observed values in the $_i^{\\text{th}}$_&nbsp; 
+            row by $_p_i$_. This gives $_E_{i,j}$_.</div>
+            
+            <div class='par'>These two steps can be combined to give:
             $$E_{i,j} = \\frac{(\\text{sum of row }i)\\cdot
             (\\text{sum of column }j)}{N}.$$
-            The expected counts are shown in the following table:<br><br>
+            Notice that this is exactly the same computation as for a
+            $_\\chi^2$_-test of independence.</div>            
+            
+            <div class='par'>The expected counts are shown in the following 
+            table:<br><br>
             """
         explanation += tbl2
 
@@ -244,14 +264,37 @@ class Chi2TestOfHomogeneity(object):
         if a_type == 'preview':
 
             errs = [[er] for er in errors]
-            choices = "<br><h2>Choices</h2><br>"
-            tbl, _ = make_table(None, ['Answer'] + ['Distractor']*4, True, 
-                                *errs)  
-            choices += tbl                             
+
+            choices = "\n<br><h2>Choices</h2><br>\n"
+
+            tb = Table(errs, row_headers = ['Answer'] + ['Distractor']*4)
+                       
+           
+            tbl = tb.html()
+            
+            choices += Table.get_style() + "\n" + tbl  
+
+            if fmt == 'html':
+                return question_stem + choices +  explanation
+            else:
+                return question_stem.replace("<div ","<p ")\
+                        .replace("</div>","</p>") + choices + \
+                      explanation.replace("<div ","<p ")\
+                        .replace("</div>","</p>")
             
             return question_stem + choices +  explanation 
             
         elif a_type == 'MC':
+            
+            if fmt == 'latex':
+                question_stem = question_stem.replace("<div ","<p ")\
+                        .replace("</div>","</p>")
+                explanation = explanation.replace("<div ","<p ")\
+                        .replace("</div>","</p>")
+                distractors = [err.replace("<div ","<p ")\
+                        .replace("</div>","</p>") for err in errors]
+           
+            
             question_stem = ' '.join(question_stem.split())
             distractors = [' '.join(err.split()) for err in errors]
             explanation = ' '.join(explanation.split()) + "\n"
@@ -376,47 +419,68 @@ class Chi2TestOfHomogeneity(object):
         
 if __name__ == "__main__":
     
-    a_type = 'preview'
+    a_type = 'MC'
+    fmt = 'latex'
+    seed = 44
       
-    def gen_ctx():
+    def gen_ctx(seed = seed):
         
         
-        ctx = Chi2TestOfHomogeneityData()        
-        while not ctx.is_valid:
-            ctx = Chi2TestOfHomogeneityData()   
+        # Default context        
+        ctx = Chi2TestOfHomogeneityData(seed = seed)        
+        
+        # A non default context with a little randomness thrown into
+        # the distributions.
         
         # Here is a second context
-        story = """
-        An online survey company puts out a poll asking people two questions. 
-        First, it asks if they buy physical CDs. Second, it asks whether they 
-        own a smartphone. The company wants to determine if the distribution of
-        people owning CDs among people with smartphones is the same as the 
-        distribution of people owning CDs among people without smartphones.
-        """
     
         cd_phone1 = [.2, .8]
         cd_phone2 = [.3, .7]
         cd_no_phone1 = [.4, .6]
         cd_no_phone2 = [.5, .5]
         
-        s_sizes = [random.randint(40, 100), random.randint(10, 50)]
+        ctx_phone_cd_args = {
+            'story':"""
+                An online survey company puts out a poll asking people two questions. 
+                First, it asks if they buy physical CDs. Second, it asks whether they 
+                own a smartphone. The company wants to determine if buying physical 
+                CDs depends on owning a smartphone.
+                """,
+                's_sizes':[random.randint(40, 100), random.randint(10, 50)],
+                'rows':['Smartphone', 'No smartphone'],
+                'cols':['CD', 'No CD'],
+                'row_dists':[random.choice([cd_phone1, cd_phone2]), 
+                             random.choice([cd_no_phone1, cd_no_phone2])]
+        }
         
-        rows = ['Smartphone', 'No smartphone']
-        cols = ['CD', 'No CD']
-        
-        row_dists = [random.choice([cd_phone1, cd_phone2]), 
-                     random.choice([cd_no_phone1, cd_no_phone2])]
-        ctx_phone_cd = Chi2TestOfHomogeneityData(story = story, 
-                        rows = rows, 
-                        cols = cols, 
-                        s_sizes = s_sizes, 
-                        row_dists = row_dists)
-     
+        ctx_phone_cd = Chi2TestOfHomogeneityData(seed = seed, 
+                                                  **ctx_phone_cd_args)
             
-        return [ctx, ctx_phone_cd] # , ctx_phone_cd]
+        # A default context where an initial set of observations is given
+        # instead of the row distributions.
+        Men = random.randint(35, 45)
+        ctx_gender_math_args = {
+            'story':"""
+                A survey was given to 85 students in a Basic Algebra course, 
+                with the following responses to the statement "I enjoy math."
+                
+                Test whether the distributions of responses to the survey
+                are the same between men and women.
+                """,
+            'data':[[9,13,5,4,2],[12,18,11,6,5]],    
+            'rows':['Men', 'Women'],
+            'cols':['Strongly Agree', 'Agree', 'Nuetral', 'Disagree', 
+                'Strongly Disagree'],
+            's_sizes':[Men, 85 - Men]
+        }
+
+        ctx_gender_math = Chi2TestOfHomogeneityData(seed = seed,
+                        **ctx_gender_math_args)
+            
+        return [ctx, ctx_phone_cd, ctx_gender_math] # , ctx_phone_cd]
 
     
-    prob = Chi2TestOfHomogeneity(seed = 42)
+    prob = Chi2TestOfHomogeneity(seed = seed)
     
     pb = ""
     for q_type in ['STAT', 'PVAL', 'HT']:
@@ -424,7 +488,12 @@ if __name__ == "__main__":
             result = prob.stem(context = c, q_type = q_type,
                                a_type = a_type)
             if result is not None:
-                pb += '<div class = \'posts\'>'
+               
+                if a_type == 'preview':
+                    pb += '<div class = \'posts\'>'
+                    
                 pb += result
-                pb += '</div><br>'
+                
+                if a_type == 'preview':
+                    pb += '</div><br>'
     print(pb)
