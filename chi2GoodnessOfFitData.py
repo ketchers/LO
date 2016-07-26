@@ -80,10 +80,10 @@ class Chi2GoodnessOfFitData(object):
         
         self.o_dist = getattr(context, 'o_dist', self.t_dist)
         # Generate the actual sample.
-        self.sample = np.random.choice(self.outcomes, self.s_size, 
-                                       p = self.o_dist)
-        # Generate counts
-        self.o_counts = np.array([sum(self.sample == i) for i in self.outcomes])
+        
+        self.o_counts, self.sample  = self.gen_data(threshold = 1.0)        
+        
+        
         # Sample distribution
         self.expected = Table(self.t_counts, col_headers = self.outcomes,
                               row_headers = [self.outcome_type, 'Expected'])
@@ -98,8 +98,7 @@ class Chi2GoodnessOfFitData(object):
         
         
         
-        self.is_valid = sum(self.o_counts - 4 > 0)/len(self.o_counts) >= .8 \
-            and all(self.o_counts > 0)
+        
         if not self.is_valid:
             warnings.warn("The cell counts are too small!")
         
@@ -129,6 +128,38 @@ class Chi2GoodnessOfFitData(object):
 
         self.story = getattr(context, 'story', default_story)
         self.hash = 17
+        
+    def gen_data(self, threshold = 1.0, count = 0):
+        """
+        This generates observed data from o_dist. A check of vlidity is made.
+        
+        Parameters:
+        ----------
+        count : int
+            This is for internal use if it goes beyond 20 an error is thrown
+            telling the user that either th probabilities are too small or 
+            the sample size is too small to get valid cell counts.
+        threashold : float between 0 and 1
+            This says determine the percentage of cells that must have 
+            count > 4. 
+        """
+        if count > 200:
+            print(count)
+            raise ValueError("Problem generating data with valid cell count.") 
+            
+        sample = np.random.choice(self.outcomes, self.s_size, 
+                                       p = self.o_dist)
+        # Generate counts
+        data = np.array([sum(sample == i) for i in self.outcomes])
+        if self.is_valid(threshold, data):
+            return data, sample
+            
+        return self.gen_data(threshold = threshold, count = count + 1)
+        
+    def is_valid(self, threshold, data):
+        return sum(data - 4 > 0)/len(data) >= threshold \
+            and all(data > 0)   
+        
         
     def __hash__(self):
         if self.hash == 17:
@@ -264,20 +295,31 @@ class Chi2GoodnessOfFitData(object):
 if __name__ == "__main__":
     
     
-    
+    #Here we sample from a non-uniform distribution for the die!
+    ctx1_args = {
+        's_size':40,
+        'o_dist':[1/5, 1/5, 1/5, 1/5, 1/10, 1/10],
+        'alternative': "The die is not fair.",
+        'note': """
+                For this problem the truth is tha the die is not fair. \
+                If you accepted H<sub>0</sub>, then this is a <strong>miss</strong>
+                (Type II error).
+                """
+    }
+    ctx1 = Chi2GoodnessOfFitData(seed = seed, **ctx1_args)
+    ctx1.show(fname='show')
+    ctx1.hist(fname='show')   
+    print(ctx1.expected.latex())
+    print(ctx1.expected.html())
     
     ctx = Chi2GoodnessOfFitData()
     ctx.show(fname='show')
     ctx.hist(fname='show')
    
     print(ctx.expected.latex())
-    tbl, sty = ctx.expected.html()
-    print(sty + tbl)
+    print(ctx.expected.html())
 
     print(ctx.observed.latex())
-    tbl, sty = ctx.observed.html()
-    print(sty + tbl)    
+    print(ctx.observed.html())    
     
-    print(ctx.oe.latex())
-    tbl, sty = ctx.oe.html()
-    print(sty + tbl)
+    
