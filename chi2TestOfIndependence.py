@@ -403,8 +403,8 @@ class Chi2TestOIndependence(object):
         
 if __name__ == "__main__":
     
-    a_type = 'MC'
-    fmt = 'latex'
+    a_type = 'preview'
+    fmt = 'html'
     seed = 44
       
     def gen_ctx(seed = seed):
@@ -414,57 +414,51 @@ if __name__ == "__main__":
         
         # A non default context with a little randomness thrown into
         # the distributions.
-        story = """
-            An online survey company puts out a poll asking people two questions. 
-            First, it asks if they buy physical CDs. Second, it asks whether they 
-            own a smartphone. The company wants to determine if buying physical 
-            CDs depends on owning a smartphone.
-            """
         
-        cd_phone1 = [.1, .9]
+        # Here is a second context
+    
+        cd_phone1 = [.2, .8]
         cd_phone2 = [.3, .7]
         cd_no_phone1 = [.4, .6]
-        cd_no_phone2 = [.5,.5]
+        cd_no_phone2 = [.5, .5]
         
-        s_sizes = [random.randint(40, 100), random.randint(10, 50)]
+        ctx_phone_cd_args = {
+            'story':"""
+                An online survey company puts out a poll asking people two questions. 
+                First, it asks if they buy physical CDs. Second, it asks whether they 
+                own a smartphone. The company wants to determine if buying physical 
+                CDs depends on owning a smartphone.
+                """,
+                's_sizes':[random.randint(40, 100), random.randint(10, 50)],
+                'rows':['Smartphone', 'No smartphone'],
+                'cols':['CD', 'No CD'],
+                'row_dists':[random.choice([cd_phone1, cd_phone2]), 
+                             random.choice([cd_no_phone1, cd_no_phone2])]
+        }
         
-        rows = ['Smartphone', 'No smartphone']
-        cols = ['CD', 'No CD']
-
-        row_dists = [random.choice([cd_phone1, cd_phone2]), 
-                     random.choice([cd_no_phone1, cd_no_phone2])]        
-        
-        ctx_phone_cd = Chi2TestOfIndependenceData(seed = seed,
-                            story = story, 
-                            rows = rows, 
-                            cols = cols, 
-                            s_sizes = s_sizes, 
-                            row_dists = row_dists)
-            
+        ctx_phone_cd = Chi2TestOfIndependenceData(seed = 42, 
+                                                  **ctx_phone_cd_args)
             
         # A default context where an initial set of observations is given
         # instead of the row distributions.
-        story = """
-            Assume that a student's gender and whether he or she enjoys math 
-            are independent. What frequencies would we expect in that case? 
-            
-            A survey was given to 85 students in a Basic Algebra course, 
-            with the following responses to the statement "I enjoy math."              
-            """
+        Men = random.randint(35, 45)
+        ctx_gender_math_args = {
+            'story':"""
+                Assume that a student's gender and whether he or she enjoys math 
+                are independent. What frequencies would we expect in that case? 
+                
+                A survey was given to 85 students in a Basic Algebra course, 
+                with the following responses to the statement "I enjoy math."              
+                """,
+            'data':[[9,13,5,4,2],[12,18,11,6,5]],    
+            'rows':['Men', 'Women'],
+            'cols':['Strongly Agree', 'Agree', 'Nuetral', 'Disagree', 
+                'Strongly Disagree'],
+            's_sizes':[Men, 85 - Men]
+        }
 
-        data = [[9,13,5,4,2],[12,18,11,6,5]]  
-        rows = ['Men', 'Women']
-        cols = ['Strongly Agree', 'Agree', 'Nuetral', 'Disagree', 
-                'Strongly Disagree']   
-        M = random.randint(35, 45)
-        s_sizes = [M, 85 - M]
-        
         ctx_gender_math = Chi2TestOfIndependenceData(seed = seed,
-                            story = story, 
-                            rows = rows, 
-                            cols = cols, 
-                            s_sizes = s_sizes, 
-                            data = data)
+                        **ctx_gender_math_args)
             
         return [ctx, ctx_phone_cd, ctx_gender_math] # , ctx_phone_cd]
 

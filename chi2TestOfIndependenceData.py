@@ -166,7 +166,8 @@ class Chi2TestOfIndependenceData(object):
         self.hash = 17
         
 
-    def gen_data(self, row_dists = None, data = None, threash = 1.0):
+    def gen_data(self, row_dists = None, data = None, 
+                 threshold = 1.0, count = 0):
         """
         There are two opions
         
@@ -190,6 +191,11 @@ class Chi2TestOfIndependenceData(object):
             row_dists will be determined and in each problem a new set of data
             will be produced based on these dists.
         """
+        
+        if count > 200:
+            raise ValueError("Problem generating data with valid cell count.") 
+            
+            
         if data is not None:
             # It is assumed in this case that row_dists  is None
             data = np.array(data)
@@ -204,14 +210,17 @@ class Chi2TestOfIndependenceData(object):
                 
         data = np.array([[np.sum(dat == i) for i in self.cols] for dat in data])
         
-        if not self.is_valid(threash, data):
-            warnings.warn("The cell counts are too small! Regenerating dataset.")
-            return self.gen_data(row_dists = row_dists, data = None)
+        if  self.is_valid(threshold, data):
+            return data, row_dists
+            
+           
+        return self.gen_data(row_dists = row_dists, data = None, 
+                             threshold = threshold, count = count + 1)
         
-        return data, row_dists
         
-    def is_valid(self, threashold, data):
-        return np.sum(data > 4)/data.size >= threashold and np.all(data > 0)
+        
+    def is_valid(self, threshold, data):
+        return np.sum(data > 4)/data.size >= threshold and np.all(data > 0)
 
     def get_counts(self, data):
         return np.array([[np.sum(trial == i) \
@@ -337,40 +346,37 @@ if __name__ == "__main__":
     
     
     # Basically a default context with fixed row sizes and distribuions
-    ctx = Chi2TestOfIndependenceData(s_sizes = [30,30,30],
+    
+    # If you want to test the validity error code change the 100's to 30's
+    ctx = Chi2TestOfIndependenceData(s_sizes = [100,100,100],
                                      data = [[6,6,6,12],[12,6,6,6],[10, 10, 8, 2]],
                                      seed = 42);
     
     
     
     # Here is a second context
-    story = """
-    An online survey company puts out a poll asking people two questions. 
-    First, it asks if they buy physical CDs. Second, it asks whether they 
-    own a smartphone. The company wants to determine if buying physical 
-    CDs depends on owning a smartphone.
-    """
-
+    
     cd_phone1 = [.2, .8]
     cd_phone2 = [.3, .7]
     cd_no_phone1 = [.4, .6]
     cd_no_phone2 = [.5, .5]
     
-    s_sizes = [random.randint(40, 100), random.randint(10, 50)]
+    ctx_phone_cd_args = {
+        'story':"""
+            An online survey company puts out a poll asking people two questions. 
+            First, it asks if they buy physical CDs. Second, it asks whether they 
+            own a smartphone. The company wants to determine if buying physical 
+            CDs depends on owning a smartphone.
+            """,
+            's_sizes':[random.randint(40, 100), random.randint(10, 50)],
+            'rows':['Smartphone', 'No smartphone'],
+            'cols':['CD', 'No CD'],
+            'row_dists':[random.choice([cd_phone1, cd_phone2]), 
+                         random.choice([cd_no_phone1, cd_no_phone2])]
+    }
     
-    rows = ['Smartphone', 'No smartphone']
-    cols = ['CD', 'No CD']
-    
-    row_dists = [random.choice([cd_phone1, cd_phone2]), 
-                 random.choice([cd_no_phone1, cd_no_phone2])]
-    ctx_phone_cd = Chi2TestOfIndependenceData(story = story, 
-                    rows = rows, 
-                    cols = cols, 
-                    s_sizes = s_sizes, 
-                    row_dists = row_dists,
-                    seed = 42)
+    ctx_phone_cd = Chi2TestOfIndependenceData(seed = 42, **ctx_phone_cd_args)
      
-
     ctx.show(fname = 'show')
     print(ctx.story)   
     

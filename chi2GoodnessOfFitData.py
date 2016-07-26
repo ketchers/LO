@@ -143,7 +143,8 @@ class Chi2GoodnessOfFitData(object):
             This says determine the percentage of cells that must have 
             count > 4. 
         """
-        if count > 20:
+        if count > 200:
+            print(count)
             raise ValueError("Problem generating data with valid cell count.") 
             
         sample = np.random.choice(self.outcomes, self.s_size, 
