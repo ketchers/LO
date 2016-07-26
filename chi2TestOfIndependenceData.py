@@ -122,9 +122,7 @@ class Chi2TestOfIndependenceData(object):
         self.row_dists = row_dists
         self.observed = data
         self.obs_marg = self.add_marginals(self.observed)
-                
-        
-        
+                    
         self.row_name = getattr(context, 'row_name', row_name)
         self.col_name = getattr(context, 'col_name', col_name)
         
