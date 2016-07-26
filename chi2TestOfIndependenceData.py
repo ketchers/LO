@@ -29,6 +29,35 @@ class Chi2TestOfIndependenceData(object):
     a sample will be draw from each distribution to fill out the table. The 
     question is "Is outcome i independent of which distribution it is drawn 
     from?" Clearly there is a lot of flexibility in setting up such problems.
+    
+    
+    In general the following parameters should be passed by name:
+    
+    
+    Parameters:
+    ----------
+    seed    : None or int
+        This is just to make the geeneration somewhat repeatable.
+    story   : String
+        A description of the context for the problem.
+    row_name: String
+        This is a general desctiption of the rows. For example "age".
+    rows    : ['row header 1', 'row header 2', ...]
+        These are the row headers for the tables. For example ['19 - 25', ...]
+    row_name: String
+        This is a general description of columns. For example "food preference"
+    cols    : ['col header 1', 'col header 2', ...]
+        These are the column headers for the tables. For example ['pizza', ...]
+    s_sizes   : [int, int, ...] (length = num rows)
+        Sample sizes for each row.
+    row_dists : ['distribution', 'distribution', ...] (length = number of rows)
+        row_dists[i] is the ditribution from which a sample of size s_size[i]
+        will be drawn for the observed data. Either data or row_dists 
+        should be initialized as None.
+    data      : array of ints
+        This wouls be an actual set of obsevered values. Either data or 
+        row_dists should start as None.
+    
     """
    
     
@@ -40,6 +69,7 @@ class Chi2TestOfIndependenceData(object):
         
         context = dict_to_obj(kwargs)
         
+        # Default context
         col_dict = {'colors':['red','blue','green','orange'],
             'foods':['pizza', 'burger','hotdog','sushi']}
 
@@ -53,14 +83,6 @@ class Chi2TestOfIndependenceData(object):
         row_name = random.choice(row_dict.keys())
         rows = row_dict[row_name]
         
-        a_level = random.choice([0.01, 0.05, 0.1])
-        
-        story = """
-                A group of adults was asked about their preference in %s. The
-                participants were put into categories by %s. Test at the level
-                $_\\alpha = %.2f$_ whether %s and %s are independent.
-                """%(col_name, row_name, a_level, col_name, row_name)
-                
         # Just a few dists for the default case
         d1 = np.ones(4) * 1/4 # Uniform
         d2 = np.array([.1,.3,.4,.2]) # Some "bell shaped" dist
@@ -69,6 +91,39 @@ class Chi2TestOfIndependenceData(object):
         # We will use the first 3 dists
         dists = [d1]*4  + [d2] + [d3] + [d4]
         random.shuffle(dists)
+        
+        a_level = random.choice([0.01, 0.05, 0.1])
+        
+        story = """
+                A group of adults was asked about their preference in %s. The
+                participants were put into categories by %s. Test at the level
+                $_\\alpha = %.2f$_ whether %s and %s are independent.
+                """%(col_name, row_name, a_level, col_name, row_name)
+        # End default context
+                
+        self.cols = getattr(context, 'cols', cols)
+        self.rows = getattr(context, 'rows', rows)
+        
+        # Choose sizes in each category
+        self.s_sizes = getattr(context, 's_sizes', 
+                        [random.randint(20,60) for i in range(len(self.rows))])
+        
+
+        data = getattr(context, 'data', None)
+        row_dists = getattr(context, 'row_dists', None)
+        if data is not None:
+            data, row_dists = self.gen_data(data = data, row_dists = None)
+        elif row_dists is not None:
+            data, row_dists = self.gen_data(data = None, row_dists = row_dists)
+        else:
+            data, row_dists = self.gen_data(data = None, 
+                                       row_dists = dists[:len(self.rows)])
+        
+        self.row_dists = row_dists
+        self.observed = data
+        self.obs_marg = self.add_marginals(self.observed)
+                
+        
         
         self.row_name = getattr(context, 'row_name', row_name)
         self.col_name = getattr(context, 'col_name', col_name)
@@ -83,36 +138,7 @@ class Chi2TestOfIndependenceData(object):
         self.null = getattr(context, 'null', null)
         self.alternative = getattr(context, 'alternative', alternative)
        
-        self.cols = getattr(context, 'cols', cols)
-        self.rows = getattr(context, 'rows', rows)
-       
         self.a_level = getattr(context, 'a_level', a_level)
-        
-       
-        self.row_dists = getattr(context, 'row_dists', dists[:len(self.rows)])
-        # Choose sizes in each category
-        self.s_sizes = getattr(context, 's_sizes', 
-                        [random.randint(20,60) for i in range(len(self.rows))])
-        
-        
-        self.cols = getattr(context, 'cols', cols)
-        self.rows = getattr(context, 'rows', rows)        
-
-        # The data default is a table 3 rows 4 columns each
-        data = [np.random.choice(self.cols, (1, self.s_sizes[i]), 
-                                 p = self.row_dists[i]).flatten() 
-                for i in range(len(self.rows))]
-                    
-        data = np.array([[np.sum(dat == i) for i in self.cols] for dat in data])
-        
-        self.observed = np.array(getattr(context, 'data', data))
-        self.obs_marg = self.add_marginals(self.observed)
-        
-        THREASH = 1.00 # 0.8 is common
-        self.is_valid = np.sum(self.observed > 4)/self.observed.size >= THREASH \
-            and np.all(self.observed > 0)
-        if not self.is_valid:
-            warnings.warn("The cell counts are too small!")
         
         self.probs = self.obs_marg / self.obs_marg[-1,-1]
         
@@ -139,6 +165,54 @@ class Chi2TestOfIndependenceData(object):
 
         self.hash = 17
         
+
+    def gen_data(self, row_dists = None, data = None, threash = 1.0):
+        """
+        There are two opions
+        
+        (1) User supplied data. In this case row_dists are generted from 
+        supplied data and these are used for sampling.
+        
+        (2) User supplied row_dists. In this case these are used for sampling.
+        
+        In either case validity is checked, based on THREASH and if the data 
+        is invalid, a new set is generated.
+        
+        
+        Parameters:
+        ----------
+        row_dists : ['row1 distribution', 'row2 distribution', ...]
+            A distribution is a sequence of non-negative numbers 
+            which sum to 1.
+        data      : array of shape num_rows x num_cols 
+                    (list of lists or numpy array)
+            This would be an actual set of obseved values. From this the 
+            row_dists will be determined and in each problem a new set of data
+            will be produced based on these dists.
+        """
+        if data is not None:
+            # It is assumed in this case that row_dists  is None
+            data = np.array(data)
+            row_dists = data / data.sum(axis = 1).reshape(data.shape[0], 1)
+        
+        # it is assumed here that now row_dists is not None
+    
+        data = [np.random.choice(self.cols, (1, self.s_sizes[i]), 
+                                 p = row_dists[i]).flatten() 
+                                     for i in range(len(self.rows))]
+                                         
+                
+        data = np.array([[np.sum(dat == i) for i in self.cols] for dat in data])
+        
+        if not self.is_valid(threash, data):
+            warnings.warn("The cell counts are too small! Regenerating dataset.")
+            return self.gen_data(row_dists = row_dists, data = None)
+        
+        return data, row_dists
+        
+    def is_valid(self, threashold, data):
+        return np.sum(data > 4)/data.size >= threashold and np.all(data > 0)
+
     def get_counts(self, data):
         return np.array([[np.sum(trial == i) \
              for i in range(len(self.cols)*len(self.rows))] \
@@ -263,8 +337,8 @@ if __name__ == "__main__":
     
     
     # Basically a default context with fixed row sizes and distribuions
-    ctx = Chi2TestOfIndependenceData(s_sizes = [100,100,100],
-                                     row_dists=[np.ones(4)*.25]*3,
+    ctx = Chi2TestOfIndependenceData(s_sizes = [30,30,30],
+                                     data = [[6,6,6,12],[12,6,6,6],[10, 10, 8, 2]],
                                      seed = 42);
     
     
@@ -308,6 +382,6 @@ if __name__ == "__main__":
     print(ctx.expected_table.latex())
 
             
-    ctx_phone_cd.show(fname = 'show')
-    print(ctx_phone_cd.story)
+    #ctx_phone_cd.show(fname = 'show')
+    #print(ctx_phone_cd.story)
     

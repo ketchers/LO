@@ -403,17 +403,17 @@ class Chi2TestOIndependence(object):
         
 if __name__ == "__main__":
     
-    a_type = 'preview'
-    fmt = 'html'
+    a_type = 'MC'
+    fmt = 'latex'
     seed = 44
       
     def gen_ctx(seed = seed):
-        
+
+        # Default context        
         ctx = Chi2TestOfIndependenceData(seed = seed)        
-        while not ctx.is_valid:
-            seed += 1
-            ctx = Chi2TestOfIndependenceData(seed = seed)   
         
+        # A non default context with a little randomness thrown into
+        # the distributions.
         story = """
             An online survey company puts out a poll asking people two questions. 
             First, it asks if they buy physical CDs. Second, it asks whether they 
@@ -431,7 +431,8 @@ if __name__ == "__main__":
         rows = ['Smartphone', 'No smartphone']
         cols = ['CD', 'No CD']
 
-        row_dists = [random.choice([cd_phone1, cd_phone2]), random.choice([cd_no_phone1, cd_no_phone2])]        
+        row_dists = [random.choice([cd_phone1, cd_phone2]), 
+                     random.choice([cd_no_phone1, cd_no_phone2])]        
         
         ctx_phone_cd = Chi2TestOfIndependenceData(seed = seed,
                             story = story, 
@@ -440,7 +441,32 @@ if __name__ == "__main__":
                             s_sizes = s_sizes, 
                             row_dists = row_dists)
             
-        return [ctx, ctx_phone_cd] # , ctx_phone_cd]
+            
+        # A default context where an initial set of observations is given
+        # instead of the row distributions.
+        story = """
+            Assume that a student's gender and whether he or she enjoys math 
+            are independent. What frequencies would we expect in that case? 
+            
+            A survey was given to 85 students in a Basic Algebra course, 
+            with the following responses to the statement "I enjoy math."              
+            """
+
+        data = [[9,13,5,4,2],[12,18,11,6,5]]  
+        rows = ['Men', 'Women']
+        cols = ['Strongly Agree', 'Agree', 'Nuetral', 'Disagree', 
+                'Strongly Disagree']   
+        M = random.randint(35, 45)
+        s_sizes = [M, 85 - M]
+        
+        ctx_gender_math = Chi2TestOfIndependenceData(seed = seed,
+                            story = story, 
+                            rows = rows, 
+                            cols = cols, 
+                            s_sizes = s_sizes, 
+                            data = data)
+            
+        return [ctx, ctx_phone_cd, ctx_gender_math] # , ctx_phone_cd]
 
     
     prob = Chi2TestOIndependence(seed = seed)

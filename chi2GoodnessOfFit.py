@@ -272,12 +272,10 @@ class Chi2GoodnessOfFit(object):
             errs = [[er] for er in errors]
             choices = "<br><h2>Choices</h2><br>"
             tb = Table(errs, row_headers = ['Answer'] + ['Distractor']*4)
-            if fmt == 'html':
-                tbl = tb.html()
-            else:
-                tbl = tb.latex()
-                
-            choices += tbl                             
+         
+            # Choices need the richer html structure in preview.
+            choices += Table.get_style() + tb.html()   
+                        
             if fmt == 'html':
                 return question_stem + choices +  explanation
             else:
@@ -418,32 +416,39 @@ if __name__ == "__main__":
     
     a_type = 'preview'
     force = False
-    fmt = 'html'
+    fmt = 'latex'
     seed = 42
       
     def gen_ctx():
         ctx = Chi2GoodnessOfFitData(seed = seed) 
     
         #Here we sample from a non-uniform distribution for the die!
-        o_dist=[1/5, 1/5, 1/5, 1/5, 1/10, 1/10]
-        alternative="The die is not fair."
-        note="""
-            For this problem the truth is tha the die is not fair. \
-            If you accepted H<sub>0</sub>, then this is a <strong>miss</strong>
-            (Type II error).
-            """
-        ctx1 = Chi2GoodnessOfFitData(seed = seed, o_dist=o_dist,
-                                     alternative=alternative,
-                                     note=note)
+        ctx1_args = {
+            'o_dist':[1/5, 1/5, 1/5, 1/5, 1/10, 1/10],
+            'alternative':"The die is not fair.",
+            'note':"""
+                For this problem the truth is tha the die is not fair. \
+                If you accepted H<sub>0</sub>, then this is a <strong>miss</strong>
+                (Type II error).
+                """
+        }
+        
+        ctx1 = Chi2GoodnessOfFitData(seed = seed, **ctx1_args)
         
                 
         ######################################
-        # Pass the pigs game
-        outcomes =  ['Pink', 'Dot', 'Razorback', 'Trotter', 
+        # Pass the pigs game: Due to embedding the table in the story
+        # this one is a little harder to set up. The problem is that this 
+        # pollutes namespace for future contexts. 
+        
+         
+        # Append _ to avoid namespace pollution
+        _outcomes =  ['Pink', 'Dot', 'Razorback', 'Trotter', 
                      'Snouter', 'Leaning Jowler']
-        t_dist = [.35, .30, .20, .10, .04, .01]
-        tb = Table(t_dist, col_headers = outcomes, 
+        _t_dist = [.35, .30, .20, .10, .04, .01]
+        tb = Table(_t_dist, col_headers = _outcomes, 
                    row_headers = ['Position', 'Expected Frequency'])
+        
         if fmt == 'html':
             styles = Table.get_style()
             tbl = tb.html()
@@ -451,8 +456,14 @@ if __name__ == "__main__":
             styles = ""
             tbl = tb.latex()
         
-        s_size = random.randint(20, 30) * 10
-        story = """Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
+        _s_size = random.randint(20, 30) * 10
+        
+        ctx2_args = {
+            'outcome_type':'Position',
+            'outcomes':_outcomes,
+            't_dist':_t_dist,
+            's_size':_s_size,
+            'story':"""Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
                 essentially a dice game except that instead of dice players toss
                 small plastic pigs that can land in any of 6 positions. For example, 
                 you roll a trotter if the pig falls standing on all 4 legs. 
@@ -463,60 +474,47 @@ if __name__ == "__main__":
                 
                 To test this you toss a pig {s_size} times and get the observed 
                 frequencies below:
-                """.format(styles = styles, tbl = tbl, s_size = s_size)
-        null = "The observed values of the positions of the pigs agrees with \
-            the expected distribution."
-        alternative = "The observed values of the positions of the pigs \
+                """.format(styles = styles, tbl = tbl, s_size = _s_size),
+            'null':"The observed values of the positions of the pigs agrees with \
+            the expected distribution.",
+            'alternative':"The observed values of the positions of the pigs \
             differs from what should be the case if the expected distribution\
-            was correct."
+            was correct.",
+            'note':"""
+                In this case the observed was samples from the given
+                theoretical distribution. So if you rejected the null, this
+                is a Type-I error, a false positive.
+                """
+        }
         
-        ctx2 = Chi2GoodnessOfFitData(seed = seed,
-            outcome_type = 'Position',
-            outcomes = outcomes,
-            t_dist = t_dist,
-            s_size = s_size,
-            a_level = random.choice([0.1,0.01,0.05]),
-            story = story,
-            null = null,
-            alternative=alternative,
-            note=note)
+        ctx2 = Chi2GoodnessOfFitData(seed = seed, **ctx2_args)
         
-        while not ctx2.is_valid:
-            ctx2 = Chi2GoodnessOfFitData(
-            outcome_type = 'Position',
-            outcomes = outcomes,
-            t_dist = t_dist,
-            s_size = random.randint(10, 20) * 10,
-            a_level = random.choice([0.1,0.01,0.05]),
-            story = story)
+       
             
         ###########################################
         ## 11.2 from text
-        outcomes = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
-                    'Friday', 'Saturday']
-        t_dist = np.ones(7) * 1/7
         s_size = random.randint(5, 10) * 10
-        story = """
-              Teachers want to know which night each week their students are 
-              doing most of their homework. Most teachers think that students 
-              do homework equally throughout the week. Suppose a random sample 
-              of %s students were asked on which night of the week they 
-              did the most homework. The results were distributed as in  
-        """ % s_size
-        null = "Students are equally likely to do the majority of their \
-            homework on any of the seven nights of the week."
-        alternative = "Students are more likely to do the majority of their \
+        ctx3_args = {
+            'outcomes':['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+                    'Friday', 'Saturday'],
+            't_dist':np.ones(7) * 1/7,
+            's_size':s_size,
+            'a_level': random.choice([0.1,0.01,0.05]),
+            'outcome_type':'Day of Week',
+            'story':"""
+                  Teachers want to know which night each week their students are 
+                  doing most of their homework. Most teachers think that students 
+                  do homework equally throughout the week. Suppose a random sample 
+                  of %s students were asked on which night of the week they 
+                  did the most homework. The results were distributed as in  
+                  """ % s_size,
+            'null':"Students are equally likely to do the majority of their \
+            homework on any of the seven nights of the week.",
+            'alternative':"Students are more likely to do the majority of their \
             homework on certain nights rather than others."
+        }
             
-        ctx3 = Chi2GoodnessOfFitData(seed = seed,
-            outcome_type='Day of Week',
-            outcomes = outcomes,
-            t_dist = t_dist,
-            s_size = s_size,
-            a_level = random.choice([0.1,0.01,0.05]),
-            story = story,
-            null = null,
-            alternative=alternative)
+        ctx3 = Chi2GoodnessOfFitData(seed = seed, **ctx3_args)
             
         return [ctx, ctx1, ctx2, ctx3]
             
