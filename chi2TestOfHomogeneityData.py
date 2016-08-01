@@ -54,11 +54,17 @@ class Chi2TestOfHomogeneityData(object):
         Sample sizes for each row.
     row_dists : ['distribution', 'distribution', ...] (length = number of rows)
         row_dists[i] is the ditribution from which a sample of size s_size[i]
-        will be drawn for the observed data. Either data or row_dists 
-        should be initialized as None.
+        will be drawn for the observed data. It is assumed that
+        either 'data' or 'row_dists' has the value None at initialization.
     data      : array of ints
-        This wouls be an actual set of obsevered values. Either data or 
-        row_dists should start as None.
+        This would be an actual set of obsevered values. It is assumed that
+        either 'data' or 'row_dists' has the value None at initialization.
+    null: String
+        A description of the null hypothesis
+    alternative:
+        A description of the alternative hypothesis
+    note: String
+        Additional note to include in explanation.
     
     """
    
@@ -105,8 +111,13 @@ class Chi2TestOfHomogeneityData(object):
                 is the same for all %s.
                 """%(col_name, row_name, a_level, col_name, row_name)
        
+        self.outcome_type = getattr(context, 'outcome_type', None)
+        
         self.cols = getattr(context, 'cols', cols)
         self.rows = getattr(context, 'rows', rows)
+        if self.outcome_type is not None:
+            self.rows = [self.outcome_type] + self.rows
+        
         
         # Choose sizes in each category
         self.s_sizes = getattr(context, 's_sizes', 
@@ -156,7 +167,7 @@ class Chi2TestOfHomogeneityData(object):
         
         self.df = (data.shape[0] - 1) * (data.shape[1] - 1)        
                 
-        self.note = getattr(context,'note',"") 
+        self.note = getattr(context,'note', None) 
         
         self.observed_table = Table(self.observed, row_headers = self.rows,
                                     col_headers = self.cols)
@@ -333,18 +344,22 @@ class Chi2TestOfHomogeneityData(object):
         plt.close()
         return fname
         
+    def __repr__(self):
+        ls = list(self.__dict__)
+        ls.sort()
+        ls = [(it, repr(self.__dict__[it])) for it in ls if \
+            it not in ['expected_table', 'observed_table', 'obs_marg_table']]
+        return repr(ls)
+        
     def __hash__(self):
         if self.hash == 17:
-            ls = list(self.__dict__)
-            ls.sort()
-            ls = [(it, self.__dict__[it]) for it in ls]
-            self.hash = np.abs(hash(repr(ls)))
+            self.hash = np.abs(hash(repr(self)))
         return self.hash
         
     def __eq__ (self, other):
         if type(self) is not type(other):
             return False
-        return self.__dict__ == other.__dict__
+        return self.__repr__() == other.__repr__()
         
     def __neq__ (self, other):
         return not self.__eq__(other)

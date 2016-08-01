@@ -172,7 +172,7 @@ class Chi2GoodnessOfFit(object):
             explanation += "<br><h2>Explanation</h2><br>"
             
         tb1 = Table(context.t_dist, col_headers = context.outcomes,
-                    row_headers = ['Probabilities'])
+                    row_headers = [context.outcome_type, 'Probabilities'])
                     
         if fmt == 'html':                    
                         
@@ -206,10 +206,13 @@ class Chi2GoodnessOfFit(object):
             img = html_image(fname, width = '300px', 
                              preview = (a_type == 'preview'))
             
-            caption = "Lightshading (right of the red line) indicates the \
-                p-value.<br>\
-                The darker shading indicate the $_\\alpha = $_ {a_level:.0%} \
-                level.".format(a_level = context.a_level)
+            caption = """
+                Lightshading (right of the red line) indicates the \p-value.
+                <br>
+                The darker shading indicate the $_\\alpha = $_ {a_level:.0%} 
+                level.<br>
+                The background histogram is a bootstrap sampling distribution.
+                """.format(a_level = context.a_level)
             explanation +="""
             The p-value for this data is:
                 $$\\text{p-value} = P(\\chi^2_{%s} > %.3g) = %.4g%s$$
@@ -224,13 +227,6 @@ class Chi2GoodnessOfFit(object):
                 </div>
             </div>
             """ % (df, context.chi2_stat, p_val * 100, '\\%', img, caption)
-            explanation += """
-                <div class='par'>The lightly shaded histogram represents a sampling distribution
-                of 5000 sample $_\chi^2$_-statistics where the  samples are 
-                of the same size as the given observed data (%s observations).
-                This indicate how well the $_\chi^2$_-distributions is capturing
-                the actual sampling distribution for this experiment.</div>
-                """ % context.s_size
         
         
         if q_type == 'HT':
@@ -414,7 +410,7 @@ class Chi2GoodnessOfFit(object):
         
 if __name__ == "__main__":
     
-    a_type = 'preview'
+    a_type = 'MC'
     force = False
     fmt = 'latex'
     seed = 42
@@ -463,11 +459,12 @@ if __name__ == "__main__":
             'outcomes':_outcomes,
             't_dist':_t_dist,
             's_size':_s_size,
-            'story':"""Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
-                essentially a dice game except that instead of dice players toss
-                small plastic pigs that can land in any of 6 positions. For example, 
-                you roll a trotter if the pig falls standing on all 4 legs. 
-                It is claimed that the distribution for the 6 positions are:
+            'story':"""Pass The Pigs&reg; is a game from Milton-Bradley&#8482; 
+                which is essentially a dice game, except that instead of dice 
+                players toss small plastic pigs that can land in any of 6 
+                positions. For example, you roll a 'trotter' if the pig falls 
+                standing on all 4 legs. It is claimed that the distribution
+                for the 6 positions are:
                 
                 {styles}
                 {tbl}            
@@ -475,15 +472,16 @@ if __name__ == "__main__":
                 To test this you toss a pig {s_size} times and get the observed 
                 frequencies below:
                 """.format(styles = styles, tbl = tbl, s_size = _s_size),
-            'null':"The observed values of the positions of the pigs agrees with \
-            the expected distribution.",
+            'null':"The observed values of the positions of the pigs agrees \
+            with the expected distribution.",
             'alternative':"The observed values of the positions of the pigs \
             differs from what should be the case if the expected distribution\
             was correct.",
             'note':"""
-                In this case the observed was samples from the given
-                theoretical distribution. So if you rejected the null, this
-                is a Type-I error, a false positive.
+                In this case the observed data was sampled from the given
+                distribution. So if the null hypothesis is rejected, this
+                is <string>a Type-I error</strong> or <strong>a false 
+                positive</strong>.
                 """
         }
         

@@ -10,7 +10,8 @@ import numpy as np
 import matplotlib as mpl
 import pylab as plt
 from R_tools import make_func
-from html_tools import html_image, make_table
+from html_tools import html_image
+from table import Table
 
 sys.path.append('finished')
 x, y, z = sym.symbols('x,y,z')
@@ -24,15 +25,17 @@ class Hyperbola(object):
     Parameters:
     ----------
 
-    a,b: numeric or lst[numeric]
+    a,b   : numeric or lst[numeric]
         2a is the length of the transverse axis and 2b is the length of the
         conjugate axis.
-    h,k: numeric or list[numeric]
+    h,k   : numeric or list[numeric]
         (h,k) is the center of the hyperbola.
-    c: numeric
+    c     : numeric
         c is the focal length.
-    trans: 'x' (or 'y')
+    trans : 'x' (or 'y')
         Which axis is the transversal (major axis) parallel to?
+    fmt   : String ('latex' or 'html')
+        Use 'latex' or 'html' for formatting.
     """
     
     cache = set()
@@ -43,7 +46,8 @@ class Hyperbola(object):
                 c = None,
                 h = range(-5,5)+[0,0,0], 
                 k = range(-5,5) + [0,0,0], 
-                trans = ['x', 'y'], latex = False, include_one = False):
+                trans = ['x', 'y'], latex = False, 
+                include_one = False, fmt = 'latex'):
 
     
   
@@ -274,8 +278,8 @@ class Hyperbola(object):
             
             
     def explanation(self, path = 'explanations', 
-                expanded = True, preview = False,                     
-                force = False, xkcd = False):
+                expanded = True, a_type = 'preview',                     
+                force = False, xkcd = False, fmt = 'latex'):
         """
         Provides an explanation of the hyperbola.
     
@@ -285,15 +289,21 @@ class Hyperbola(object):
             The output directory for image files
         file_name : str
             The name of output file without extension.
-        preview   : Boolean
-            If true thing are set up for peviewing. (Images, ...)
+        a_type   : Strint ('MC', 'preview')
+            If 'preview', then set up for previewing.
+        fmt       : String ('html', 'latex')
+            If 'latex' us MathJax, if 'html' use CSS tables.
         """
-        ex = ""
+        
+        if fmt == 'html':
+            ex = Table.get_style()
+        else:
+            ex = ""
     
     
         file_name = path + "/" + self.url + ".png"
     
-        if preview:
+        if a_type == 'preview':
             file_name = file_name.replace('%2','%252')
     
     
@@ -388,17 +398,17 @@ class Hyperbola(object):
         ex += "From this we can read off the center to be at $_(h,k) = (%s, %s)$_. "\
             % (H,K)
     
-        ex += "The tansverse (major) axis is along $_%s = %s$_ and has length $_2a = %s$_."\
+        ex += "The tansverse (major) axis is along $_%s = %s$_ and has length $_2a = %s$_. "\
             % (sym.latex(Y), K, 2*A)
     
-        ex += "The vertices are $_(%s, %s) = (%s,%s)$_ and $_(%s, %s) = (%s, %s)$_."\
+        ex += "The vertices are $_(%s, %s) = (%s,%s)$_ and $_(%s, %s) = (%s, %s)$_. "\
             % (sym.latex(h - a * TX), sym.latex(k - a * TY), H - A * TX, K - A * TY,
                sym.latex(h + a * TX), sym.latex(k + a * TY), H + A * TX, K + A * TY)
     
         ex += "The conjugate (minor) axis is along $_%s = %s$_ and has length \
-              $_2b = %s$_." % (sym.latex(Y), H, 2*B)
+              $_2b = %s$_. " % (sym.latex(Y), H, 2*B)
     
-        ex += "The co-vertices are $_(%s, %s) = (%s,%s)$_ and $_(%s, %s) = (%s, %s)$_."\
+        ex += "The co-vertices are $_(%s, %s) = (%s,%s)$_ and $_(%s, %s) = (%s, %s)$_. "\
             % (sym.latex(h - B * (1 - TX)), sym.latex(k - B * (1 - TY)), 
                     H - B * (1 - TX), K - B * (1 - TY), 
                     sym.latex(h + B * (1 - TX)), sym.latex(k + B * (1 - TY)), 
@@ -411,7 +421,7 @@ class Hyperbola(object):
                     sym.Abs(K))
     
         ex += "Finally, the focal length is $_c = \\sqrt{a^2+b^2}=%s$_ and the foci \
-            are located at $_(%s, %s) = (%s,%s)$_ and $_(%s, %s) = (%s, %s)$_."\
+            are located at $_(%s, %s) = (%s,%s)$_ and $_(%s, %s) = (%s, %s)$_. "\
             % (sym.latex(C),
                     sym.latex(h - c * TX), sym.latex(k - c * TY), 
                     sym.latex(H - C * TX), sym.latex(K - C * TY), 
@@ -419,8 +429,10 @@ class Hyperbola(object):
                     sym.latex(H + C * TX), sym.latex(K + C * TY))
     
     
-        tbl, style = make_table(None, None, False, 
-            [
+        
+            
+        
+        data =  [
                 ['center', '$_(%s, %s)$_' % (H, K)],
                 ['vertices', '$_(%s, %s), (%s, %s)$_' \
                     % tuple(map(sym.latex, [H - A * TX, K - A * TY, 
@@ -438,10 +450,18 @@ class Hyperbola(object):
                                             "+" if K > 0 else "-",
                                             sym.Abs(K)]))] 
     
-            ])
+            ]
+        
+        tb = Table(data)
+        
+        if fmt == 'latex':
+            tbl = tb.latex()
+        else:
+            tbl = tb.html()
     
     
-        img = html_image(image_url = file_name, width = '300px', preview = preview)
+        img = html_image(image_url = file_name, width = '300px', 
+                         preview = (a_type == 'preview'))
     
         ex +="""      
         %s
@@ -459,7 +479,7 @@ class Hyperbola(object):
                 </div>
             </div>
         </div>
-        """ % (style, img, self.latex, tbl)
+        """ % (Table.get_style(), img, self.latex, tbl)
     
     
         self.show(path = path, file_name = self.url, force = force, 
@@ -474,5 +494,5 @@ if __name__ == "__main__":
     path = 'hyperbola'
     h = Hyperbola(a=3,b=4,trans='x')
     print(h.show(path=path, label=True))      
-    print(h.explanation(path=path, preview=True))
+    print(h.explanation(path=path, a_type='preview', fmt='html'))
  
