@@ -30,31 +30,69 @@ class Table(object):
     Entries could be lists
     """
     
+    _cache = {}
+    
     def __init__(self, *entries, **kwargs):
         self.__dict__.update(kwargs) # This add fields for each kwarg
         self.col_headers = getattr(self, 'col_headers', None)
         self.row_headers = getattr(self, 'row_headers', None)
         self.container = getattr(self, 'container', True)
-        self.data = self.validate(entries)
-     
+        self.data = Table.validate(entries)
+        self.hash = 17
+        
+    def __new__(cls, *entries, **kwargs):
+        sig = list(kwargs)
+        sig.sort()
+        
+        data = Table.validate(entries)        
+        sig = repr(data) + repr([(key, str(kwargs[key])) for key in sig])
+        
+        try:
+            return Table._cache[sig]
+        except KeyError:
+            # you must call __new__ on the base class
+            x = super(Table, cls).__new__(cls)
+            #x.__init__(*entries, **kwargs)
+            Table._cache[sig] = x
+            return x
     
-
-    def validate(self, entries):
+    def __hash__(self):
+        if self.hash == 17:
+            ls = list(self.__dict__)
+            ls.sort()
+            ls = [(it, str(self.__dict__[it])) for it in ls]
+            self.hash = np.abs(hash(repr(ls)))
+        return self.hash
+        
+    def __eq__ (self, other):
+        if type(self) is not type(other):
+            return False
+        return np.all(np.array(self.col_headers) == \
+            np.array(other.col_headers)) and \
+            np.all(np.array(self.row_headers) == \
+            np.array(other.row_headers)) and \
+                np.all(np.array(self.data) == np.array(other.data))
+        
+    def __neq__ (self, other):
+        return not self.__eq__(other)
+    
+    @staticmethod
+    def validate(entries):
         """
         Do some checks to make sure the entreis are of the correct type.
         
         entries should be a list of lists, an array, ...
         """
-
-
+    
         if len(entries) > 1 and \
             all(map(lambda x: type(x) in [list, type(np.array([]))], entries)) and \
             all(map(lambda x: len(x) == len(entries[0]), entries)):
             data = list(entries)
         elif len(entries) > 1:
             data = [list(entries)]
-
+    
         if len(entries) == 1:
+           
             if type(entries[0]) is type(np.array([])) and\
                type(entries[0][0]) in [list, type(np.array([]))]:
                 data = list(entries[0])
@@ -67,10 +105,9 @@ class Table(object):
                 data = entries
             else:
                 raise ValueError("The data is ill formed.")
-
         return data
         
-
+    
     def build_rows_html(self):
         """
         This builds and returns the actual table.
@@ -81,11 +118,11 @@ class Table(object):
         row_headers = self.row_headers
         
         out_string = ""
-
+    
         row_len = len(data[0])
-
+    
         if col_headers is not None:
-
+    
             if row_headers is not None and len(col_headers) == row_len:
                 if len(row_headers) == len(data) + 1:
                     col_headers = [row_headers.pop(0)] + col_headers
@@ -93,7 +130,7 @@ class Table(object):
                     col_headers = [""] + col_headers
                 else:
                     raise ValueError("len(row_headers) should be #rows or #rows + 1")
-
+    
                      
             self.col_headers = col_headers
             self.row_headers = row_headers
@@ -104,7 +141,7 @@ class Table(object):
                 out_string += "\n\t<div class=\'cell-rk\'>%s</div>" % h
             
             out_string += "\n</div>\n"
-
+    
         for j in range(len(data)):
         
             out_string += "<div class=\'row-rk\'>" 
@@ -125,19 +162,19 @@ class Table(object):
         
         return out_string
                     
-
+    
     def build_rows_latex(self):
-
+    
         data = self.data
         col_headers = self.col_headers
         row_headers = self.row_headers
         
         out_string = ""
-
+    
         row_len = len(data[0])
-
+    
         if col_headers is not None:
-
+    
             if row_headers is not None and len(col_headers) == row_len:
                 if len(row_headers) == len(data) + 1:
                     col_headers = [row_headers.pop(0)] + col_headers
@@ -153,7 +190,7 @@ class Table(object):
             out_string += "\\\\ \\hline \n"
             
         for j in range(len(data)):   
-
+    
             if row_headers is not None:
                 out_string += "\\textbf{%s} & " % row_headers[j] + \
                     "&".join([("%.3g" % i if str(type(i)).find('float') != -1\
@@ -164,25 +201,25 @@ class Table(object):
                 .find('float') != -1 else "\\text{%s}" % i)\
                      for i in data[j]])
                 out_string += "\\\\ \\hline \n"
-
+    
         return out_string
         
     @staticmethod
     def get_style():
         style = """
         <style type="text/css">
-
+    
             .outer-container-rk {
                 display: block;
                 overflow-x: auto; 
             }
-
-
+    
+    
             .par {
                 margin: 10px;
                 padding: 5px;
             }
-
+    
             .centering-rk {
                 display: table;
                 margin: auto;
@@ -192,9 +229,9 @@ class Table(object):
                 border-color: rgba(200,100,200,.5);
                 border-radius: 10px;
                 padding: 5px;
-
+    
             }
-
+    
             .container-rk {
                 /*float: left;*/
                 display: inline-block;
@@ -206,42 +243,42 @@ class Table(object):
                 padding: 5px;
                 */
             }
-
-
-
+    
+    
+    
             .tbl-rk {
                 display: table;
             }
-
+    
             .row-rk {
                 display: table-row;
                 padding: 5px;
             }
-
+    
             .row-rk:nth-child(odd) {
                 background-color: rgba(200, 200, 200, .5);
             }
-
+    
             .head-rk {
                 display: table-header-group;
                 font-weight: bold;
             }
-
+    
             .cell-rk {
                 display: table-cell;
                 text-align: left;
                 vertical-align: middle;
                 padding: 5px;
             }
-
+    
             .rk {
                 margin: 5px;
             }
         </style>
-
+    
         """ 
         return style
-
+    
     def html(self):
         
         if self.container:
@@ -252,16 +289,16 @@ class Table(object):
                   """ 
         else:
             tbl = "<div class=\'tbl-rk\'>" 
-
-
+    
+    
         tbl += self.build_rows_html()
-
+    
         if self.container:
             tbl += "\n\t\t</div>\n\t</div>\n</div>\n<br>\n"
         else:
             tbl += "\n</div>\n<br>\n"
         return tbl
-
+    
     def latex(self):
         
         if self.row_headers is not None:
@@ -286,6 +323,9 @@ if __name__ == "__main__":
                      col_headers=["col1","col2",'col3'],
                      row_headers=['row1','row2','row3'])
         
+    tb2 = Table(np.array([[1,2,3],[4,5,6],[7,8,9]]),
+                     col_headers=["col1","col2",'col3'],
+                     row_headers=['row1','row2','row3'])
     style = Table.get_style()  
 
     print(style)
@@ -295,3 +335,8 @@ if __name__ == "__main__":
         
     print(tb1.html())
     print(tb1.latex())
+    
+    print(tb2.html())
+    print(tb2.latex())    
+    
+    print(tb1 == tb2)

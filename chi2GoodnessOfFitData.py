@@ -22,37 +22,78 @@ def dict_to_obj(dic):
 # You need to run the previous cell first!
 class Chi2GoodnessOfFitData(object):
     """
-    This is the data for a chi-square goodness of fit test. If initialized as
-      ctx = Chi2GoodnessOfFit(None)
-    then some defaults are used (see below). These can then be modified
-      ctx.outcomes = [u'\u2680', u'\u2681', u'\u2682', u'\u2683', u'\u2684', u'\u2685']
+    This is the data for a chi-square goodness of fit test. 
     
-    If initialized as:
+    Parameters:
+    ----------
+    outcomes: [String, String, ...]
+        This is a list of the possible outcomes of the experiment.
+    t_dist: [float, ... ] (sums to one)
+        This is the expected distribution.
+    o_dist: [float, ...] (sums to one)
+        This is the distribution from which observed values are drwan. 
+        This defaults to t_diat.
+    outcome_type: String
+        This is just a description of outcome type (e.g., 'Die Roll') for
+        use in tables.
+    s_size: int
+        Sample size.
+    a_level: float (between 0 and 1)
+        The alpha-level for NHST
+    story: String
+        A description of the problem.
+    null: String
+        A description of the null hypothesis
+    alternative:
+        A description of the alternative hypothesis
+    note: String
+        Additional note to include in explanation.
+    
+    Detailed Examples:
+    -----------------
+    
+    If initialized as
 
-    # Pass the pigs game
-    outcomes =  ['Pink', 'Dot', 'Razorback', 'Trotter', 'Snouter', 'Leaning Jowler']
-    t_dist = [.35, .30, .20, .10, .04, .01]
+      ctx = Chi2GoodnessOfFit(None)
+
+    the default context is generated, wherein, a die is tested for fairness. 
     
-    tbl, styles = make_table(outcomes, ['Position', 'Expected Frequency'],True, 
-                            t_dist)
+    Unicode symbols for die rolls can be used in place of numbers by simply 
+    using:
+      ctx.outcomes = [u'\u2680', u'\u2681', u'\u2682', u'\u2683', 
+                      u'\u2684', u'\u2685']
+                      
+    The default is to use a fair die, to use an unfair die the following will 
+    suffice:
     
-    story = \"""Pass The Pigs&reg; is a game from Milton-Bradley&#8482; which is 
-            essentially a dice game except that instead of dice players toss
-            small plastic pigs that can land in any of 6 positions. For example, 
-            you roll a trotter if the pig falls standind on all 4 legs. 
-            The expected for the 6 positions are:
-            
-            {styles}
-            {tbl}            
-            \""".format(styles = styles, tbl = tbl)
-            
-    ctx2 = Chi2GoodnessOfFitData(
-        outcomes = outcomes,
-        t_dist = t_dist,
-        s_size = random.randint(5, 20) * 6,
-        a_level = random.choice([0.1,0.01,0.05]),
-        story = story)
+        ctx.o_dist = [1/10, 1/10, 2/10, 2/10, 1/10, 3/10]
     
+    A more complicated example is given by:
+    
+    ###########################################
+    ## 11.2 from text
+    s_size = random.randint(5, 10) * 10
+    ctx3_args = {
+        'outcomes':['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+                'Friday', 'Saturday'],
+        't_dist':np.ones(7) * 1/7,
+        's_size':s_size,
+        'a_level': random.choice([0.1,0.01,0.05]),
+        'outcome_type':'Day of Week',
+        'story':\"""
+              Teachers want to know which night each week their students are 
+              doing most of their homework. Most teachers think that students 
+              do homework equally throughout the week. Suppose a random sample 
+              of %s students were asked on which night of the week they 
+              did the most homework. The results were distributed as in  
+              \""" % s_size,
+        'null':"Students are equally likely to do the majority of their \
+        homework on any of the seven nights of the week.",
+        'alternative':"Students are more likely to do the majority of their \
+        homework on certain nights rather than others."
+    }
+        
+    ctx3 = Chi2GoodnessOfFitData(seed = seed, **ctx3_args)
     """
    
     
@@ -66,7 +107,7 @@ class Chi2GoodnessOfFitData(object):
                         
         # We will have a default contex of testing for a fair die. The theoretical
         # distribution (t_dist) is [1/6,1/6,1/6,..]
-        self.outcome_type = getattr(context,'outcome_type','Die')
+        self.outcome_type = getattr(context,'outcome_type','Die Roll')
         self.outcomes = getattr(context, 'outcomes', range(1,7))
         self.t_dist = np.array(getattr(context, 't_dist', 1/6.0*np.ones(6)))
         # We have a default sample size (s_size) divisible by 6 so that all 
@@ -84,7 +125,7 @@ class Chi2GoodnessOfFitData(object):
         self.o_counts, self.sample  = self.gen_data(threshold = 1.0)        
         
         
-        # Sample distribution
+        # Add abbility of instances to generate tables
         self.expected = Table(self.t_counts, col_headers = self.outcomes,
                               row_headers = [self.outcome_type, 'Expected'])
         
@@ -95,14 +136,7 @@ class Chi2GoodnessOfFitData(object):
                         row_headers = [self.outcome_type, 'Expected', 'Observed'])
                 
         
-        
-        
-        
-        
-        if not self.is_valid:
-            warnings.warn("The cell counts are too small!")
-        
-        
+        # Sample distribution
         self.s_dist = self.o_counts/sum(self.o_counts)
         # Set alpha level (a_level)
         self.a_level = getattr(context, 'a_level', random.choice([.1,.05,.01]))
@@ -113,15 +147,29 @@ class Chi2GoodnessOfFitData(object):
                 being equally likely.")
         self.alternative =  getattr(context, 'alternative', "The die is not fair some\
             outcomes are more likely than others.")
-        self.note = getattr(context,'note',"""
-            The sample here was taken from the given expected distribution.
-            If you rejected the null, then this is a <strong>false 
-            positive</strong> (Type I error). 
-            """)
+            
+        self.note = getattr(context, 'note', None)
+        
+        if self.note is None:
+            if np.all(np.array(self.t_dist) == np.array(self.o_dist)):
+                self.note = getattr(context,'note',"""
+                    The sample here was taken from the given expected 
+                    distribution. If the null hypothesis is rejected, 
+                    then this is a <strong>false 
+                    positive</strong> (Type I error). 
+                    """)
+            else:
+                self.note = getattr(context,'note',"""
+                    The sample here was not taken from the given expected 
+                    distribution. If the null hypothesis is not rejected, 
+                    then this is a <strong>false 
+                    negative</strong> (Type II error). 
+                    """)
+            
         
 
         default_story = """
-            To test if a die is fair you roll the die
+            To test whether a die is fair roll the die
             {s_size} times with the following outcomes:
             """.format(s_size = self.s_size)
 
@@ -158,21 +206,24 @@ class Chi2GoodnessOfFitData(object):
         
     def is_valid(self, threshold, data):
         return sum(data - 4 > 0)/len(data) >= threshold \
-            and all(data > 0)   
-        
+            and all(data > 0)  
+            
+    def __repr__(self):
+        ls = list(self.__dict__)
+        ls.sort()
+        ls = [(it, repr(self.__dict__[it])) for it in ls if \
+            it not in ['expected', 'observed', 'oe']]
+        return repr(ls)  
         
     def __hash__(self):
         if self.hash == 17:
-            ls = list(self.__dict__)
-            ls.sort()
-            ls = [(it, self.__dict__[it]) for it in ls]
-            self.hash = np.abs(hash(repr(ls)))
+            self.hash = np.abs(hash(repr(self)))
         return self.hash
         
     def __eq__ (self, other):
         if type(self) is not type(other):
             return False
-        return self.__dict__ == other.__dict__
+        return self.__repr__() == other.__repr__()
         
     def __neq__ (self, other):
         return not self.__eq__(other)

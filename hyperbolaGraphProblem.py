@@ -13,6 +13,7 @@ import pylab as plt
 from R_tools import make_func
 from html_tools import html_image, make_table
 from hyperbola import Hyperbola
+from table import Table
 
 
 x, y, z = sym.symbols('x,y,z')
@@ -31,6 +32,7 @@ class HyperbolaGraphProblem(object):
         if seed is not None:
             self.seed = seed
             random.seed(seed)
+            np.random.seed(seed)
             
     def gen_errors(self, hyp, xkcd = False, force = False):
         #Put in the hyperbola that is just like the current one with
@@ -54,12 +56,12 @@ class HyperbolaGraphProblem(object):
                   for er in errors]
         return errors
     
-    def stem(self, preview = False, xkcd = False, force = False, 
-             expanded = True):
+    def stem(self, a_type = 'preview', xkcd = False, force = False, 
+             expanded = True, fmt = 'latex'):
         """
         Parameters:
         ----------
-        preview  : Boolean
+        a_type   : String ('preview', 'MC')
             Is this for testing / preview? If so set to true.
         expanded : Boolean
             If true, the equation is fully expanded and the student must
@@ -67,7 +69,7 @@ class HyperbolaGraphProblem(object):
         """
         
         kwargs = {
-            'preview':False
+            'a_type':a_type
         }
         
         prob = Hyperbola()
@@ -77,21 +79,32 @@ class HyperbolaGraphProblem(object):
         else:
             self.done.add(prob)
             self.count += 1
+            
+        if a_type == 'preview':
+            question_stem = "<br><h2>Question</h2><br>"
+        else:
+            question_stem = ""
         
         if expanded:
             const = (prob.a**2) * (prob.b **2)
-            question_stem = 'Find the normal form of the hyperbola given by the \
+            question_stem += 'Find the normal form of the hyperbola given by the \
                 equation $$%s = 0$$ and use this \
             to select the correct graph of the given hyperbola.' \
             % ( sym.latex(const * (prob.expr.expand() - 1)))
         else:
-            question_stem = 'Select the correct graph of the hyperbola given\
+            question_stem += 'Select the correct graph of the hyperbola given\
             by the equations: $$%s = 1$$' % (prob.latex)
         
         ans = prob.show(path=self.path, xkcd = xkcd, force = force)
+        
+        if a_type == 'preview':
+            explanation = "<br><h2>Explanation</h2><br>"
+        else:
+            explanation = ""
                                                          
-        explanation = prob.explanation(path=self.path + "/explanation", 
-                                   preview = preview, expanded = expanded,
+        explanation += prob.explanation(path=self.path + "/explanation", 
+                                   a_type = a_type, fmt = fmt, 
+                                   expanded = expanded,
                                    xkcd = xkcd)
                                                          
         errors = self.gen_errors(prob, force = force, xkcd = xkcd)
@@ -99,18 +112,42 @@ class HyperbolaGraphProblem(object):
         errors = [ans] + errors
         
         
-        distractors = [html_image(er, preview = preview, width = 300, height = 300) 
-                       for er in errors]               
-        if preview:
-            explanation = '\n<div class=\'clr\'></div>\n' + explanation
-            question_stem = "<div>\n" + question_stem + "</div>"
+        distractors = [html_image(er, preview = (a_type == 'preview'), 
+                                  width = 300, height = 300) 
+                       for er in errors]
+                       
+        if a_type == 'preview':
             
-        return tools.fully_formatted_question(question_stem, explanation, 
-                                              answer_choices=distractors)
+            data = [[dist] for dist in distractors]            
+            
+            tb = Table(data, row_headers = ["Answer"] + ["Distractor"] * 4)            
+            
+            return question_stem + explanation + Table.get_style() + \
+                tb.html()
+            
+
+        elif a_type == 'MC':
+            if fmt == 'latex':
+                question_stem = question_stem.replace("<div ","<p ")\
+                        .replace("</div>","</p>")
+                explanation = explanation.replace("<div ","<p ")\
+                        .replace("</div>","</p>")
+                distractors = [err.replace("<div ","<p ")\
+                        .replace("</div>","</p>") for err in errors]
+           
+            
+            question_stem = ' '.join(question_stem.split())
+            distractors = [' '.join(err.split()) for err in errors]
+            explanation = ' '.join(explanation.split()) + "\n"
+            return tools.fully_formatted_question(question_stem, explanation, 
+                                                  answer_choices=distractors)
+            
+      
 
 if __name__ == "__main__":
     
-    preview = True
+    a_type = 'MC'
+    fmt = 'latex'
     xkcd = False
     force = True
     
@@ -118,11 +155,15 @@ if __name__ == "__main__":
     
     pb = ""
     for i in range(10):
-        pb += '<div class = \'posts\'>'
-        pb += prob.stem(preview=preview, xkcd=xkcd)
-        pb += '</div><br>'
+        if a_type == 'preview':
+            pb += '<div class = \'posts\'>'
+        pb += prob.stem(a_type=a_type, fmt = fmt, xkcd=xkcd)
+        if a_type == 'preview':
+            pb += '</div><br>'
     for i in range(5):
-        pb += '<div class = \'posts\'>'
-        pb += prob.stem(preview=preview, expanded = False, xkcd=xkcd)
-        pb += '</div><br>'
+        if a_type  == 'preview':
+            pb += '<div class = \'posts\'>'
+        pb += prob.stem(a_type=a_type, fmt = fmt, expanded = False, xkcd=xkcd)
+        if a_type == 'preview':
+            pb += '</div><br>'
     print(pb)

@@ -191,9 +191,13 @@ class Chi2TestOfHomogeneity(object):
             img = html_image(fname, width = '300px',  
                              preview = (a_type == 'preview'))
             
-            caption = "Lightshading indicates the p-value.<br>\
-                The darker shading indicate the $_\\alpha = %.2g$_ level."\
-                % context.a_level
+            caption = """
+                Lightshading (right of the red line) indicates the \p-value.
+                <br>
+                The darker shading indicate the $_\\alpha = $_ {a_level:.0%} 
+                level.<br>
+                The background histogram is a bootstrap sampling distribution.
+                """.format(a_level = context.a_level)
                 
             explanation +="""
             The p-value for this data is:
@@ -209,13 +213,6 @@ class Chi2TestOfHomogeneity(object):
                 </div>
             </div>
             """ % (df, context.chi2_stat, p_val * 100, '\\%', img, caption)
-            explanation += """
-                <div class='par'>The lightly shaded histogram represents a sampling distribution
-                of 5000 sample $_\chi^2$_-statistics where the  samples are 
-                of the same size as the given observed data (%s observations).
-                This indicate how well the $_\chi^2$_-distributions is capturing
-                the actual sampling distribution for this experiment.</div>
-                """ % context.obs_marg[-1,-1]
         
         
         if q_type == 'HT':
@@ -253,9 +250,10 @@ class Chi2TestOfHomogeneity(object):
                     least this large.</div>
                     """.format(null=context.null, p_val=p_val)
                     
-            explanation += """
-                <div class='par'>Note: {note}</div>                
-                """.format(note=context.note)
+            if context.note is not None:
+                explanation += """
+                    <div class='par'>Note: {note}</div>                
+                    """.format(note=context.note)
         
         
         errors = self.gen_errors(q_type, context)
@@ -419,8 +417,8 @@ class Chi2TestOfHomogeneity(object):
         
 if __name__ == "__main__":
     
-    a_type = 'MC'
-    fmt = 'latex'
+    a_type = 'preview'
+    fmt = 'html'
     seed = 44
       
     def gen_ctx(seed = seed):

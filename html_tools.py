@@ -210,12 +210,7 @@ def html_image(image_url, height = None, width = None,
     If preview is "False", then this inserts ${image_url}$"
     """
     if preview:
-        ret = """
-        <div class='img'>
-        <img src=\'%s\'%s%s%s>
-        </div>
-        """ \
-        %(image_url, 
+        ret = "<img src=\'%s\'%s%s%s>" % (image_url, 
           ' width=%s ' % width if width is not None else "", 
           ' height=%s ' % height if height is not None else "",
           ' display=\'%s\' ' % display if display is not None else "")
