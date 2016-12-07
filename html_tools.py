@@ -203,21 +203,24 @@ def make_table(col_headers = None, row_headers = None,
     
     
 def html_image(image_url, height = None, width = None, 
-               display = None, preview = True):
+               display = None, title = None, preview = True):
     """
     Insert an image into a problem. If preview is set to "True", then this
     sets it up for previewing by inserting "<img src="image_url ....>".
     If preview is "False", then this inserts ${image_url}$"
     """
+    
     if preview:
-        ret = "<img src=\'%s\'%s%s%s>" % (image_url, 
-          ' width=%s ' % width if width is not None else "", 
-          ' height=%s ' % height if height is not None else "",
-          ' display=\'%s\' ' % display if display is not None else "")
+        ret = "<img src=\'%s\'%s%s%s%s>" % (image_url, 
+          ' width=%s' % width if width is not None else "", 
+          ' height=%s' % height if height is not None else "",
+          ' title=%s' % "\'" + title + "\'" if title is not None else "",
+          ' display=%s' % "\'" + display + "\'" if display is not None else "")
     else:
         ret = "${%s}$"%image_url
     return ret
 
+#%%
     
 if __name__ == "__main__":
     e = [1.2345,2.45234,2.1428,1.2345,2.45234,2.1428,1.2345,2.45234,2.1428]
@@ -233,4 +236,8 @@ if __name__ == "__main__":
     tbl5, _ = make_table(cl, rl_alt, True, np.array([e, o]))
     tbl6, _ = make_table(cl, None, True, np.array(e))
     ex = style + tbl1 + tbl2 + tbl3 + tbl4 + tbl5 + tbl6
-    print(ex)
+    #print(ex)
+    ret = html_image('some.jpg', width=300,
+                     title="Figure indicating why ds^2 = dx^2 + dy^2.",
+                     preview=True)
+    print(ret)

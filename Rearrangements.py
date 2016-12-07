@@ -20,12 +20,13 @@ class Rearrangements():
     
         # A list to keep track of what has been done.
         self.done = []
-        if seed is None:
-            self.seed = datetime.datetime.now().microsecond
-        else:
+        
+        
+        if seed is not None:
             self.seed = seed
-        random.seed(seed) # Set once per instance
-    
+            random.seed(seed)
+            np.random.seed(seed)        
+        
     def stem(self, objects = None, a_type = None ):
         """
         Here we will rearrange objects which are not all distinct.
