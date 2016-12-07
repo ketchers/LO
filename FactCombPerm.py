@@ -21,11 +21,11 @@ class FactCombPerm():
     def __init__(self, seed = None):
         
         self.done = []
-        if seed is None:
-            self.seed = datetime.datetime.now().microsecond
-        else:
+        if seed is not None:
             self.seed = seed
-        random.seed(seed) # This is set per instance
+            random.seed(seed)
+            np.random.seed(seed)        
+        
         
     @staticmethod
     def format_fact(n, m = 1):

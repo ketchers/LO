@@ -57,11 +57,11 @@ class PolarGraphProblem():
         
         self.path = path
         
-        if seed is None:
-            self.seed = datetime.datetime.now().microsecond
-        else:
+        if seed is not None:
             self.seed = seed
-
+            random.seed(seed)
+            np.random.seed(seed)        
+        
         random.seed(seed)
     
     @staticmethod

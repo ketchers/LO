@@ -1,0 +1,1440 @@
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \log{\left (2 \cos{\left (y \right )} \right )} + 4$_ where $_- \frac{\pi}{3} \leq y \leq \frac{\pi}{3}$_. </p></center> Choose the best numeric approximation to the arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_2.634$_ &nbsp;(1)&nbsp; $_3.464$_ &nbsp;(2)&nbsp; $_1.386$_ &nbsp;(3)&nbsp; $_nan$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \ln{\left (2 \cos{\left (y \right )} \right )} + 4$_
+            with the independent variable being $_y$_ on the interval 
+            $_[- \frac{\pi}{3},\frac{\pi}{3}]$_. So the arc length is
+            $$s =\int_{- \frac{\pi}{3}}^{\frac{\pi}{3}} \sqrt{1+\left(\frac{dy}{dy}\right)^2}\,dy$$
+            $$\frac{dy}{dy} = \frac{d}{d y}\left(\ln{\left (2 \cos{\left (y \right )} \right )} + 4\right) = - \tan{\left (y \right )}$$
+            \begin{align}
+              \sqrt{1 + \left(- \tan{\left (y \right )}\right)^2} &= \sqrt{\tan^{2}{\left (y \right )} + 1} \\
+                &= \sqrt{\left(\sec{\left (y \right )}\right)^2} = \sec{\left (y \right )}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{- \frac{\pi}{3}}^{\frac{\pi}{3}} \sec{\left (y \right )}\, dy &= \left.\ln{\left (\left|{\tan{\left (y \right )} + \sec{\left (y \right )}}\right| \right )}\right|_{y=- \frac{\pi}{3}}^{y=\frac{\pi}{3}} \\ &= - \ln{\left (- \sqrt{3} + 2 \right )} + \ln{\left (\sqrt{3} + 2 \right )}\approx 2.634 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(\frac{x}{2} - \frac{1}{2}\right)^{\frac{3}{2}}$_ where $_3 \leq x \leq 6$_. </p></center> Choose the integral that represents the arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_\int_{3}^{6} \sqrt{\frac{9 x}{32} + \frac{55}{32}}\, dx$_ &nbsp;(1)&nbsp; $_\left(\int_{3}^{6}\frac{9 x}{32} + \frac{23}{32}\,d{x}\right)^{1/2}$_ &nbsp;(2)&nbsp; $_\int_{3}^{6}\sqrt{\frac{9 x}{32} - \frac{9}{32}}\,d{x}$_ &nbsp;(3)&nbsp; $_\int_{3}^{6}\frac{9 x}{32} + \frac{23}{32}\,d{x}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(\frac{x}{2} - \frac{1}{2}\right)^{\frac{3}{2}}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[3,6]$_. So the arc length is
+            $$s =\int_{3}^{6} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x} \left(\frac{x}{2} - \frac{1}{2}\right)^{\frac{3}{2}} = \frac{3}{4} \sqrt{\frac{x}{2} - \frac{1}{2}}$$
+            \begin{align}
+              \sqrt{1 + \left(\frac{3}{4} \sqrt{\frac{x}{2} - \frac{1}{2}}\right)^2} &= \sqrt{\frac{9 x}{32} + \frac{23}{32}} \\
+                &= \sqrt{\left(\sqrt{\frac{9 x}{32} + \frac{23}{32}}\right)^2} = \sqrt{\frac{9 x}{32} + \frac{23}{32}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{3}^{6} \sqrt{\frac{9 x}{32} + \frac{23}{32}}\, dx &= \int_{\frac{25}{16}}^{\frac{77}{32}} \frac{32 \sqrt{\eta}}{9}\, d\eta&\text{ Substitute } \eta = \frac{9 x}{32} + \frac{23}{32} \\ &= \left.\frac{64 \eta^{\frac{3}{2}}}{27}\right|_{x=\frac{25}{16}}^{x=\frac{77}{32}} \\ &= - \frac{125}{27} + \frac{77 \sqrt{154}}{108}\approx 4.218 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \frac{2 x^{\frac{5}{4}}}{5} - \frac{2 x^{\frac{3}{4}}}{3}$_ where $_4 \leq x \leq 8$_. </p></center> Choose the integral that represents the arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_\int_{4}^{8} \sqrt{\frac{\sqrt{x}}{4} + \frac{3}{2} + \frac{1}{4 \sqrt{x}}}\, dx$_ &nbsp;(1)&nbsp; $_\int_{4}^{8}\frac{\sqrt{x}}{4} + \frac{1}{2} + \frac{1}{4 \sqrt{x}}\,d{x}$_ &nbsp;(2)&nbsp; $_\int_{4}^{8}\sqrt{\left(\frac{2 x^{\frac{5}{4}}}{5} - \frac{2 x^{\frac{3}{4}}}{3}\right)^{2} + 1}\,d{x}$_ &nbsp;(3)&nbsp; $_\left(\int_{4}^{8}\frac{\sqrt{x}}{4} + \frac{1}{2} + \frac{1}{4 \sqrt{x}}\,d{x}\right)^{1/2}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \frac{2 x^{\frac{5}{4}}}{5} - \frac{2 x^{\frac{3}{4}}}{3}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[4,8]$_. So the arc length is
+            $$s =\int_{4}^{8} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(\frac{2 x^{\frac{5}{4}}}{5} - \frac{2 x^{\frac{3}{4}}}{3}\right) = \frac{\sqrt[4]{x}}{2} - \frac{1}{2 \sqrt[4]{x}}$$
+            \begin{align}
+              \sqrt{1 + \left(\frac{\sqrt[4]{x}}{2} - \frac{1}{2 \sqrt[4]{x}}\right)^2} &= \sqrt{\frac{\sqrt{x}}{4} + \frac{1}{2} + \frac{1}{4 \sqrt{x}}} \\
+                &= \sqrt{\left(\frac{\sqrt[4]{x}}{2} + \frac{1}{2 \sqrt[4]{x}}\right)^2} = \frac{\sqrt[4]{x}}{2} + \frac{1}{2 \sqrt[4]{x}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{4}^{8} \frac{\sqrt[4]{x}}{2} + \frac{1}{2 \sqrt[4]{x}}\, dx &= \left.\frac{2 x^{\frac{5}{4}}}{5} + \frac{2 x^{\frac{3}{4}}}{3}\right|_{x=4}^{x=8} \\ &= - \frac{44 \sqrt{2}}{15} + \frac{8 \sqrt[4]{2}}{3} + \frac{16}{5} 2^{\frac{3}{4}}\approx 4.405 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(\frac{x}{3} + 1\right)^{\frac{3}{2}}$_ where $_0 \leq x \leq 1$_. </p></center> Give the value of the arc length as a decimal number correct to at least two decimal places.
+                <br><br>
+                <strong>Answers: </strong>Free response.
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(\frac{x}{3} + 1\right)^{\frac{3}{2}}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[0,1]$_. So the arc length is
+            $$s =\int_{0}^{1} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x} \left(\frac{x}{3} + 1\right)^{\frac{3}{2}} = \frac{1}{2} \sqrt{\frac{x}{3} + 1}$$
+            \begin{align}
+              \sqrt{1 + \left(\frac{1}{2} \sqrt{\frac{x}{3} + 1}\right)^2} &= \sqrt{\frac{x}{12} + \frac{5}{4}} \\
+                &= \sqrt{\left(\sqrt{\frac{x}{12} + \frac{5}{4}}\right)^2} = \sqrt{\frac{x}{12} + \frac{5}{4}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{0}^{1} \sqrt{\frac{x}{12} + \frac{5}{4}}\, dx &= \int_{\frac{5}{4}}^{\frac{4}{3}} 12 \sqrt{\eta}\, d\eta&\text{ Substitute } \eta = \frac{x}{12} + \frac{5}{4} \\ &= \left.8 \eta^{\frac{3}{2}}\right|_{x=\frac{5}{4}}^{x=\frac{4}{3}} \\ &= - 5 \sqrt{5} + \frac{64 \sqrt{3}}{9}\approx 1.136 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \log{\left (3 \sec{\left (x \right )} \right )} + 3$_ where $_- \frac{\pi}{3} \leq x \leq \frac{\pi}{3}$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_- \ln{\left (- \sqrt{3} + 2 \right )} + \ln{\left (\sqrt{3} + 2 \right )}$_ &nbsp;(1)&nbsp; $_0$_ &nbsp;(2)&nbsp; $_\left|{\ln{\left (- \sqrt{3} + 2 \right )} + \ln{\left (\sqrt{3} + 2 \right )}}\right|$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \ln{\left (3 \sec{\left (x \right )} \right )} + 3$_
+            with the independent variable being $_x$_ on the interval 
+            $_[- \frac{\pi}{3},\frac{\pi}{3}]$_. So the arc length is
+            $$s =\int_{- \frac{\pi}{3}}^{\frac{\pi}{3}} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(\ln{\left (3 \sec{\left (x \right )} \right )} + 3\right) = \tan{\left (x \right )}$$
+            \begin{align}
+              \sqrt{1 + \left(\tan{\left (x \right )}\right)^2} &= \sqrt{\tan^{2}{\left (x \right )} + 1} \\
+                &= \sqrt{\left(\sec{\left (x \right )}\right)^2} = \sec{\left (x \right )}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{- \frac{\pi}{3}}^{\frac{\pi}{3}} \sec{\left (x \right )}\, dx &= \left.\ln{\left (\left|{\tan{\left (x \right )} + \sec{\left (x \right )}}\right| \right )}\right|_{x=- \frac{\pi}{3}}^{x=\frac{\pi}{3}} \\ &= - \ln{\left (- \sqrt{3} + 2 \right )} + \ln{\left (\sqrt{3} + 2 \right )}\approx 2.634 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(\frac{x}{3} - \frac{1}{2}\right)^{\frac{3}{2}}$_ where $_4 \leq x \leq 6$_. </p></center> Choose the integral that represents the arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_\int_{4}^{6} \sqrt{\frac{x}{12} + \frac{15}{8}}\, dx$_ &nbsp;(1)&nbsp; $_\int_{4}^{6}\sqrt{\frac{1}{2} \sqrt{\frac{x}{3} - \frac{1}{2}} + 1}\,d{x}$_ &nbsp;(2)&nbsp; $_\int_{4}^{6}\sqrt{\left(\frac{x}{3} - \frac{1}{2}\right)^{3} + 1}\,d{x}$_ &nbsp;(3)&nbsp; $_\left(\int_{4}^{6}\frac{x}{12} + \frac{7}{8}\,d{x}\right)^{1/2}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(\frac{x}{3} - \frac{1}{2}\right)^{\frac{3}{2}}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[4,6]$_. So the arc length is
+            $$s =\int_{4}^{6} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x} \left(\frac{x}{3} - \frac{1}{2}\right)^{\frac{3}{2}} = \frac{1}{2} \sqrt{\frac{x}{3} - \frac{1}{2}}$$
+            \begin{align}
+              \sqrt{1 + \left(\frac{1}{2} \sqrt{\frac{x}{3} - \frac{1}{2}}\right)^2} &= \sqrt{\frac{x}{12} + \frac{7}{8}} \\
+                &= \sqrt{\left(\sqrt{\frac{x}{12} + \frac{7}{8}}\right)^2} = \sqrt{\frac{x}{12} + \frac{7}{8}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{4}^{6} \sqrt{\frac{x}{12} + \frac{7}{8}}\, dx &= \int_{\frac{29}{24}}^{\frac{11}{8}} 12 \sqrt{\eta}\, d\eta&\text{ Substitute } \eta = \frac{x}{12} + \frac{7}{8} \\ &= \left.8 \eta^{\frac{3}{2}}\right|_{x=\frac{29}{24}}^{x=\frac{11}{8}} \\ &= - \frac{29 \sqrt{174}}{36} + \frac{11 \sqrt{22}}{4}\approx 2.273 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \log{\left (3 \sin{\left (x \right )} \right )} + 3$_ where $_\frac{\pi}{6} \leq x \leq \frac{2 \pi}{3}$_. </p></center> Choose the integral that represents the arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_\int_{\frac{\pi}{6}}^{\frac{2 \pi}{3}} \sqrt{\csc^{2}{\left (x \right )} + 1}\, dx$_ &nbsp;(1)&nbsp; $_\left(\int_{\frac{\pi}{6}}^{\frac{2 \pi}{3}}\cot^{2}{\left (x \right )} + 1\,d{x}\right)^{1/2}$_ &nbsp;(2)&nbsp; $_\int_{\frac{\pi}{6}}^{\frac{2 \pi}{3}}\sqrt{\cot^{2}{\left (x \right )}}\,d{x}$_ &nbsp;(3)&nbsp; $_\int_{\frac{\pi}{6}}^{\frac{2 \pi}{3}}\sqrt{\left(\log{\left (3 \sin{\left (x \right )} \right )} + 3\right)^{2} + 1}\,d{x}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \ln{\left (3 \sin{\left (x \right )} \right )} + 3$_
+            with the independent variable being $_x$_ on the interval 
+            $_[\frac{\pi}{6},\frac{2 \pi}{3}]$_. So the arc length is
+            $$s =\int_{\frac{\pi}{6}}^{\frac{2 \pi}{3}} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(\ln{\left (3 \sin{\left (x \right )} \right )} + 3\right) = \cot{\left (x \right )}$$
+            \begin{align}
+              \sqrt{1 + \left(\cot{\left (x \right )}\right)^2} &= \sqrt{\cot^{2}{\left (x \right )} + 1} \\
+                &= \sqrt{\left(\csc{\left (x \right )}\right)^2} = \csc{\left (x \right )}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{\frac{\pi}{6}}^{\frac{2 \pi}{3}} \csc{\left (x \right )}\, dx &= \left.- \ln{\left (\left|{\cot{\left (x \right )} + \csc{\left (x \right )}}\right| \right )}\right|_{x=\frac{\pi}{6}}^{x=\frac{2 \pi}{3}} \\ &= - \ln{\left (\frac{\sqrt{3}}{3} \right )} + \ln{\left (\sqrt{3} + 2 \right )}\approx 1.866 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(\frac{x}{3} - 1\right)^{\frac{3}{2}}$_ where $_4 \leq x \leq 7$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_- \frac{13 \sqrt{39}}{9} + \frac{64 \sqrt{3}}{9}$_ &nbsp;(1)&nbsp; $_\frac{7 \sqrt{3}}{9}$_ &nbsp;(2)&nbsp; $_\frac{1}{2}$_ &nbsp;(3)&nbsp; $_- \frac{67 \sqrt{67}}{27} + \frac{295 \sqrt{295}}{216}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(\frac{x}{3} - 1\right)^{\frac{3}{2}}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[4,7]$_. So the arc length is
+            $$s =\int_{4}^{7} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x} \left(\frac{x}{3} - 1\right)^{\frac{3}{2}} = \frac{1}{2} \sqrt{\frac{x}{3} - 1}$$
+            \begin{align}
+              \sqrt{1 + \left(\frac{1}{2} \sqrt{\frac{x}{3} - 1}\right)^2} &= \sqrt{\frac{x}{12} + \frac{3}{4}} \\
+                &= \sqrt{\left(\sqrt{\frac{x}{12} + \frac{3}{4}}\right)^2} = \sqrt{\frac{x}{12} + \frac{3}{4}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{4}^{7} \sqrt{\frac{x}{12} + \frac{3}{4}}\, dx &= \int_{\frac{13}{12}}^{\frac{4}{3}} 12 \sqrt{\eta}\, d\eta&\text{ Substitute } \eta = \frac{x}{12} + \frac{3}{4} \\ &= \left.8 \eta^{\frac{3}{2}}\right|_{x=\frac{13}{12}}^{x=\frac{4}{3}} \\ &= - \frac{13 \sqrt{39}}{9} + \frac{64 \sqrt{3}}{9}\approx 3.296 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = - \frac{3 x^{2}}{2} + \frac{1}{12} \log{\left (x \right )}$_ where $_2 \leq x \leq 6$_. </p></center> Evaluate the arc length and provide the exact value.
+                <br><br>
+                <strong>Answers: </strong>Free response.
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = - \frac{3 x^{2}}{2} + \frac{1}{12} \ln{\left (x \right )}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[2,6]$_. So the arc length is
+            $$s =\int_{2}^{6} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(- \frac{3 x^{2}}{2} + \frac{1}{12} \ln{\left (x \right )}\right) = - 3 x + \frac{1}{12 x}$$
+            \begin{align}
+              \sqrt{1 + \left(- 3 x + \frac{1}{12 x}\right)^2} &= \sqrt{9 x^{2} + \frac{1}{2} + \frac{1}{144 x^{2}}} \\
+                &= \sqrt{\left(3 x + \frac{1}{12 x}\right)^2} = 3 x + \frac{1}{12 x}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{2}^{6} 3 x + \frac{1}{12 x}\, dx &= \left.\frac{3 x^{2}}{2} + \frac{1}{12} \ln{\left (x \right )}\right|_{x=2}^{x=6} \\ &= - \frac{1}{12} \ln{\left (2 \right )} + \frac{1}{12} \ln{\left (6 \right )} + 48\approx 48.092 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \log{\left (\cos{\left (y \right )} \right )} + 1$_ where $_- \frac{\pi}{3} \leq y \leq \frac{\pi}{6}$_. </p></center> Evaluate the arc length and provide the exact value.
+                <br><br>
+                <strong>Answers: </strong>Free response.
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \ln{\left (\cos{\left (y \right )} \right )} + 1$_
+            with the independent variable being $_y$_ on the interval 
+            $_[- \frac{\pi}{3},\frac{\pi}{6}]$_. So the arc length is
+            $$s =\int_{- \frac{\pi}{3}}^{\frac{\pi}{6}} \sqrt{1+\left(\frac{dy}{dy}\right)^2}\,dy$$
+            $$\frac{dy}{dy} = \frac{d}{d y}\left(\ln{\left (\cos{\left (y \right )} \right )} + 1\right) = - \tan{\left (y \right )}$$
+            \begin{align}
+              \sqrt{1 + \left(- \tan{\left (y \right )}\right)^2} &= \sqrt{\tan^{2}{\left (y \right )} + 1} \\
+                &= \sqrt{\left(\sec{\left (y \right )}\right)^2} = \sec{\left (y \right )}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{- \frac{\pi}{3}}^{\frac{\pi}{6}} \sec{\left (y \right )}\, dy &= \left.\ln{\left (\left|{\tan{\left (y \right )} + \sec{\left (y \right )}}\right| \right )}\right|_{y=- \frac{\pi}{3}}^{y=\frac{\pi}{6}} \\ &= \ln{\left (\sqrt{3} \right )} - \ln{\left (- \sqrt{3} + 2 \right )}\approx 1.866 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \frac{3 x^{\frac{5}{3}}}{10} - \frac{3 \sqrt[3]{x}}{2}$_ where $_2 \leq x \leq 5$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_- \frac{3 \sqrt[3]{2}}{2} - \frac{3}{5} 2^{\frac{2}{3}} + \frac{3 \sqrt[3]{5}}{2} + \frac{3}{2} 5^{\frac{2}{3}}$_ &nbsp;(1)&nbsp; $_- 3 \sqrt[9]{2} - \frac{27}{34} 2^{\frac{8}{9}} + 3 \sqrt[9]{5} + \frac{135}{68} 5^{\frac{8}{9}}$_ &nbsp;(2)&nbsp; $_- \frac{\sqrt[3]{2}}{2} - \frac{2^{\frac{2}{3}}}{16} + \frac{5^{\frac{2}{3}}}{100} + \frac{5 \sqrt[3]{5}}{4}$_ &nbsp;(3)&nbsp; $_\frac{3}{5} 2^{\frac{2}{3}} + \frac{3 \sqrt[3]{2}}{2} + \frac{3 \sqrt[3]{5}}{2} + \frac{3}{2} 5^{\frac{2}{3}}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \frac{3 x^{\frac{5}{3}}}{10} - \frac{3 \sqrt[3]{x}}{2}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[2,5]$_. So the arc length is
+            $$s =\int_{2}^{5} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(\frac{3 x^{\frac{5}{3}}}{10} - \frac{3 \sqrt[3]{x}}{2}\right) = \frac{x^{\frac{2}{3}}}{2} - \frac{1}{2 x^{\frac{2}{3}}}$$
+            \begin{align}
+              \sqrt{1 + \left(\frac{x^{\frac{2}{3}}}{2} - \frac{1}{2 x^{\frac{2}{3}}}\right)^2} &= \sqrt{\frac{x^{\frac{4}{3}}}{4} + \frac{1}{2} + \frac{1}{4 x^{\frac{4}{3}}}} \\
+                &= \sqrt{\left(\frac{x^{\frac{2}{3}}}{2} + \frac{1}{2 x^{\frac{2}{3}}}\right)^2} = \frac{x^{\frac{2}{3}}}{2} + \frac{1}{2 x^{\frac{2}{3}}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{2}^{5} \frac{x^{\frac{2}{3}}}{2} + \frac{1}{2 x^{\frac{2}{3}}}\, dx &= \left.\frac{3 x^{\frac{5}{3}}}{10} + \frac{3 \sqrt[3]{x}}{2}\right|_{x=2}^{x=5} \\ &= - \frac{3 \sqrt[3]{2}}{2} - \frac{3}{5} 2^{\frac{2}{3}} + \frac{3 \sqrt[3]{5}}{2} + \frac{3}{2} 5^{\frac{2}{3}}\approx 4.109 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \frac{8 y^{\frac{7}{4}}}{7} - \frac{\sqrt[4]{y}}{2}$_ where $_2 \leq y \leq 5$_. </p></center> Choose the integral that represents the arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_\int_{2}^{5} \sqrt{4 y^{\frac{3}{2}} + \frac{3}{2} + \frac{1}{64 y^{\frac{3}{2}}}}\, dy$_ &nbsp;(1)&nbsp; $_\int_{2}^{5}\sqrt{4 y^{\frac{3}{2}} - \frac{1}{2} + \frac{1}{64 y^{\frac{3}{2}}}}\,d{y}$_ &nbsp;(2)&nbsp; $_\int_{2}^{5}\sqrt{\left(\frac{8 y^{\frac{7}{4}}}{7} - \frac{\sqrt[4]{y}}{2}\right)^{2} + 1}\,d{y}$_ &nbsp;(3)&nbsp; $_\left(\int_{2}^{5}4 y^{\frac{3}{2}} + \frac{1}{2} + \frac{1}{64 y^{\frac{3}{2}}}\,d{y}\right)^{1/2}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \frac{8 y^{\frac{7}{4}}}{7} - \frac{\sqrt[4]{y}}{2}$_
+            with the independent variable being $_y$_ on the interval 
+            $_[2,5]$_. So the arc length is
+            $$s =\int_{2}^{5} \sqrt{1+\left(\frac{dy}{dy}\right)^2}\,dy$$
+            $$\frac{dy}{dy} = \frac{d}{d y}\left(\frac{8 y^{\frac{7}{4}}}{7} - \frac{\sqrt[4]{y}}{2}\right) = 2 y^{\frac{3}{4}} - \frac{1}{8 y^{\frac{3}{4}}}$$
+            \begin{align}
+              \sqrt{1 + \left(2 y^{\frac{3}{4}} - \frac{1}{8 y^{\frac{3}{4}}}\right)^2} &= \sqrt{4 y^{\frac{3}{2}} + \frac{1}{2} + \frac{1}{64 y^{\frac{3}{2}}}} \\
+                &= \sqrt{\left(2 y^{\frac{3}{4}} + \frac{1}{8 y^{\frac{3}{4}}}\right)^2} = 2 y^{\frac{3}{4}} + \frac{1}{8 y^{\frac{3}{4}}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{2}^{5} 2 y^{\frac{3}{4}} + \frac{1}{8 y^{\frac{3}{4}}}\, dy &= \left.\frac{8 y^{\frac{7}{4}}}{7} + \frac{\sqrt[4]{y}}{2}\right|_{y=2}^{y=5} \\ &= - \frac{16}{7} 2^{\frac{3}{4}} - \frac{\sqrt[4]{2}}{2} + \frac{\sqrt[4]{5}}{2} + \frac{40}{7} 5^{\frac{3}{4}}\approx 15.416 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(- \frac{x}{2} - 2\right)^{\frac{3}{2}}$_ where $_-9 \leq x \leq -7$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_- \frac{59 \sqrt{118}}{108} + \frac{77 \sqrt{154}}{108}$_ &nbsp;(1)&nbsp; $_- \frac{5 \sqrt{10}}{4} + \frac{3 \sqrt{6}}{4}$_ &nbsp;(2)&nbsp; $_\frac{59 \sqrt{118}}{108} + \frac{77 \sqrt{154}}{108}$_ &nbsp;(3)&nbsp; $_\frac{3}{4}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(- \frac{x}{2} - 2\right)^{\frac{3}{2}}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[-9,-7]$_. So the arc length is
+            $$s =\int_{-9}^{-7} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x} \left(- \frac{x}{2} - 2\right)^{\frac{3}{2}} = - \frac{3}{4} \sqrt{- \frac{x}{2} - 2}$$
+            \begin{align}
+              \sqrt{1 + \left(- \frac{3}{4} \sqrt{- \frac{x}{2} - 2}\right)^2} &= \sqrt{- \frac{9 x}{32} - \frac{1}{8}} \\
+                &= \sqrt{\left(\sqrt{- \frac{9 x}{32} - \frac{1}{8}}\right)^2} = \sqrt{- \frac{9 x}{32} - \frac{1}{8}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{-9}^{-7} \sqrt{- \frac{9 x}{32} - \frac{1}{8}}\, dx &= \int_{\frac{59}{32}}^{\frac{77}{32}} \frac{32 \sqrt{\eta}}{9}\, d\eta&\text{ Substitute } \eta = - \frac{9 x}{32} - \frac{1}{8} \\ &= \left.- \frac{64 \eta^{\frac{3}{2}}}{27}\right|_{x=\frac{77}{32}}^{x=\frac{59}{32}} \\ &= - \frac{59 \sqrt{118}}{108} + \frac{77 \sqrt{154}}{108}\approx 2.913 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = - \frac{x^{3}}{12} - \frac{1}{x}$_ where $_3 \leq x \leq 7$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_\frac{557}{21}$_ &nbsp;(1)&nbsp; $_\frac{5 \sqrt{1127897}}{441}$_ &nbsp;(2)&nbsp; $_- \frac{183}{7}$_ &nbsp;(3)&nbsp; $_- \frac{4}{3} \ln{\left (3 \right )} + \frac{4}{3} \ln{\left (7 \right )} + \frac{15}{4}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = - \frac{x^{3}}{12} - \frac{1}{x}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[3,7]$_. So the arc length is
+            $$s =\int_{3}^{7} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(- \frac{x^{3}}{12} - \frac{1}{x}\right) = - \frac{x^{2}}{4} + \frac{1}{x^{2}}$$
+            \begin{align}
+              \sqrt{1 + \left(- \frac{x^{2}}{4} + \frac{1}{x^{2}}\right)^2} &= \sqrt{\frac{x^{4}}{16} + \frac{1}{2} + \frac{1}{x^{4}}} \\
+                &= \sqrt{\left(\frac{x^{2}}{4} + \frac{1}{x^{2}}\right)^2} = \frac{x^{2}}{4} + \frac{1}{x^{2}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{3}^{7} \frac{x^{2}}{4} + \frac{1}{x^{2}}\, dx &= \left.\frac{x^{3}}{12} - \frac{1}{x}\right|_{x=3}^{x=7} \\ &= \frac{557}{21}\approx 26.524 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(\frac{x}{3} + 1\right)^{\frac{3}{2}}$_ where $_-2 \leq x \leq 0$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_- \frac{13 \sqrt{39}}{9} + 5 \sqrt{5}$_ &nbsp;(1)&nbsp; $_\frac{1}{6}$_ &nbsp;(2)&nbsp; $_\frac{\sqrt{6}}{6}$_ &nbsp;(3)&nbsp; $_\frac{13 \sqrt{39}}{9} + 5 \sqrt{5}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(\frac{x}{3} + 1\right)^{\frac{3}{2}}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[-2,0]$_. So the arc length is
+            $$s =\int_{-2}^{0} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x} \left(\frac{x}{3} + 1\right)^{\frac{3}{2}} = \frac{1}{2} \sqrt{\frac{x}{3} + 1}$$
+            \begin{align}
+              \sqrt{1 + \left(\frac{1}{2} \sqrt{\frac{x}{3} + 1}\right)^2} &= \sqrt{\frac{x}{12} + \frac{5}{4}} \\
+                &= \sqrt{\left(\sqrt{\frac{x}{12} + \frac{5}{4}}\right)^2} = \sqrt{\frac{x}{12} + \frac{5}{4}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{-2}^{0} \sqrt{\frac{x}{12} + \frac{5}{4}}\, dx &= \int_{\frac{13}{12}}^{\frac{5}{4}} 12 \sqrt{\eta}\, d\eta&\text{ Substitute } \eta = \frac{x}{12} + \frac{5}{4} \\ &= \left.8 \eta^{\frac{3}{2}}\right|_{x=\frac{13}{12}}^{x=\frac{5}{4}} \\ &= - \frac{13 \sqrt{39}}{9} + 5 \sqrt{5}\approx 2.160 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \frac{x^{3}}{12} + \frac{1}{x}$_ where $_1 \leq x \leq 3$_. </p></center> Evaluate the arc length and provide the exact value.
+                <br><br>
+                <strong>Answers: </strong>Free response.
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \frac{x^{3}}{12} + \frac{1}{x}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[1,3]$_. So the arc length is
+            $$s =\int_{1}^{3} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(\frac{x^{3}}{12} + \frac{1}{x}\right) = \frac{x^{2}}{4} - \frac{1}{x^{2}}$$
+            \begin{align}
+              \sqrt{1 + \left(\frac{x^{2}}{4} - \frac{1}{x^{2}}\right)^2} &= \sqrt{\frac{x^{4}}{16} + \frac{1}{2} + \frac{1}{x^{4}}} \\
+                &= \sqrt{\left(\frac{x^{2}}{4} + \frac{1}{x^{2}}\right)^2} = \frac{x^{2}}{4} + \frac{1}{x^{2}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{1}^{3} \frac{x^{2}}{4} + \frac{1}{x^{2}}\, dx &= \left.\frac{x^{3}}{12} - \frac{1}{x}\right|_{x=1}^{x=3} \\ &= \frac{17}{6}\approx 2.833 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(- 2 x - \frac{1}{2}\right)^{\frac{3}{2}}$_ where $_-2 \leq x \leq -1$_. </p></center> Choose the best numeric approximation to the arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_4.817$_ &nbsp;(1)&nbsp; $_4.711$_ &nbsp;(2)&nbsp; $_nan$_ &nbsp;(3)&nbsp; $_23.500$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(- 2 x - \frac{1}{2}\right)^{\frac{3}{2}}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[-2,-1]$_. So the arc length is
+            $$s =\int_{-2}^{-1} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x} \left(- 2 x - \frac{1}{2}\right)^{\frac{3}{2}} = - 3 \sqrt{- 2 x - \frac{1}{2}}$$
+            \begin{align}
+              \sqrt{1 + \left(- 3 \sqrt{- 2 x - \frac{1}{2}}\right)^2} &= \sqrt{- 18 x - \frac{7}{2}} \\
+                &= \sqrt{\left(\sqrt{- 18 x - \frac{7}{2}}\right)^2} = \sqrt{- 18 x - \frac{7}{2}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{-2}^{-1} \sqrt{- 18 x - \frac{7}{2}}\, dx &= \int_{\frac{29}{2}}^{\frac{65}{2}} \frac{\sqrt{\eta}}{18}\, d\eta&\text{ Substitute } \eta = - 18 x - \frac{7}{2} \\ &= \left.- \frac{\eta^{\frac{3}{2}}}{27}\right|_{x=\frac{65}{2}}^{x=\frac{29}{2}} \\ &= - \frac{29 \sqrt{58}}{108} + \frac{65 \sqrt{130}}{108}\approx 4.817 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \log{\left (2 \sin{\left (x \right )} \right )} + 3$_ where $_\frac{\pi}{3} \leq x \leq \frac{\pi}{2}$_. </p></center> Choose the integral that represents the arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_\int_{\frac{\pi}{3}}^{\frac{\pi}{2}} \sqrt{\csc^{2}{\left (x \right )} + 1}\, dx$_ &nbsp;(1)&nbsp; $_\int_{\frac{\pi}{3}}^{\frac{\pi}{2}}\sqrt{\left(\log{\left (2 \sin{\left (x \right )} \right )} + 3\right)^{2} + 1}\,d{x}$_ &nbsp;(2)&nbsp; $_\int_{\frac{\pi}{3}}^{\frac{\pi}{2}}\sqrt{\cot{\left (x \right )} + 1}\,d{x}$_ &nbsp;(3)&nbsp; $_\int_{\frac{\pi}{3}}^{\frac{\pi}{2}}\cot^{2}{\left (x \right )} + 1\,d{x}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \ln{\left (2 \sin{\left (x \right )} \right )} + 3$_
+            with the independent variable being $_x$_ on the interval 
+            $_[\frac{\pi}{3},\frac{\pi}{2}]$_. So the arc length is
+            $$s =\int_{\frac{\pi}{3}}^{\frac{\pi}{2}} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(\ln{\left (2 \sin{\left (x \right )} \right )} + 3\right) = \cot{\left (x \right )}$$
+            \begin{align}
+              \sqrt{1 + \left(\cot{\left (x \right )}\right)^2} &= \sqrt{\cot^{2}{\left (x \right )} + 1} \\
+                &= \sqrt{\left(\csc{\left (x \right )}\right)^2} = \csc{\left (x \right )}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{\frac{\pi}{3}}^{\frac{\pi}{2}} \csc{\left (x \right )}\, dx &= \left.- \ln{\left (\left|{\cot{\left (x \right )} + \csc{\left (x \right )}}\right| \right )}\right|_{x=\frac{\pi}{3}}^{x=\frac{\pi}{2}} \\ &= \ln{\left (\sqrt{3} \right )}\approx 0.549 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(- y + 2\right)^{\frac{3}{2}}$_ where $_0 \leq y \leq 1$_. </p></center> Choose the best numeric approximation to the arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_2.086$_ &nbsp;(1)&nbsp; $_nan$_ &nbsp;(2)&nbsp; $_1.828$_ &nbsp;(3)&nbsp; $_2.092$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(- y + 2\right)^{\frac{3}{2}}$_
+            with the independent variable being $_y$_ on the interval 
+            $_[0,1]$_. So the arc length is
+            $$s =\int_{0}^{1} \sqrt{1+\left(\frac{dy}{dy}\right)^2}\,dy$$
+            $$\frac{dy}{dy} = \frac{d}{d y} \left(- y + 2\right)^{\frac{3}{2}} = - \frac{3}{2} \sqrt{- y + 2}$$
+            \begin{align}
+              \sqrt{1 + \left(- \frac{3}{2} \sqrt{- y + 2}\right)^2} &= \sqrt{- \frac{9 y}{4} + \frac{11}{2}} \\
+                &= \sqrt{\left(\sqrt{- \frac{9 y}{4} + \frac{11}{2}}\right)^2} = \sqrt{- \frac{9 y}{4} + \frac{11}{2}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{0}^{1} \sqrt{- \frac{9 y}{4} + \frac{11}{2}}\, dy &= \int_{\frac{13}{4}}^{\frac{11}{2}} \frac{4 \sqrt{\eta}}{9}\, d\eta&\text{ Substitute } \eta = - \frac{9 y}{4} + \frac{11}{2} \\ &= \left.- \frac{8 \eta^{\frac{3}{2}}}{27}\right|_{y=\frac{11}{2}}^{y=\frac{13}{4}} \\ &= - \frac{13 \sqrt{13}}{27} + \frac{22 \sqrt{22}}{27}\approx 2.086 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(2 x + 1\right)^{\frac{3}{2}}$_ where $_1 \leq x \leq 4$_. </p></center> Choose the integral that represents the arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_\int_{1}^{4} \sqrt{18 x + 11}\, dx$_ &nbsp;(1)&nbsp; $_\int_{1}^{4}\sqrt{18 x + 9}\,d{x}$_ &nbsp;(2)&nbsp; $_\int_{1}^{4}\sqrt{\left(2 x + 1\right)^{3} + 1}\,d{x}$_ &nbsp;(3)&nbsp; $_\int_{1}^{4}\sqrt{3 \sqrt{2 x + 1} + 1}\,d{x}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(2 x + 1\right)^{\frac{3}{2}}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[1,4]$_. So the arc length is
+            $$s =\int_{1}^{4} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x} \left(2 x + 1\right)^{\frac{3}{2}} = 3 \sqrt{2 x + 1}$$
+            \begin{align}
+              \sqrt{1 + \left(3 \sqrt{2 x + 1}\right)^2} &= \sqrt{18 x + 10} \\
+                &= \sqrt{\left(\sqrt{18 x + 10}\right)^2} = \sqrt{18 x + 10}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{1}^{4} \sqrt{18 x + 10}\, dx &= \int_{28}^{82} \frac{\sqrt{\eta}}{18}\, d\eta&\text{ Substitute } \eta = 18 x + 10 \\ &= \left.\frac{\eta^{\frac{3}{2}}}{27}\right|_{x=28}^{x=82} \\ &= - \frac{56 \sqrt{7}}{27} + \frac{82 \sqrt{82}}{27}\approx 22.014 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \log{\left (2 \sec{\left (x \right )} \right )} + 1$_ where $_- \frac{\pi}{6} \leq x \leq \frac{\pi}{6}$_. </p></center> Evaluate the arc length and provide the exact value.
+                <br><br>
+                <strong>Answers: </strong>Free response.
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \ln{\left (2 \sec{\left (x \right )} \right )} + 1$_
+            with the independent variable being $_x$_ on the interval 
+            $_[- \frac{\pi}{6},\frac{\pi}{6}]$_. So the arc length is
+            $$s =\int_{- \frac{\pi}{6}}^{\frac{\pi}{6}} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(\ln{\left (2 \sec{\left (x \right )} \right )} + 1\right) = \tan{\left (x \right )}$$
+            \begin{align}
+              \sqrt{1 + \left(\tan{\left (x \right )}\right)^2} &= \sqrt{\tan^{2}{\left (x \right )} + 1} \\
+                &= \sqrt{\left(\sec{\left (x \right )}\right)^2} = \sec{\left (x \right )}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{- \frac{\pi}{6}}^{\frac{\pi}{6}} \sec{\left (x \right )}\, dx &= \left.\ln{\left (\left|{\tan{\left (x \right )} + \sec{\left (x \right )}}\right| \right )}\right|_{x=- \frac{\pi}{6}}^{x=\frac{\pi}{6}} \\ &= - \ln{\left (\frac{\sqrt{3}}{3} \right )} + \ln{\left (\sqrt{3} \right )}\approx 1.099 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = - \frac{9 x^{\frac{4}{3}}}{4} + \frac{x^{\frac{2}{3}}}{8}$_ where $_4 \leq x \leq 7$_. </p></center> Choose the integral that represents the arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_\int_{4}^{7} \sqrt{9 x^{\frac{2}{3}} + \frac{3}{2} + \frac{1}{144 x^{\frac{2}{3}}}}\, dx$_ &nbsp;(1)&nbsp; $_\int_{4}^{7}\sqrt{9 x^{\frac{2}{3}} - \frac{1}{2} + \frac{1}{144 x^{\frac{2}{3}}}}\,d{x}$_ &nbsp;(2)&nbsp; $_\left(\int_{4}^{7}9 x^{\frac{2}{3}} + \frac{1}{2} + \frac{1}{144 x^{\frac{2}{3}}}\,d{x}\right)^{1/2}$_ &nbsp;(3)&nbsp; $_\int_{4}^{7}9 x^{\frac{2}{3}} + \frac{1}{2} + \frac{1}{144 x^{\frac{2}{3}}}\,d{x}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = - \frac{9 x^{\frac{4}{3}}}{4} + \frac{x^{\frac{2}{3}}}{8}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[4,7]$_. So the arc length is
+            $$s =\int_{4}^{7} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(- \frac{9 x^{\frac{4}{3}}}{4} + \frac{x^{\frac{2}{3}}}{8}\right) = - 3 \sqrt[3]{x} + \frac{1}{12 \sqrt[3]{x}}$$
+            \begin{align}
+              \sqrt{1 + \left(- 3 \sqrt[3]{x} + \frac{1}{12 \sqrt[3]{x}}\right)^2} &= \sqrt{9 x^{\frac{2}{3}} + \frac{1}{2} + \frac{1}{144 x^{\frac{2}{3}}}} \\
+                &= \sqrt{\left(3 \sqrt[3]{x} + \frac{1}{12 \sqrt[3]{x}}\right)^2} = 3 \sqrt[3]{x} + \frac{1}{12 \sqrt[3]{x}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{4}^{7} 3 \sqrt[3]{x} + \frac{1}{12 \sqrt[3]{x}}\, dx &= \left.\frac{9 x^{\frac{4}{3}}}{4} + \frac{x^{\frac{2}{3}}}{8}\right|_{x=4}^{x=7} \\ &= - 9 \cdot 2^{\frac{2}{3}} - \frac{\sqrt[3]{2}}{4} + \frac{7^{\frac{2}{3}}}{8} + \frac{63 \sqrt[3]{7}}{4}\approx 15.984 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(- 2 x - \frac{1}{2}\right)^{\frac{3}{2}}$_ where $_-3 \leq x \leq -1$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_- \frac{29 \sqrt{58}}{108} + \frac{101 \sqrt{202}}{108}$_ &nbsp;(1)&nbsp; $_\frac{29 \sqrt{58}}{108} + \frac{101 \sqrt{202}}{108}$_ &nbsp;(2)&nbsp; $_- \frac{11 \sqrt{22}}{4} + \frac{3 \sqrt{6}}{4}$_ &nbsp;(3)&nbsp; $_- \frac{7 \sqrt{7}}{27} + \frac{125}{27}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(- 2 x - \frac{1}{2}\right)^{\frac{3}{2}}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[-3,-1]$_. So the arc length is
+            $$s =\int_{-3}^{-1} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x} \left(- 2 x - \frac{1}{2}\right)^{\frac{3}{2}} = - 3 \sqrt{- 2 x - \frac{1}{2}}$$
+            \begin{align}
+              \sqrt{1 + \left(- 3 \sqrt{- 2 x - \frac{1}{2}}\right)^2} &= \sqrt{- 18 x - \frac{7}{2}} \\
+                &= \sqrt{\left(\sqrt{- 18 x - \frac{7}{2}}\right)^2} = \sqrt{- 18 x - \frac{7}{2}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{-3}^{-1} \sqrt{- 18 x - \frac{7}{2}}\, dx &= \int_{\frac{29}{2}}^{\frac{101}{2}} \frac{\sqrt{\eta}}{18}\, d\eta&\text{ Substitute } \eta = - 18 x - \frac{7}{2} \\ &= \left.- \frac{\eta^{\frac{3}{2}}}{27}\right|_{x=\frac{101}{2}}^{x=\frac{29}{2}} \\ &= - \frac{29 \sqrt{58}}{108} + \frac{101 \sqrt{202}}{108}\approx 11.247 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \log{\left (2 \cos{\left (x \right )} \right )} + 4$_ where $_0 \leq x \leq \frac{\pi}{3}$_. </p></center> Give the value of the arc length as a decimal number correct to at least two decimal places.
+                <br><br>
+                <strong>Answers: </strong>Free response.
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \ln{\left (2 \cos{\left (x \right )} \right )} + 4$_
+            with the independent variable being $_x$_ on the interval 
+            $_[0,\frac{\pi}{3}]$_. So the arc length is
+            $$s =\int_{0}^{\frac{\pi}{3}} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(\ln{\left (2 \cos{\left (x \right )} \right )} + 4\right) = - \tan{\left (x \right )}$$
+            \begin{align}
+              \sqrt{1 + \left(- \tan{\left (x \right )}\right)^2} &= \sqrt{\tan^{2}{\left (x \right )} + 1} \\
+                &= \sqrt{\left(\sec{\left (x \right )}\right)^2} = \sec{\left (x \right )}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{0}^{\frac{\pi}{3}} \sec{\left (x \right )}\, dx &= \left.\ln{\left (\left|{\tan{\left (x \right )} + \sec{\left (x \right )}}\right| \right )}\right|_{x=0}^{x=\frac{\pi}{3}} \\ &= \ln{\left (\sqrt{3} + 2 \right )}\approx 1.317 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = - \frac{x^{2}}{8} + \log{\left (x \right )}$_ where $_4 \leq x \leq 8$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_- \ln{\left (4 \right )} + \ln{\left (8 \right )} + 6$_ &nbsp;(1)&nbsp; $_\frac{189}{64}$_ &nbsp;(2)&nbsp; $_- \frac{16}{15} + \frac{134 \sqrt{2}}{15}$_ &nbsp;(3)&nbsp; $_-6 - \ln{\left (4 \right )} + \ln{\left (8 \right )}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = - \frac{x^{2}}{8} + \ln{\left (x \right )}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[4,8]$_. So the arc length is
+            $$s =\int_{4}^{8} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(- \frac{x^{2}}{8} + \ln{\left (x \right )}\right) = - \frac{x}{4} + \frac{1}{x}$$
+            \begin{align}
+              \sqrt{1 + \left(- \frac{x}{4} + \frac{1}{x}\right)^2} &= \sqrt{\frac{x^{2}}{16} + \frac{1}{2} + \frac{1}{x^{2}}} \\
+                &= \sqrt{\left(\frac{x}{4} + \frac{1}{x}\right)^2} = \frac{x}{4} + \frac{1}{x}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{4}^{8} \frac{x}{4} + \frac{1}{x}\, dx &= \left.\frac{x^{2}}{8} + \ln{\left (x \right )}\right|_{x=4}^{x=8} \\ &= - \ln{\left (4 \right )} + \ln{\left (8 \right )} + 6\approx 6.693 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \log{\left (\sin{\left (y \right )} \right )} + 2$_ where $_\frac{\pi}{6} \leq y \leq \frac{\pi}{2}$_. </p></center> Give the value of the arc length as a decimal number correct to at least two decimal places.
+                <br><br>
+                <strong>Answers: </strong>Free response.
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \ln{\left (\sin{\left (y \right )} \right )} + 2$_
+            with the independent variable being $_y$_ on the interval 
+            $_[\frac{\pi}{6},\frac{\pi}{2}]$_. So the arc length is
+            $$s =\int_{\frac{\pi}{6}}^{\frac{\pi}{2}} \sqrt{1+\left(\frac{dy}{dy}\right)^2}\,dy$$
+            $$\frac{dy}{dy} = \frac{d}{d y}\left(\ln{\left (\sin{\left (y \right )} \right )} + 2\right) = \cot{\left (y \right )}$$
+            \begin{align}
+              \sqrt{1 + \left(\cot{\left (y \right )}\right)^2} &= \sqrt{\cot^{2}{\left (y \right )} + 1} \\
+                &= \sqrt{\left(\csc{\left (y \right )}\right)^2} = \csc{\left (y \right )}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{\frac{\pi}{6}}^{\frac{\pi}{2}} \csc{\left (y \right )}\, dy &= \left.- \ln{\left (\left|{\cot{\left (y \right )} + \csc{\left (y \right )}}\right| \right )}\right|_{y=\frac{\pi}{6}}^{y=\frac{\pi}{2}} \\ &= \ln{\left (\sqrt{3} + 2 \right )}\approx 1.317 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \frac{3 x^{\frac{5}{3}}}{10} - \frac{3 \sqrt[3]{x}}{2}$_ where $_2 \leq x \leq 4$_. </p></center> Give the value of the arc length as a decimal number correct to at least two decimal places.
+                <br><br>
+                <strong>Answers: </strong>Free response.
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \frac{3 x^{\frac{5}{3}}}{10} - \frac{3 \sqrt[3]{x}}{2}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[2,4]$_. So the arc length is
+            $$s =\int_{2}^{4} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(\frac{3 x^{\frac{5}{3}}}{10} - \frac{3 \sqrt[3]{x}}{2}\right) = \frac{x^{\frac{2}{3}}}{2} - \frac{1}{2 x^{\frac{2}{3}}}$$
+            \begin{align}
+              \sqrt{1 + \left(\frac{x^{\frac{2}{3}}}{2} - \frac{1}{2 x^{\frac{2}{3}}}\right)^2} &= \sqrt{\frac{x^{\frac{4}{3}}}{4} + \frac{1}{2} + \frac{1}{4 x^{\frac{4}{3}}}} \\
+                &= \sqrt{\left(\frac{x^{\frac{2}{3}}}{2} + \frac{1}{2 x^{\frac{2}{3}}}\right)^2} = \frac{x^{\frac{2}{3}}}{2} + \frac{1}{2 x^{\frac{2}{3}}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{2}^{4} \frac{x^{\frac{2}{3}}}{2} + \frac{1}{2 x^{\frac{2}{3}}}\, dx &= \left.\frac{3 x^{\frac{5}{3}}}{10} + \frac{3 \sqrt[3]{x}}{2}\right|_{x=2}^{x=4} \\ &= \frac{9 \sqrt[3]{2}}{10} + \frac{9}{10} 2^{\frac{2}{3}}\approx 2.563 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = - 2 x^{\frac{3}{2}} + \frac{\sqrt{x}}{6}$_ where $_1 \leq x \leq 5$_. </p></center> Evaluate the arc length and provide the exact value.
+                <br><br>
+                <strong>Answers: </strong>Free response.
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = - 2 x^{\frac{3}{2}} + \frac{\sqrt{x}}{6}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[1,5]$_. So the arc length is
+            $$s =\int_{1}^{5} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(- 2 x^{\frac{3}{2}} + \frac{\sqrt{x}}{6}\right) = - 3 \sqrt{x} + \frac{1}{12 \sqrt{x}}$$
+            \begin{align}
+              \sqrt{1 + \left(- 3 \sqrt{x} + \frac{1}{12 \sqrt{x}}\right)^2} &= \sqrt{9 x + \frac{1}{2} + \frac{1}{144 x}} \\
+                &= \sqrt{\left(3 \sqrt{x} + \frac{1}{12 \sqrt{x}}\right)^2} = 3 \sqrt{x} + \frac{1}{12 \sqrt{x}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{1}^{5} 3 \sqrt{x} + \frac{1}{12 \sqrt{x}}\, dx &= \left.2 x^{\frac{3}{2}} + \frac{\sqrt{x}}{6}\right|_{x=1}^{x=5} \\ &= - \frac{13}{6} + \frac{61 \sqrt{5}}{6}\approx 20.567 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \log{\left (\sin{\left (x \right )} \right )} + 2$_ where $_\frac{\pi}{3} \leq x \leq \frac{\pi}{2}$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_\ln{\left (\sqrt{3} \right )}$_ &nbsp;(1)&nbsp; $_\frac{1}{3}$_ &nbsp;(2)&nbsp; $_- \ln{\left (\frac{\sqrt{3}}{2} \right )}$_ &nbsp;(3)&nbsp; $_\frac{\sqrt{3}}{3}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \ln{\left (\sin{\left (x \right )} \right )} + 2$_
+            with the independent variable being $_x$_ on the interval 
+            $_[\frac{\pi}{3},\frac{\pi}{2}]$_. So the arc length is
+            $$s =\int_{\frac{\pi}{3}}^{\frac{\pi}{2}} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(\ln{\left (\sin{\left (x \right )} \right )} + 2\right) = \cot{\left (x \right )}$$
+            \begin{align}
+              \sqrt{1 + \left(\cot{\left (x \right )}\right)^2} &= \sqrt{\cot^{2}{\left (x \right )} + 1} \\
+                &= \sqrt{\left(\csc{\left (x \right )}\right)^2} = \csc{\left (x \right )}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{\frac{\pi}{3}}^{\frac{\pi}{2}} \csc{\left (x \right )}\, dx &= \left.- \ln{\left (\left|{\cot{\left (x \right )} + \csc{\left (x \right )}}\right| \right )}\right|_{x=\frac{\pi}{3}}^{x=\frac{\pi}{2}} \\ &= \ln{\left (\sqrt{3} \right )}\approx 0.549 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(- \frac{y}{2} - \frac{1}{2}\right)^{\frac{3}{2}}$_ where $_-7 \leq y \leq -4$_. </p></center> Choose the integral that represents the arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_\int_{-7}^{-4} \sqrt{- \frac{9 y}{32} + \frac{55}{32}}\, dy$_ &nbsp;(1)&nbsp; $_\left(\int_{-7}^{-4}- \frac{9 y}{32} + \frac{23}{32}\,d{y}\right)^{1/2}$_ &nbsp;(2)&nbsp; $_\int_{-7}^{-4}\sqrt{- \frac{3}{4} \sqrt{- \frac{y}{2} - \frac{1}{2}} + 1}\,d{y}$_ &nbsp;(3)&nbsp; $_\int_{-7}^{-4}- \frac{9 y}{32} + \frac{23}{32}\,d{y}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(- \frac{y}{2} - \frac{1}{2}\right)^{\frac{3}{2}}$_
+            with the independent variable being $_y$_ on the interval 
+            $_[-7,-4]$_. So the arc length is
+            $$s =\int_{-7}^{-4} \sqrt{1+\left(\frac{dy}{dy}\right)^2}\,dy$$
+            $$\frac{dy}{dy} = \frac{d}{d y} \left(- \frac{y}{2} - \frac{1}{2}\right)^{\frac{3}{2}} = - \frac{3}{4} \sqrt{- \frac{y}{2} - \frac{1}{2}}$$
+            \begin{align}
+              \sqrt{1 + \left(- \frac{3}{4} \sqrt{- \frac{y}{2} - \frac{1}{2}}\right)^2} &= \sqrt{- \frac{9 y}{32} + \frac{23}{32}} \\
+                &= \sqrt{\left(\sqrt{- \frac{9 y}{32} + \frac{23}{32}}\right)^2} = \sqrt{- \frac{9 y}{32} + \frac{23}{32}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{-7}^{-4} \sqrt{- \frac{9 y}{32} + \frac{23}{32}}\, dy &= \int_{\frac{59}{32}}^{\frac{43}{16}} \frac{32 \sqrt{\eta}}{9}\, d\eta&\text{ Substitute } \eta = - \frac{9 y}{32} + \frac{23}{32} \\ &= \left.- \frac{64 \eta^{\frac{3}{2}}}{27}\right|_{y=\frac{43}{16}}^{y=\frac{59}{32}} \\ &= - \frac{59 \sqrt{118}}{108} + \frac{43 \sqrt{43}}{27}\approx 4.509 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(\frac{x}{3} - 1\right)^{\frac{3}{2}}$_ where $_6 \leq x \leq 8$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_- 5 \sqrt{5} + \frac{17 \sqrt{51}}{9}$_ &nbsp;(1)&nbsp; $_\frac{1}{6}$_ &nbsp;(2)&nbsp; $_\frac{\sqrt{6}}{6}$_ &nbsp;(3)&nbsp; $_- \frac{31 \sqrt{62}}{4} + \frac{95 \sqrt{570}}{36}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(\frac{x}{3} - 1\right)^{\frac{3}{2}}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[6,8]$_. So the arc length is
+            $$s =\int_{6}^{8} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x} \left(\frac{x}{3} - 1\right)^{\frac{3}{2}} = \frac{1}{2} \sqrt{\frac{x}{3} - 1}$$
+            \begin{align}
+              \sqrt{1 + \left(\frac{1}{2} \sqrt{\frac{x}{3} - 1}\right)^2} &= \sqrt{\frac{x}{12} + \frac{3}{4}} \\
+                &= \sqrt{\left(\sqrt{\frac{x}{12} + \frac{3}{4}}\right)^2} = \sqrt{\frac{x}{12} + \frac{3}{4}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{6}^{8} \sqrt{\frac{x}{12} + \frac{3}{4}}\, dx &= \int_{\frac{5}{4}}^{\frac{17}{12}} 12 \sqrt{\eta}\, d\eta&\text{ Substitute } \eta = \frac{x}{12} + \frac{3}{4} \\ &= \left.8 \eta^{\frac{3}{2}}\right|_{x=\frac{5}{4}}^{x=\frac{17}{12}} \\ &= - 5 \sqrt{5} + \frac{17 \sqrt{51}}{9}\approx 2.309 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(x + \frac{1}{2}\right)^{\frac{3}{2}}$_ where $_3 \leq x \leq 6$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_- \frac{71 \sqrt{142}}{108} + \frac{625 \sqrt{10}}{108}$_ &nbsp;(1)&nbsp; $_- \frac{7 \sqrt{14}}{4} + \frac{13 \sqrt{26}}{4}$_ &nbsp;(2)&nbsp; $_\frac{27}{4}$_ &nbsp;(3)&nbsp; $_\frac{71 \sqrt{142}}{108} + \frac{625 \sqrt{10}}{108}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(x + \frac{1}{2}\right)^{\frac{3}{2}}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[3,6]$_. So the arc length is
+            $$s =\int_{3}^{6} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x} \left(x + \frac{1}{2}\right)^{\frac{3}{2}} = \frac{3}{2} \sqrt{x + \frac{1}{2}}$$
+            \begin{align}
+              \sqrt{1 + \left(\frac{3}{2} \sqrt{x + \frac{1}{2}}\right)^2} &= \sqrt{\frac{9 x}{4} + \frac{17}{8}} \\
+                &= \sqrt{\left(\sqrt{\frac{9 x}{4} + \frac{17}{8}}\right)^2} = \sqrt{\frac{9 x}{4} + \frac{17}{8}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{3}^{6} \sqrt{\frac{9 x}{4} + \frac{17}{8}}\, dx &= \int_{\frac{71}{8}}^{\frac{125}{8}} \frac{4 \sqrt{\eta}}{9}\, d\eta&\text{ Substitute } \eta = \frac{9 x}{4} + \frac{17}{8} \\ &= \left.\frac{8 \eta^{\frac{3}{2}}}{27}\right|_{x=\frac{71}{8}}^{x=\frac{125}{8}} \\ &= - \frac{71 \sqrt{142}}{108} + \frac{625 \sqrt{10}}{108}\approx 10.466 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = - \frac{4 y^{\frac{3}{2}}}{9} + \frac{3 \sqrt{y}}{4}$_ where $_3 \leq y \leq 7$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_- \frac{25 \sqrt{3}}{12} + \frac{139 \sqrt{7}}{36}$_ &nbsp;(1)&nbsp; $_- \frac{85 \sqrt{7}}{36} + \frac{7 \sqrt{3}}{12}$_ &nbsp;(2)&nbsp; $_\frac{\sqrt{12355}}{84}$_ &nbsp;(3)&nbsp; $_- \frac{9}{8} 3^{\frac{2}{3}} - \frac{3 \sqrt[3]{3}}{4} + \frac{7 \sqrt[3]{7}}{4} + \frac{9}{8} 7^{\frac{2}{3}}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = - \frac{4 y^{\frac{3}{2}}}{9} + \frac{3 \sqrt{y}}{4}$_
+            with the independent variable being $_y$_ on the interval 
+            $_[3,7]$_. So the arc length is
+            $$s =\int_{3}^{7} \sqrt{1+\left(\frac{dy}{dy}\right)^2}\,dy$$
+            $$\frac{dy}{dy} = \frac{d}{d y}\left(- \frac{4 y^{\frac{3}{2}}}{9} + \frac{3 \sqrt{y}}{4}\right) = - \frac{2 \sqrt{y}}{3} + \frac{3}{8 \sqrt{y}}$$
+            \begin{align}
+              \sqrt{1 + \left(- \frac{2 \sqrt{y}}{3} + \frac{3}{8 \sqrt{y}}\right)^2} &= \sqrt{\frac{4 y}{9} + \frac{1}{2} + \frac{9}{64 y}} \\
+                &= \sqrt{\left(\frac{2 \sqrt{y}}{3} + \frac{3}{8 \sqrt{y}}\right)^2} = \frac{2 \sqrt{y}}{3} + \frac{3}{8 \sqrt{y}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{3}^{7} \frac{2 \sqrt{y}}{3} + \frac{3}{8 \sqrt{y}}\, dy &= \left.\frac{4 y^{\frac{3}{2}}}{9} + \frac{3 \sqrt{y}}{4}\right|_{y=3}^{y=7} \\ &= - \frac{25 \sqrt{3}}{12} + \frac{139 \sqrt{7}}{36}\approx 6.607 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(- x + 2\right)^{\frac{3}{2}}$_ where $_-1 \leq x \leq 1$_. </p></center> Choose the integral that represents the arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_\int_{-1}^{1} \sqrt{- \frac{9 x}{4} + \frac{13}{2}}\, dx$_ &nbsp;(1)&nbsp; $_\int_{-1}^{1}\sqrt{- \frac{9 x}{4} + \frac{9}{2}}\,d{x}$_ &nbsp;(2)&nbsp; $_\int_{-1}^{1}\sqrt{- \frac{3}{2} \sqrt{- x + 2} + 1}\,d{x}$_ &nbsp;(3)&nbsp; $_\left(\int_{-1}^{1}- \frac{9 x}{4} + \frac{11}{2}\,d{x}\right)^{1/2}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(- x + 2\right)^{\frac{3}{2}}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[-1,1]$_. So the arc length is
+            $$s =\int_{-1}^{1} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x} \left(- x + 2\right)^{\frac{3}{2}} = - \frac{3}{2} \sqrt{- x + 2}$$
+            \begin{align}
+              \sqrt{1 + \left(- \frac{3}{2} \sqrt{- x + 2}\right)^2} &= \sqrt{- \frac{9 x}{4} + \frac{11}{2}} \\
+                &= \sqrt{\left(\sqrt{- \frac{9 x}{4} + \frac{11}{2}}\right)^2} = \sqrt{- \frac{9 x}{4} + \frac{11}{2}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{-1}^{1} \sqrt{- \frac{9 x}{4} + \frac{11}{2}}\, dx &= \int_{\frac{13}{4}}^{\frac{31}{4}} \frac{4 \sqrt{\eta}}{9}\, d\eta&\text{ Substitute } \eta = - \frac{9 x}{4} + \frac{11}{2} \\ &= \left.- \frac{8 \eta^{\frac{3}{2}}}{27}\right|_{x=\frac{31}{4}}^{x=\frac{13}{4}} \\ &= - \frac{13 \sqrt{13}}{27} + \frac{31 \sqrt{31}}{27}\approx 4.657 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = - \frac{x^{\frac{3}{2}}}{3} + \sqrt{x}$_ where $_4 \leq x \leq 8$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_- \frac{14}{3} + \frac{22 \sqrt{2}}{3}$_ &nbsp;(1)&nbsp; $_- \frac{92 \sqrt{2}}{21} + \frac{8}{3} 2^{\frac{3}{4}} + \frac{48 \sqrt[4]{2}}{7}$_ &nbsp;(2)&nbsp; $_- \frac{10 \sqrt{2}}{3} + \frac{2}{3}$_ &nbsp;(3)&nbsp; $_\frac{\sqrt{62}}{8}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = - \frac{x^{\frac{3}{2}}}{3} + \sqrt{x}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[4,8]$_. So the arc length is
+            $$s =\int_{4}^{8} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(- \frac{x^{\frac{3}{2}}}{3} + \sqrt{x}\right) = - \frac{\sqrt{x}}{2} + \frac{1}{2 \sqrt{x}}$$
+            \begin{align}
+              \sqrt{1 + \left(- \frac{\sqrt{x}}{2} + \frac{1}{2 \sqrt{x}}\right)^2} &= \sqrt{\frac{x}{4} + \frac{1}{2} + \frac{1}{4 x}} \\
+                &= \sqrt{\left(\frac{\sqrt{x}}{2} + \frac{1}{2 \sqrt{x}}\right)^2} = \frac{\sqrt{x}}{2} + \frac{1}{2 \sqrt{x}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{4}^{8} \frac{\sqrt{x}}{2} + \frac{1}{2 \sqrt{x}}\, dx &= \left.\frac{x^{\frac{3}{2}}}{3} + \sqrt{x}\right|_{x=4}^{x=8} \\ &= - \frac{14}{3} + \frac{22 \sqrt{2}}{3}\approx 5.704 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \log{\left (3 \cos{\left (x \right )} \right )} + 1$_ where $_- \frac{\pi}{3} \leq x \leq \frac{\pi}{6}$_. </p></center> Choose the best numeric approximation to the arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_1.866$_ &nbsp;(1)&nbsp; $_2.309$_ &nbsp;(2)&nbsp; $_1.680$_ &nbsp;(3)&nbsp; $_1.520$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \ln{\left (3 \cos{\left (x \right )} \right )} + 1$_
+            with the independent variable being $_x$_ on the interval 
+            $_[- \frac{\pi}{3},\frac{\pi}{6}]$_. So the arc length is
+            $$s =\int_{- \frac{\pi}{3}}^{\frac{\pi}{6}} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(\ln{\left (3 \cos{\left (x \right )} \right )} + 1\right) = - \tan{\left (x \right )}$$
+            \begin{align}
+              \sqrt{1 + \left(- \tan{\left (x \right )}\right)^2} &= \sqrt{\tan^{2}{\left (x \right )} + 1} \\
+                &= \sqrt{\left(\sec{\left (x \right )}\right)^2} = \sec{\left (x \right )}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{- \frac{\pi}{3}}^{\frac{\pi}{6}} \sec{\left (x \right )}\, dx &= \left.\ln{\left (\left|{\tan{\left (x \right )} + \sec{\left (x \right )}}\right| \right )}\right|_{x=- \frac{\pi}{3}}^{x=\frac{\pi}{6}} \\ &= \ln{\left (\sqrt{3} \right )} - \ln{\left (- \sqrt{3} + 2 \right )}\approx 1.866 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = - \frac{2 x^{\frac{7}{4}}}{7} + 2 \sqrt[4]{x}$_ where $_2 \leq x \leq 6$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_- 2 \sqrt[4]{2} - \frac{4}{7} 2^{\frac{3}{4}} + 2 \sqrt[4]{6} + \frac{12}{7} 6^{\frac{3}{4}}$_ &nbsp;(1)&nbsp; $_- \frac{32}{21} 2^{\frac{7}{16}} - \frac{12}{25} 2^{\frac{9}{16}} + \frac{32}{21} 6^{\frac{7}{16}} + \frac{36}{25} 6^{\frac{9}{16}}$_ &nbsp;(2)&nbsp; $_- \frac{9 \sqrt{2}}{16} + \frac{217 \sqrt{6}}{144}$_ &nbsp;(3)&nbsp; $_\frac{4}{7} 2^{\frac{3}{4}} + 2 \sqrt[4]{2} + 2 \sqrt[4]{6} + \frac{12}{7} 6^{\frac{3}{4}}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = - \frac{2 x^{\frac{7}{4}}}{7} + 2 \sqrt[4]{x}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[2,6]$_. So the arc length is
+            $$s =\int_{2}^{6} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(- \frac{2 x^{\frac{7}{4}}}{7} + 2 \sqrt[4]{x}\right) = - \frac{x^{\frac{3}{4}}}{2} + \frac{1}{2 x^{\frac{3}{4}}}$$
+            \begin{align}
+              \sqrt{1 + \left(- \frac{x^{\frac{3}{4}}}{2} + \frac{1}{2 x^{\frac{3}{4}}}\right)^2} &= \sqrt{\frac{x^{\frac{3}{2}}}{4} + \frac{1}{2} + \frac{1}{4 x^{\frac{3}{2}}}} \\
+                &= \sqrt{\left(\frac{x^{\frac{3}{4}}}{2} + \frac{1}{2 x^{\frac{3}{4}}}\right)^2} = \frac{x^{\frac{3}{4}}}{2} + \frac{1}{2 x^{\frac{3}{4}}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{2}^{6} \frac{x^{\frac{3}{4}}}{2} + \frac{1}{2 x^{\frac{3}{4}}}\, dx &= \left.\frac{2 x^{\frac{7}{4}}}{7} + 2 \sqrt[4]{x}\right|_{x=2}^{x=6} \\ &= - 2 \sqrt[4]{2} - \frac{4}{7} 2^{\frac{3}{4}} + 2 \sqrt[4]{6} + \frac{12}{7} 6^{\frac{3}{4}}\approx 6.363 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(- 2 x + \frac{1}{2}\right)^{\frac{3}{2}}$_ where $_-5 \leq x \leq -3$_. </p></center> Evaluate the arc length and provide the exact value.
+                <br><br>
+                <strong>Answers: </strong>Free response.
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(- 2 x + \frac{1}{2}\right)^{\frac{3}{2}}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[-5,-3]$_. So the arc length is
+            $$s =\int_{-5}^{-3} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x} \left(- 2 x + \frac{1}{2}\right)^{\frac{3}{2}} = - 3 \sqrt{- 2 x + \frac{1}{2}}$$
+            \begin{align}
+              \sqrt{1 + \left(- 3 \sqrt{- 2 x + \frac{1}{2}}\right)^2} &= \sqrt{- 18 x + \frac{11}{2}} \\
+                &= \sqrt{\left(\sqrt{- 18 x + \frac{11}{2}}\right)^2} = \sqrt{- 18 x + \frac{11}{2}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{-5}^{-3} \sqrt{- 18 x + \frac{11}{2}}\, dx &= \int_{\frac{119}{2}}^{\frac{191}{2}} \frac{\sqrt{\eta}}{18}\, d\eta&\text{ Substitute } \eta = - 18 x + \frac{11}{2} \\ &= \left.- \frac{\eta^{\frac{3}{2}}}{27}\right|_{x=\frac{191}{2}}^{x=\frac{119}{2}} \\ &= - \frac{119 \sqrt{238}}{108} + \frac{191 \sqrt{382}}{108}\approx 17.567 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \left(x + 1\right)^{\frac{3}{2}}$_ where $_2 \leq x \leq 5$_. </p></center> Give the value of the arc length as a decimal number correct to at least two decimal places.
+                <br><br>
+                <strong>Answers: </strong>Free response.
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \left(x + 1\right)^{\frac{3}{2}}$_
+            with the independent variable being $_x$_ on the interval 
+            $_[2,5]$_. So the arc length is
+            $$s =\int_{2}^{5} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x} \left(x + 1\right)^{\frac{3}{2}} = \frac{3}{2} \sqrt{x + 1}$$
+            \begin{align}
+              \sqrt{1 + \left(\frac{3}{2} \sqrt{x + 1}\right)^2} &= \sqrt{\frac{9 x}{4} + \frac{13}{4}} \\
+                &= \sqrt{\left(\sqrt{\frac{9 x}{4} + \frac{13}{4}}\right)^2} = \sqrt{\frac{9 x}{4} + \frac{13}{4}}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{2}^{5} \sqrt{\frac{9 x}{4} + \frac{13}{4}}\, dx &= \int_{\frac{31}{4}}^{\frac{29}{2}} \frac{4 \sqrt{\eta}}{9}\, d\eta&\text{ Substitute } \eta = \frac{9 x}{4} + \frac{13}{4} \\ &= \left.\frac{8 \eta^{\frac{3}{2}}}{27}\right|_{x=\frac{31}{4}}^{x=\frac{29}{2}} \\ &= - \frac{31 \sqrt{31}}{27} + \frac{58 \sqrt{58}}{27}\approx 9.967 \end{align}
+            </p>
+                
+                </div>
+                
+
+                <style>
+                div.foo {
+                    background-color: rgba(100,200,100,.5);
+                    margin: 20px;
+                    padding: 10px;
+                    border-radius: 10px;
+                }     
+                </style>
+                <br><hr><br>
+                <div class='foo'>
+                <strong>Question: </strong>Compute the arc length of the curve C given by: <center><p width = 75%> The portion of the curve $_y = \log{\left (2 \csc{\left (x \right )} \right )} + 3$_ where $_\frac{\pi}{4} \leq x \leq \frac{\pi}{2}$_. </p></center> Choose the correct expression for the exact arc length.
+                <br><br>
+                <strong>Answers: </strong>&nbsp;(0)&nbsp; $_\ln{\left (1 + \sqrt{2} \right )}$_ &nbsp;(1)&nbsp; $_1$_ &nbsp;(2)&nbsp; $_- \ln{\left (2 \sqrt{2} \right )} + \ln{\left (2 \right )}$_ 
+                <br><br>
+                <strong>Explanation:</strong><br>
+                
+            <p>
+            For this problem the curve is $_C$_ is given by $_y = \ln{\left (2 \csc{\left (x \right )} \right )} + 3$_
+            with the independent variable being $_x$_ on the interval 
+            $_[\frac{\pi}{4},\frac{\pi}{2}]$_. So the arc length is
+            $$s =\int_{\frac{\pi}{4}}^{\frac{\pi}{2}} \sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx$$
+            $$\frac{dy}{dx} = \frac{d}{d x}\left(\ln{\left (2 \csc{\left (x \right )} \right )} + 3\right) = \cot{\left (x \right )}$$
+            \begin{align}
+              \sqrt{1 + \left(\cot{\left (x \right )}\right)^2} &= \sqrt{\cot^{2}{\left (x \right )} + 1} \\
+                &= \sqrt{\left(\csc{\left (x \right )}\right)^2} = \csc{\left (x \right )}
+            \end{align}
+            </p>
+        
+            <p>
+            Thus the arclength is given by
+            \begin{align} \int_{\frac{\pi}{4}}^{\frac{\pi}{2}} \csc{\left (x \right )}\, dx &= \left.- \ln{\left (\left|{\cot{\left (x \right )} + \csc{\left (x \right )}}\right| \right )}\right|_{x=\frac{\pi}{4}}^{x=\frac{\pi}{2}} \\ &= \ln{\left (1 + \sqrt{2} \right )}\approx 0.881 \end{align}
+            </p>
+                
+                </div>
+                

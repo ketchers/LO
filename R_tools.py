@@ -3,6 +3,7 @@ import numpy as np
 import sympy as sym
 import sys
 import random
+import re
 
 
 
@@ -17,15 +18,19 @@ def lfy(f, p):
     
     f = lfy('cos(theta)', ('theta')) creates paraamters 't', 'h', ....
     
-    You need to use 
+    You need to use
     
     f = lfy('cos(theta)', ('theta',))
     """
     
     # Often p and q overlap in practice and this causes bugs....
-    p_new = [a + "_4563" for a in p]
+    p_new = [str(a) + "_4563" for a in p]
     sym.var(p_new)
-    f_new = sym.sympify(f).subs(zip(p,p_new))
+    if type(f) is str:
+        f_new = sym.sympify(f).subs(zip(p,p_new))
+    else:
+        f_new = f.subs(zip(p,p_new))
+    
     def f_(*q):
         return sym.sympify(f_new).subs(zip(p_new,q))
     return f_
@@ -88,6 +93,8 @@ def make_func(func_desc, func_params = ('x'), func_type = 'numpy'):
             7/2, 2, 1/2, -3*sqrt(3)/2 + 2], dtype=object)
     """
     
+    desc = {'func_desc':func_desc}
+    
     def func(*func_inputs):
         """
         This is the actual function returned. 
@@ -97,12 +104,35 @@ def make_func(func_desc, func_params = ('x'), func_type = 'numpy'):
             func_inputs -- These are assumed to be numeric / string / sympy or np.ndarrays of these
        
         """
+        func_desc = desc.get('func_desc')        
         
         if func_type == 'numpy':
             if  func_desc.__class__ is str:
-                f_ = np.vectorize(sym.lambdify(func_params, sym.sympify(func_desc), func_type))
+                
+                # Numpy doesn't have sec/csc so we have to do some non-sense.
+                if func_desc.find("sec") != -1 or \
+                   func_desc.find('csc') != -1 or \
+                   func_desc.find('cot') != -1:
+                    
+                    p = re.compile('(sec)\\(([^)]*)\\)|(csc)\\(([^)]*)\\)|(cot)\\(([^)]*)\\)')    
+    
+                    def rep(m):
+                        if m.group(1) == 'sec':
+                            return "(1/cos(" + str(m.group(2)) + "))"
+                        if m.group(3) == 'csc':
+                            return "(1/sin(" + str(m.group(4)) + "))" 
+                        if m.group(5) == 'cot':
+                            return "(1/tan(" + str(m.group(6)) + "))"       
+                    
+                    func_desc = p.sub(rep, func_desc)
+                    
+                  
+                f_ = np.vectorize(sym.lambdify(func_params, 
+                                               sym.sympify(func_desc), 
+                                               func_type))
             else: # s is already a sympy expression
-                f_ = np.vectorize(sym.lambdify(func_params, func_desc, func_type))
+                f_ = np.vectorize(sym.lambdify(func_params, func_desc, 
+                                               func_type))
         else:
             f_ = np.vectorize(lfy(func_desc, func_params))
         
@@ -279,8 +309,11 @@ def parse_name(nm, G = None, A = None, B = None, N = None, F = None, T = None):
 
 if __name__ == "__main__":
     
-    f = make_func('Piecewise((sqrt(4 * cos(2 * theta)), 4 * cos(2 * theta) >= 0))', 
-              func_params = ('theta'), func_type = 'sympy')
+    theta = sym.symbols('theta')
+    
+    g = "cot(x) * x"
+    
+    f = make_func(g, func_params = ('x',), func_type = 'sympy')
     pts = ['0 + 0', 'pi/4 + 0', 'pi/2 + 0']
     
     print(f(pts))
