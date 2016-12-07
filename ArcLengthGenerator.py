@@ -214,7 +214,8 @@ class ArcLengthGenerator(object):
         return problem
 
 if __name__ == "__main__":
-    gen =  ArcLengthGenerator()
+    gen =  ArcLengthGenerator(seed = 42)
+    #Set seed for reproducible output
     for i in range(40):
         a_type = random.choice(["MC"]*3+["FR"])
         ind_var = random.choice(['x']*3 + ['y'])
